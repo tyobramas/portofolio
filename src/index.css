@@ -3,47 +3,66 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after { box-sizing: border-box; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
     margin: 0;
-    background-color: #FBFAF7;
-    color: #3B404A;
-    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #0B0C10;
+    background-image:
+      radial-gradient(circle at 80% 20%, rgba(229, 169, 60, 0.08) 0%, transparent 45%),
+      radial-gradient(circle at 10% 60%, rgba(229, 169, 60, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(229, 169, 60, 0.06) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: #C2C6D2;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
     font-size: 0.9375rem;
-    line-height: 1.7;
-    font-feature-settings: 'kern' 1, 'liga' 1, 'cv11' 1;
+    line-height: 1.75;
   }
 
-  h1, h2, h3 {
-    font-family: 'Fraunces', Georgia, serif;
-    color: #15181E;
-    font-weight: 600;
-    font-variation-settings: 'SOFT' 0, 'WONK' 0;
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    color: #F2F4F8;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
-  /* angka rata lebar — penting untuk tabel tahun & metrik */
-  .tabular { font-variant-numeric: tabular-nums; }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
 
   :focus-visible {
-    outline: 2px solid #9C7B45;
+    outline: 2px solid #E5A93C;
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
-  ::selection { background: #F2EADB; color: #15181E; }
+  ::selection {
+    background: rgba(229, 169, 60, 0.35);
+    color: #FFF;
+  }
 
-  ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: #F4F1EA; }
-  ::-webkit-scrollbar-thumb { background: #D6CFC0; border-radius: 0; }
-  ::-webkit-scrollbar-thumb:hover { background: #B69A63; }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B0C10;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #232736;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #E5A93C;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -55,79 +74,157 @@
 }
 
 @layer components {
-  /* Label kecil huruf besar — pengganti semua badge warna-warni */
-  .eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #7F6337;
+  .gold-text-gradient {
+    background: linear-gradient(135deg, #F5C869 0%, #E5A93C 50%, #D4952B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  /* Kartu formal: hairline + bayangan netral tipis, tanpa blur */
+  .font-signature {
+    font-family: 'Caveat', cursive;
+  }
+
+  .text-gold-accent { color: #E5A93C !important; }
+  .text-gold-light { color: #F5C869 !important; }
+  .text-gold-muted { color: #C5A059 !important; }
+  .border-gold-accent { border-color: rgba(229, 169, 60, 0.4) !important; }
+
+  .gold-eclipse-halo {
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    border: 2px solid rgba(245, 200, 105, 0.9);
+    box-shadow: 
+      0 0 50px rgba(229, 169, 60, 0.5),
+      0 0 100px rgba(229, 169, 60, 0.25),
+      inset 0 0 40px rgba(229, 169, 60, 0.25);
+    background: radial-gradient(circle, rgba(229, 169, 60, 0.15) 0%, rgba(11, 12, 16, 0) 72%);
+  }
+
+  .gold-halo-circle {
+    border: 3px solid #E5A93C;
+    box-shadow: 0 0 65px 12px rgba(229, 169, 60, 0.42), inset 0 0 35px rgba(229, 169, 60, 0.3);
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #F5C869 0%, #E5A93C 50%, #CF9129 100%);
+    color: #0B0C10;
+    font-weight: 700;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 18px -2px rgba(229, 169, 60, 0.45);
+  }
+  .btn-gold:hover {
+    box-shadow: 0 6px 28px rgba(229, 169, 60, 0.65);
+    transform: translateY(-1.5px);
+  }
+
+  .btn-dark-outline {
+    background: rgba(18, 20, 28, 0.85);
+    border: 1px solid rgba(229, 169, 60, 0.4);
+    color: #F2F4F8;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-dark-outline:hover {
+    border-color: #E5A93C;
+    background: rgba(229, 169, 60, 0.12);
+    color: #F5C869;
+    transform: translateY(-1.5px);
+  }
+
+  .card-dark {
+    background: #12141C;
+    border: 1px solid #232736;
+    border-radius: 14px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .card-dark:hover {
+    border-color: rgba(229, 169, 60, 0.45);
+    box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.7), 0 0 20px rgba(229, 169, 60, 0.12);
+  }
+
   .panel {
-    background: #FFFFFF;
-    border: 1px solid #E7E2D8;
-    border-radius: 3px;
-    box-shadow: 0 1px 2px rgba(21,24,30,0.04);
+    background: #12141C;
+    border: 1px solid #232736;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-
-  /* Aksen brass vertikal di tepi kiri — dipakai maksimal 2x per halaman */
-  .accent-edge { box-shadow: inset 3px 0 0 0 #9C7B45; }
-
-  /* Baris data yang bisa dipindai cepat */
-  .row {
-    border-bottom: 1px solid #E7E2D8;
-    transition: background-color 0.18s cubic-bezier(0.22,1,0.36,1);
+  .panel:hover {
+    border-color: rgba(229, 169, 60, 0.35);
   }
-  .row:last-child { border-bottom: 0; }
-  .row:hover { background-color: #FAF6EF; }
 
   .tag {
-    display: inline-flex; align-items: center;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.75rem; font-weight: 500;
-    color: #585E6A;
-    background: #F4F1EA;
-    border: 1px solid #E7E2D8;
-    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #E1E4EA;
+    background: #1A1E2B;
+    border: 1px solid #2B3144;
+    border-radius: 6px;
   }
 
-  .link-underline {
-    color: #15181E;
-    text-decoration: none;
-    border-bottom: 1px solid #CDB689;
-    transition: border-color 0.18s, color 0.18s;
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
   }
-  .link-underline:hover { color: #7F6337; border-color: #9C7B45; }
-
-  /* Reveal halus, sekali jalan. Tanpa framer-motion. */
-  .reveal { opacity: 0; transform: translateY(10px); }
   .reveal.is-visible {
-    opacity: 1; transform: none;
-    transition: opacity 0.5s cubic-bezier(0.22,1,0.36,1),
-                transform 0.5s cubic-bezier(0.22,1,0.36,1);
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
-/* ─── PRINT: HRD sering Ctrl+P / Save as PDF ───────────────── */
+/* ─── PRINT STYLESHEET ────────────────────────────────────────── */
 @media print {
-  @page { margin: 14mm 16mm; }
+  @page {
+    margin: 14mm 16mm;
+  }
 
-  body { background: #fff !important; color: #000 !important; font-size: 10.5pt; line-height: 1.45; }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10pt;
+    line-height: 1.45;
+  }
 
-  .no-print, nav, footer button, .reveal:not(.is-visible) { display: none !important; }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .no-print, nav, footer button, .reveal:not(.is-visible) {
+    display: none !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 
-  .panel, .row { border-color: #bbb !important; box-shadow: none !important; break-inside: avoid; }
-  h1, h2, h3 { break-after: avoid; color: #000 !important; }
-  section { break-inside: auto; padding: 0 0 10pt 0 !important; }
+  .panel, .row, .panel-elevated {
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    break-inside: avoid;
+  }
+  h1, h2, h3 {
+    break-after: avoid;
+    color: #000 !important;
+  }
+  section {
+    break-inside: auto;
+    padding: 0 0 12pt 0 !important;
+  }
 
-  /* tampilkan URL di belakang tautan */
-  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8.5pt; color: #555; }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #555;
+  }
 
-  /* sidebar jadi header dokumen */
-  .shell { display: block !important; }
-  .profile-aside { position: static !important; margin-bottom: 12pt; border-bottom: 1.5pt solid #000; }
+  .shell {
+    display: block !important;
+  }
+  .profile-aside {
+    position: static !important;
+    margin-bottom: 14pt;
+    border-bottom: 1.5pt solid #000;
+  }
 }

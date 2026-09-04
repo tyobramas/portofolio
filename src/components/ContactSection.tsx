@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Copy, Check, Clock, Send, ShieldCheck } from 'lucide-react';
-import SectionHeading from './SectionHeading';
+import { Mail, MapPin, Copy, Check, Send, ArrowRight, ShieldCheck } from 'lucide-react';
 import Reveal from './Reveal';
 import type { SystemConfig } from '../types';
-
-const SCOPES = [
-  'Rekayasa Aplikasi Mobile (Flutter)',
-  'Otomasi AI & Pipeline Agent (n8n, Langflow)',
-  'Arsitektur Backend & Cloud SaaS (Laravel, React)',
-  'Peran Principal / Lead Software Engineer',
-  'Konsultasi Teknis & Audit Arsitektur',
-];
 
 export default function ContactSection({ config }: { config: SystemConfig }) {
   const [copied, setCopied] = useState(false);
@@ -18,7 +9,7 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    scope: SCOPES[0],
+    subject: '',
     message: '',
   });
 
@@ -32,162 +23,167 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
     e.preventDefault();
     setSubmitted(true);
 
-    const subject = encodeURIComponent(`[Inquiry Proyek] ${formData.scope} — ${formData.name}`);
+    const subject = encodeURIComponent(`[Inquiry] ${formData.subject || 'Project Discussion'} — ${formData.name}`);
     const body = encodeURIComponent(
-      `Halo Tyo Bramas,\n\nNama: ${formData.name}\nEmail: ${formData.email}\nKebutuhan: ${formData.scope}\n\nRingkasan Kebutuhan:\n${formData.message}\n\nTerima kasih.`
+      `Hello Tyo Bramas,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}\n\nBest regards.`
     );
 
     setTimeout(() => {
       window.location.href = `mailto:${config.ownerEmail}?subject=${subject}&body=${body}`;
-    }, 600);
+    }, 500);
   };
 
   return (
-    <section id="contact" className="pb-section">
-      <SectionHeading index="06" title="Kontak & Kerja Sama" note="SLA respons < 24 jam" />
+    <section id="contact" className="py-16 sm:py-20 relative">
+      <div className="mx-auto max-w-shell px-6 lg:px-10">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+          <Reveal>
+            <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
+              CONTACT
+            </span>
+          </Reveal>
+          <Reveal delay={60}>
+            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Get In Touch
+            </h2>
+          </Reveal>
+        </div>
 
-      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-        {/* Left Column: Direct Info */}
-        <Reveal>
-          <div className="panel p-6 space-y-5">
-            <div>
-              <p className="eyebrow">Saluran Langsung</p>
-              <p className="mt-1 font-display text-h3 text-ink-900 break-all select-all">
-                {config.ownerEmail}
-              </p>
-              <div className="mt-3 flex gap-2">
-                <a
-                  href={`mailto:${config.ownerEmail}`}
-                  className="inline-flex items-center gap-1.5 rounded-[3px] bg-ink-900 px-3 py-1.5 text-meta font-semibold text-canvas hover:bg-brass-600 transition-colors duration-150"
-                >
-                  <Mail size={13} /> Kirim Email
-                </a>
-                <button
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1.5 rounded-[3px] border border-rule bg-canvas-sunken px-3 py-1.5 text-meta font-medium text-ink-700 hover:text-brass-600 transition-colors"
-                >
-                  {copied ? <Check size={13} className="text-status-open" /> : <Copy size={13} />}
-                  {copied ? 'Tersalin' : 'Salin'}
-                </button>
-              </div>
-            </div>
-
-            <div className="border-t border-rule pt-4 space-y-3 text-meta text-ink-600">
-              <div className="flex items-start gap-2.5">
-                <MapPin size={15} className="text-brass-500 shrink-0 mt-0.5" />
+        <div className="grid gap-8 lg:grid-cols-12 items-start">
+          {/* Left Column: Direct Info */}
+          <div className="lg:col-span-5 space-y-6">
+            <Reveal>
+              <div className="card-dark p-6 sm:p-8 space-y-6 border-[#232736]">
                 <div>
-                  <p className="font-semibold text-ink-800">Lokasi & Zona Waktu</p>
-                  <p>{config.ownerLocation} (WIB / UTC+7)</p>
+                  <h3 className="font-sans text-lg font-bold text-white mb-2">
+                    Executive Direct Line
+                  </h3>
+                  <p className="font-mono text-sm sm:text-base text-gold-300 break-all select-all font-semibold">
+                    {config.ownerEmail}
+                  </p>
+                  <div className="mt-4 flex gap-3">
+                    <a
+                      href={`mailto:${config.ownerEmail}`}
+                      className="btn-gold inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider text-canvas"
+                    >
+                      <Mail size={14} /> Send Email
+                    </a>
+                    <button
+                      onClick={handleCopyEmail}
+                      className="btn-dark-outline inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider"
+                    >
+                      {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                      {copied ? 'Copied' : 'Copy'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="border-t border-[#232736] pt-5 space-y-4 text-xs sm:text-sm text-ink-300">
+                  <div className="flex items-start gap-3">
+                    <MapPin size={18} className="text-gold-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold text-white">Location & Timezone</p>
+                      <p className="text-ink-400">{config.ownerLocation} (UTC+7)</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <ShieldCheck size={18} className="text-gold-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold text-white">Non-Disclosure & Security</p>
+                      <p className="text-ink-400">All technical project requirements remain strictly confidential.</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex items-start gap-2.5">
-                <Clock size={15} className="text-brass-500 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-ink-800">Komitmen SLA</p>
-                  <p>Maksimal 24 jam di hari kerja</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2.5">
-                <ShieldCheck size={15} className="text-brass-500 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-ink-800">Kerahasiaan</p>
-                  <p>Terlindungi NDA & komunikasi langsung tanpa perantara</p>
-                </div>
-              </div>
-            </div>
+            </Reveal>
           </div>
-        </Reveal>
 
-        {/* Right Column: Clean Form */}
-        <Reveal delay={80}>
-          <div className="panel p-6 sm:p-7">
-            <h3 className="font-display text-h3 text-ink-900 mb-1.5">Kirim Permintaan Diskusi</h3>
-            <p className="text-body text-ink-600 mb-5">
-              Jelaskan gambaran proyek atau peran yang sedang Anda bangun untuk mendapatkan tanggapan langsung.
-            </p>
+          {/* Right Column: Direct Message Form */}
+          <div className="lg:col-span-7">
+            <Reveal delay={60}>
+              <div className="card-dark p-6 sm:p-8 border-[#232736]">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-ink-300 mb-1.5">
+                        Your Name <span className="text-gold-400">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Alex Pratama"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full rounded-lg border border-[#262A38] bg-[#0E1017] px-4 py-3 text-sm text-white placeholder:text-ink-500 focus:border-gold-500 focus:outline-none transition-colors"
+                      />
+                    </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="block text-meta font-semibold text-ink-800 mb-1">
-                    Nama / Institusi <span className="text-brass-600">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Nama Anda atau Perusahaan"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full rounded-[3px] border border-rule bg-canvas px-3.5 py-2 text-body text-ink-900 placeholder:text-ink-400 focus-visible:border-brass-500 transition-colors"
-                  />
-                </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-ink-300 mb-1.5">
+                        Your Email <span className="text-gold-400">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="alex@company.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className="w-full rounded-lg border border-[#262A38] bg-[#0E1017] px-4 py-3 text-sm text-white placeholder:text-ink-500 focus:border-gold-500 focus:outline-none transition-colors"
+                      />
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-meta font-semibold text-ink-800 mb-1">
-                    Alamat Email Kerja <span className="text-brass-600">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="nama@perusahaan.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full rounded-[3px] border border-rule bg-canvas px-3.5 py-2 text-body text-ink-900 placeholder:text-ink-400 focus-visible:border-brass-500 transition-colors"
-                  />
-                </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-ink-300 mb-1.5">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Flutter Mobile Architecture / AI Agent Consultation"
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full rounded-lg border border-[#262A38] bg-[#0E1017] px-4 py-3 text-sm text-white placeholder:text-ink-500 focus:border-gold-500 focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-ink-300 mb-1.5">
+                      Your Message <span className="text-gold-400">*</span>
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      placeholder="Tell me about your project scope, timeline, and goals..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full rounded-lg border border-[#262A38] bg-[#0E1017] px-4 py-3 text-sm text-white placeholder:text-ink-500 focus:border-gold-500 focus:outline-none transition-colors resize-none leading-relaxed"
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="btn-gold inline-flex items-center justify-center gap-2 rounded-lg px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas cursor-pointer shadow-gold-glow"
+                    >
+                      {submitted ? (
+                        <>
+                          <Check size={16} /> Opening Email Client...
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} /> Send Message <ArrowRight size={16} />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
               </div>
-
-              <div>
-                <label className="block text-meta font-semibold text-ink-800 mb-1">
-                  Ruang Lingkup Proyek
-                </label>
-                <select
-                  value={formData.scope}
-                  onChange={(e) => setFormData({ ...formData, scope: e.target.value })}
-                  className="w-full rounded-[3px] border border-rule bg-canvas px-3.5 py-2 text-body text-ink-900 focus-visible:border-brass-500 transition-colors"
-                >
-                  {SCOPES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-meta font-semibold text-ink-800 mb-1">
-                  Deskripsi Kebutuhan <span className="text-brass-600">*</span>
-                </label>
-                <textarea
-                  rows={4}
-                  required
-                  placeholder="Target sistem, estimasi jadwal, dan tantangan teknis utama..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full rounded-[3px] border border-rule bg-canvas px-3.5 py-2 text-body text-ink-900 placeholder:text-ink-400 focus-visible:border-brass-500 transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center gap-2 rounded-[3px] bg-ink-900 px-6 py-2.5 text-meta font-semibold text-canvas transition-colors duration-200 ease-refined hover:bg-brass-600"
-              >
-                {submitted ? (
-                  <>
-                    <Check size={14} /> Membuka Email Client...
-                  </>
-                ) : (
-                  <>
-                    <Send size={14} /> Kirim Pesan Diskusi
-                  </>
-                )}
-              </button>
-            </form>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
 }
+

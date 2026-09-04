@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface TopBarProps {
   onAdminClick?: () => void;
@@ -7,12 +7,12 @@ interface TopBarProps {
 }
 
 const NAV_ITEMS = [
-  { href: '#about', label: 'Ringkasan' },
-  { href: '#experience', label: 'Pengalaman' },
-  { href: '#projects', label: 'Proyek' },
-  { href: '#skills', label: 'Keahlian' },
-  { href: '#certificates', label: 'Sertifikasi' },
-  { href: '#contact', label: 'Kontak' },
+  { href: '#home', label: 'HOME' },
+  { href: '#about', label: 'ABOUT' },
+  { href: '#services', label: 'SERVICES' },
+  { href: '#projects', label: 'PORTFOLIO' },
+  { href: '#experience', label: 'EXPERIENCE' },
+  { href: '#contact', label: 'CONTACT' },
 ];
 
 export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
@@ -40,66 +40,76 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
   };
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-rule bg-canvas text-ink-900 transition-colors">
-      <div className="shell mx-auto flex h-14 max-w-shell items-center justify-between px-6">
-        {/* Monogram / Brand */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleLogoClick}
-            title="Klik 3x untuk konsol admin"
-            className="group flex items-baseline gap-2 text-left focus-visible:outline-none"
-          >
-            <span className="font-display text-h3 font-bold tracking-tight text-ink-900 group-hover:text-brass-600 transition-colors">
-              Tyo Bramas
-            </span>
-            <span className="hidden font-mono text-[0.6875rem] uppercase tracking-widest text-brass-600 sm:inline">
-              / Principal Engineer
-            </span>
-          </button>
-        </div>
+    <header className="sticky top-0 z-50 border-b border-[#1E2230] bg-[#0B0C10]/90 backdrop-blur-md transition-colors">
+      <div className="mx-auto flex h-20 max-w-shell items-center justify-between px-6 lg:px-10">
+        {/* Brand Logo */}
+        <button
+          onClick={handleLogoClick}
+          title="Klik 3x untuk konsol admin"
+          className="flex items-center gap-1.5 text-left focus:outline-none group"
+        >
+          <span className="font-sans text-2xl font-extrabold tracking-tight text-white group-hover:text-gold-400 transition-colors">
+            TyoBramas<span className="text-gold-500">.</span>
+          </span>
+        </button>
 
-        {/* Desktop Nav */}
-        <nav aria-label="Navigasi Utama" className="hidden items-center gap-6 sm:flex">
+        {/* Desktop Navigation */}
+        <nav aria-label="Navigasi Utama" className="hidden items-center gap-8 md:flex">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.href}
               onClick={() => handleNavClick(item.href)}
-              className="text-meta text-ink-600 transition-colors duration-150 hover:text-brass-600 focus-visible:outline-none"
+              className="font-sans text-xs font-semibold tracking-wider text-ink-300 transition-colors duration-150 hover:text-gold-400 focus:outline-none"
             >
               {item.label}
             </button>
           ))}
+
           {onOpenScraper && (
             <button
               onClick={onOpenScraper}
-              className="text-meta font-mono text-ink-500 hover:text-brass-600 transition-colors border-l border-rule pl-4"
+              className="font-sans text-xs font-semibold tracking-wider text-ink-400 hover:text-gold-400 transition-colors border-l border-[#232736] pl-6"
             >
-              Tools
+              SCRAPER
             </button>
           )}
+
+          {/* LET'S TALK button */}
+          <button
+            onClick={() => handleNavClick('#contact')}
+            className="btn-gold ml-2 inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow"
+          >
+            LET'S TALK <ArrowRight size={14} />
+          </button>
         </nav>
 
         {/* Mobile menu button */}
-        <div className="flex items-center sm:hidden">
+        <div className="flex items-center md:hidden gap-3">
+          <button
+            onClick={() => handleNavClick('#contact')}
+            className="btn-gold rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-canvas"
+          >
+            LET'S TALK
+          </button>
           <button
             onClick={() => setMobileMenuOpen((o) => !o)}
             aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
-            className="p-1.5 text-ink-700 hover:text-ink-900"
+            className="p-2 text-ink-200 hover:text-white"
           >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="border-t border-rule bg-canvas px-6 py-4 shadow-lift sm:hidden">
-          <nav className="flex flex-col space-y-3">
+        <div className="border-t border-[#1E2230] bg-[#0E1017] px-6 py-5 shadow-2xl md:hidden">
+          <nav className="flex flex-col space-y-4">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.href}
                 onClick={() => handleNavClick(item.href)}
-                className="text-left text-meta font-medium text-ink-700 hover:text-brass-600"
+                className="text-left font-sans text-sm font-semibold tracking-wider text-ink-200 hover:text-gold-400 transition-colors"
               >
                 {item.label}
               </button>
@@ -110,9 +120,9 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
                   setMobileMenuOpen(false);
                   onOpenScraper();
                 }}
-                className="pt-2 text-left font-mono text-meta text-brass-600 border-t border-rule"
+                className="pt-3 text-left font-sans text-sm font-semibold tracking-wider text-gold-400 border-t border-[#232736]"
               >
-                LinkedIn Scraper Tool
+                SCRAPER TOOLS
               </button>
             )}
           </nav>

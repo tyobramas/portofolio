@@ -1,29 +1,71 @@
-import SectionHeading from './SectionHeading';
 import Reveal from './Reveal';
 import type { Milestone } from '../types';
 
 export default function ExperienceList({ milestones }: { milestones: Milestone[] }) {
   return (
-    <section id="experience" className="pb-section">
-      <SectionHeading index="02" title="Pengalaman" note="Perjalanan karier & kontribusi" />
-      <div className="panel">
-        {milestones.map((m, i) => (
-          <Reveal key={m.id} delay={i * 45}>
-            <div className="row grid gap-1.5 px-5 py-4 sm:grid-cols-[124px_1fr] sm:gap-6">
-              <p className="tabular text-meta text-ink-500 sm:pt-0.5">{m.period}</p>
-              <div>
-                <h3 className="font-display text-h3 text-ink-900">{m.title}</h3>
-                <p className="text-meta text-brass-600">
-                  {m.organisation} · {m.location}
-                </p>
-                {m.description && (
-                  <p className="mt-1.5 max-w-prose text-body text-ink-700">{m.description}</p>
-                )}
-              </div>
-            </div>
+    <section id="experience" className="py-16 sm:py-20 relative">
+      <div className="mx-auto max-w-shell px-6 lg:px-10">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+          <Reveal>
+            <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
+              CAREER TIMELINE
+            </span>
           </Reveal>
-        ))}
+          <Reveal delay={60}>
+            <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+              Experience & Leadership
+            </h2>
+          </Reveal>
+        </div>
+
+        <div className="space-y-4">
+          {milestones.map((m, i) => (
+            <Reveal key={m.id} delay={i * 45}>
+              <div className="card-dark p-6 sm:p-7 hover:border-gold-500/40 transition-all duration-300">
+                <div className="grid gap-4 sm:grid-cols-[160px_1fr] sm:gap-6 items-start">
+                  <div>
+                    <span className="inline-block tabular font-sans text-xs font-bold text-gold-300 bg-gold-500/10 border border-gold-500/30 px-3 py-1 rounded-md">
+                      {m.period}
+                    </span>
+                    {m.current && (
+                      <span className="block mt-2 text-[0.6875rem] font-bold text-emerald-400">
+                        ● CURRENT ROLE
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-sans text-lg font-bold text-white">
+                      {m.title}
+                    </h3>
+                    <p className="text-sm font-semibold text-gold-400/90 mt-0.5">
+                      {m.organisation} · <span className="text-ink-400 font-normal">{m.location}</span>
+                    </p>
+
+                    {m.description && (
+                      <p className="mt-3 text-sm text-ink-300 leading-relaxed">
+                        {m.description}
+                      </p>
+                    )}
+
+                    {m.highlights && m.highlights.length > 0 && (
+                      <ul className="mt-3.5 space-y-2 border-t border-[#232736] pt-3">
+                        {m.highlights.map((h) => (
+                          <li key={h} className="text-xs sm:text-sm text-ink-300 flex items-start gap-2.5">
+                            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0 mt-2" />
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
+

@@ -1,12 +1,15 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import TopBar from './components/TopBar';
-import ProfileAside from './components/ProfileAside';
+import HeroSection from './components/HeroSection';
+import StatsBar from './components/StatsBar';
 import AboutSection from './components/AboutSection';
-import ExperienceList from './components/ExperienceList';
+import ServicesSection from './components/ServicesSection';
 import ProjectsList from './components/ProjectsList';
 import SkillsCompact from './components/SkillsCompact';
-import CertificatesList from './components/CertificatesList';
+import ExperienceList from './components/ExperienceList';
+import WorkTogetherBanner from './components/WorkTogetherBanner';
 import ContactSection from './components/ContactSection';
+import Footer from './components/Footer';
 import Modal from './components/Modal';
 import GoldButton from './components/GoldButton';
 import { useAdminStore } from './hooks/useAdminStore';
@@ -45,17 +48,17 @@ const AdminLoginModal: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin }
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Autentikasi Administrator">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Administrator Authentication">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <p className="font-mono text-meta text-ink-600 leading-relaxed">
-          Masukkan kata sandi kontrol panel untuk mengelola konten portofolio.
+        <p className="text-xs text-ink-300 leading-relaxed">
+          Enter admin credentials to manage portfolio content, project case studies, and configuration.
         </p>
         <div>
           <label
             htmlFor="admin-password"
-            className="block font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 mb-1.5"
+            className="block text-[0.6875rem] uppercase tracking-widest font-bold text-ink-400 mb-1.5"
           >
-            Kata Sandi
+            Password
           </label>
           <input
             id="admin-password"
@@ -67,27 +70,27 @@ const AdminLoginModal: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin }
             }}
             autoComplete="current-password"
             className={[
-              'w-full rounded-[3px] border px-3.5 py-2.5 font-mono text-body text-ink-900 bg-canvas transition-colors',
+              'w-full rounded-lg border px-4 py-2.5 text-sm text-white bg-[#0E1017] transition-colors',
               error
                 ? 'border-red-500 focus:border-red-500'
-                : 'border-rule focus:border-brass-500',
+                : 'border-[#262A38] focus:border-gold-500 focus:outline-none',
             ].join(' ')}
             placeholder="••••••••••"
             aria-describedby={error ? 'login-error' : undefined}
             aria-invalid={error}
           />
           {error && (
-            <p id="login-error" role="alert" className="mt-1.5 font-mono text-meta text-red-600">
-              Kata sandi tidak valid. Akses ditolak.
+            <p id="login-error" role="alert" className="mt-1.5 text-xs text-red-400">
+              Invalid credentials. Access denied.
             </p>
           )}
         </div>
         <div className="flex justify-end gap-2 pt-2">
           <GoldButton type="button" variant="outline" size="sm" onClick={handleClose}>
-            Batal
+            Cancel
           </GoldButton>
           <GoldButton type="submit" size="sm" loading={loading}>
-            Masuk
+            Sign In
           </GoldButton>
         </div>
       </form>
@@ -185,20 +188,20 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-ink-700">
+    <div className="min-h-screen bg-[#0B0C10] text-[#E1E4EA] selection:bg-gold-500/30 selection:text-gold-200">
       {/* Skip to main content for accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[9999] focus:px-3.5 focus:py-2 focus:bg-ink-900 focus:text-canvas focus:text-meta focus:rounded-[2px]"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold-500 focus:text-canvas focus:text-xs focus:font-bold focus:rounded-md"
       >
-        Lewati ke konten utama
+        Skip to main content
       </a>
 
       {isScraperRoute ? (
         <Suspense
           fallback={
-            <div className="flex h-screen items-center justify-center font-mono text-meta text-ink-500">
-              Memuat alat...
+            <div className="flex h-screen items-center justify-center font-sans text-sm text-gold-400">
+              Loading tools...
             </div>
           }
         >
@@ -206,35 +209,47 @@ export default function App() {
         </Suspense>
       ) : (
         <>
-          {/* TopBar 56px, hairline bawah, tanpa blur */}
+          {/* Header TopBar */}
           <TopBar
             onAdminClick={handleAdminTrigger}
             onOpenScraper={() => navigateTo('/tools/linkedin')}
           />
 
-          {/* Kerangka dua kolom sticky */}
-          <div className="shell mx-auto max-w-shell px-6 grid lg:grid-cols-[318px_1fr] gap-x-14 gap-y-10 pt-8 pb-16">
-            <ProfileAside config={store.config} />
+          {/* Unified Single-Page Flow Matching Reference Template */}
+          <main id="main-content" tabIndex={-1} className="min-w-0">
+            {/* 1. Hero Section with Glowing Golden Halo Portrait */}
+            <HeroSection config={store.config} />
 
-            <main id="main-content" tabIndex={-1} className="min-w-0">
-              <AboutSection config={store.config} />
-              <ExperienceList milestones={store.milestones} />
-              <ProjectsList projects={store.projects} />
-              <SkillsCompact skills={store.skills} />
-              <CertificatesList items={store.certificates} />
-              <ContactSection config={store.config} />
+            {/* 2. Stats / KPI Counter Bar (4 Cards) */}
+            <StatsBar />
 
-              {/* Minimal print-safe footer */}
-              <footer className="mt-12 border-t border-rule pt-6 text-meta text-ink-500 flex flex-wrap items-center justify-between gap-4">
-                <p>
-                  &copy; {new Date().getFullYear()} {store.config.ownerName}. Seluruh hak cipta dilindungi.
-                </p>
-                <p className="font-mono text-[0.75rem] text-ink-400">
-                  Fraunces · Inter · IBM Plex Mono
-                </p>
-              </footer>
-            </main>
-          </div>
+            {/* 3. About Me Section with Impact Heading, Checkmarks, Cursive Signature & Workstation */}
+            <AboutSection config={store.config} />
+
+            {/* 4. My Services ("What I Do") Grid */}
+            <ServicesSection />
+
+            {/* 5. Featured Projects ("My Recent Work") */}
+            <ProjectsList projects={store.projects} />
+
+            {/* 6. Core Competencies & Technologies */}
+            <SkillsCompact skills={store.skills} />
+
+            {/* 7. Career Timeline & Experience */}
+            <ExperienceList milestones={store.milestones} />
+
+            {/* 8. Let's Work Together! Banner */}
+            <WorkTogetherBanner onContactClick={() => {
+              const el = document.querySelector('#contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }} />
+
+            {/* 9. Contact / Get In Touch Form */}
+            <ContactSection config={store.config} />
+          </main>
+
+          {/* 10. Footer with Engineering Standard Badges */}
+          <Footer ownerName={store.config.ownerName} />
         </>
       )}
 

@@ -32,6 +32,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Flutter', 'Dart', 'GetX', 'FastAPI', 'Vector DB', 'Laravel API'],
     tech: ['Flutter', 'Dart', 'GetX', 'FastAPI', 'Vector DB', 'Laravel API'],
     year: 2024,
+    image: '/images/noor_islamic.jpg',
     impact: 'Mendukung 20+ modul ibadah terintegrasi dengan latensi respons asisten RAG sub-detik.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -54,6 +55,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Next.js', 'TypeScript', 'Prisma', 'MySQL', 'LangChain', 'LinkedIn API'],
     tech: ['Next.js', 'TypeScript', 'Prisma', 'MySQL', 'LangChain', 'LinkedIn API'],
     year: 2024,
+    image: '/images/lunad_ai.jpg',
     impact: 'Pipeline CRM otomatis memproses 10k+ prospek dengan peningkatan conversion rate 3.2x.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -76,6 +78,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Flutter', 'Dart', 'Laravel', 'PHP', 'TensorFlow Lite', 'MySQL'],
     tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'TensorFlow Lite', 'MySQL'],
     year: 2024,
+    image: '/images/hrms_biometric.jpg',
     impact: 'Rekap payroll dan presensi biometrik 1.200+ karyawan otomatis turun dari 3 hari ke 4 jam.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -98,6 +101,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Laravel', 'React', 'MySQL', 'Redis', 'Docker'],
     tech: ['Laravel', 'React', 'MySQL', 'Redis', 'Docker'],
     year: 2024,
+    image: '/images/primestock.jpg',
     impact: 'Memproses 50k+ transaksi inventaris harian lintas multi-gudang dengan respon <80ms.',
     link: 'https://primestock.id',
     metrics: [
