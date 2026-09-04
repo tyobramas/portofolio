@@ -16,9 +16,13 @@ export interface Project {
   category: ProjectCategory;
   status: ProjectStatus;
   techStack: string[];
+  tech?: string[];
   year: number;
   metrics: ProjectMetric[];
   links: ProjectLinks;
+  link?: string;
+  image?: string;
+  impact?: string;
   featured: boolean;
   color: string;
 }
@@ -108,6 +112,7 @@ export interface AdminStore {
   skills: Skill[];
   certificates?: Certificate[];
   config: SystemConfig;
+  version?: number;
 }
 
 // ─── UI State ────────────────────────────────────────────────────────────────

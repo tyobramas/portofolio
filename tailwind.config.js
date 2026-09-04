@@ -1,121 +1,70 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
-        // Deep teal-dark backgrounds
-        obsidian: {
-          50:  '#ecfeff',
-          100: '#cffafe',
-          200: '#a5f3fc',
-          300: '#67e8f9',
-          400: '#22d3ee',
-          500: '#06b6d4',
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#071a26',
-          900: '#041018',
-          950: '#020c12',
+        canvas: {
+          DEFAULT: '#FBFAF7',   // ivory hangat — background utama
+          sunken:  '#F4F1EA',   // blok pembeda halus
+          raised:  '#FFFFFF',   // kartu / panel
         },
-        // Soft neon cyan — primary accent
-        gold: {
-          50:  '#ecfeff',
-          100: '#cffafe',
-          200: '#a5f3fc',
-          300: '#67e8f9',
-          400: '#22d3ee',   // main accent — soft neon cyan
-          500: '#06b6d4',
-          600: '#0891b2',
-          700: '#0e7490',
-          800: '#155e75',
-          900: '#164e63',
+        ink: {
+          900: '#15181E',  // judul
+          800: '#22262E',
+          700: '#3B404A',  // body text
+          600: '#585E6A',
+          500: '#767C88',  // meta
+          400: '#9AA0AA',  // placeholder
         },
-        // Soft text — cool slate
-        cream: {
-          50:  '#f0fdfe',
-          100: '#e0f9fc',
-          200: '#d0f4f8',
-          300: '#b8edf5',
-          400: '#94dde8',
-          500: '#64c8d8',
+        rule: {
+          DEFAULT: '#E7E2D8',  // hairline hangat
+          strong:  '#D6CFC0',
         },
-        // Neutral panels — dark steel
-        graphite: {
-          50:  '#f8fafb',
-          100: '#eef3f5',
-          200: '#d8e6ea',
-          300: '#a0bdc6',
-          400: '#6a90a0',
-          500: '#456575',
-          600: '#2a4350',
-          700: '#152635',
-          800: '#0b1820',
-          900: '#060f16',
-          950: '#030a0e',
+        brass: {
+          50:  '#FAF6EF',
+          100: '#F2EADB',
+          200: '#E3D5B8',
+          300: '#CDB689',
+          400: '#B69A63',
+          500: '#9C7B45',  // aksen utama
+          600: '#7F6337',  // aksen untuk teks kecil (kontras 6.3:1)
+          700: '#614B2A',
         },
-        // Neon green — secondary / code accent
-        neural: {
-          50:  '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',   // neon green secondary
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+        status: {
+          open:   '#2F6B4F',
+          openBg: '#EDF3EE',
         },
       },
       fontFamily: {
-        mono:    ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'monospace'],
+        display: ['Fraunces', 'Georgia', 'serif'],
         sans:    ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Outfit', 'Inter', 'sans-serif'],
+        mono:    ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
-      backgroundImage: {
-        'fine-grid':         `linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px)`,
-        'obsidian-gradient': 'linear-gradient(135deg, #020c12 0%, #04101a 50%, #020c12 100%)',
+      fontSize: {
+        // skala terkontrol — jangan bikin ukuran baru di luar ini
+        meta:    ['0.8125rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],  // 13px
+        body:    ['0.9375rem', { lineHeight: '1.7' }],                            // 15px
+        lead:    ['1.0625rem', { lineHeight: '1.65' }],                           // 17px
+        h3:      ['1.125rem',  { lineHeight: '1.4',  letterSpacing: '-0.01em' }],
+        h2:      ['1.625rem',  { lineHeight: '1.25', letterSpacing: '-0.02em' }],
+        h1:      ['2.375rem',  { lineHeight: '1.1',  letterSpacing: '-0.025em' }],
       },
-      backgroundSize: {
-        'grid': '28px 28px',
+      spacing: {
+        // hanya empat nilai ritmis yang dipakai untuk layout
+        gutter: '1.5rem',
+        block:  '2rem',
+        section:'3rem',
       },
-      animation: {
-        'terminal-blink': 'blink 1.2s step-end infinite',
-        'fade-in':        'fadeIn 0.6s ease-out forwards',
-        'slide-up':       'slideUp 0.5s ease-out forwards',
-        'pulse-cyan':     'pulseCyan 3s ease-in-out infinite',
-      },
-      keyframes: {
-        blink: {
-          '0%, 100%': { opacity: '1' },
-          '50%':      { opacity: '0' },
-        },
-        fadeIn: {
-          '0%':   { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%':   { opacity: '0', transform: 'translateY(24px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        pulseCyan: {
-          '0%, 100%': { boxShadow: '0 0 12px rgba(34,211,238,0.2)' },
-          '50%':      { boxShadow: '0 0 24px rgba(34,211,238,0.4)' },
-        },
-      },
+      maxWidth: { shell: '1180px', prose: '68ch' },
+      borderRadius: { card: '3px', pill: '999px' }, // sudut hampir lurus = terasa formal
       boxShadow: {
-        'gold-sm':    '0 0 8px rgba(34,211,238,0.18)',
-        'gold-md':    '0 0 18px rgba(34,211,238,0.26)',
-        'gold-lg':    '0 0 36px rgba(34,211,238,0.34)',
-        'green-sm':   '0 0 8px rgba(74,222,128,0.15)',
-        'inner-dark': 'inset 0 2px 8px rgba(0,0,0,0.6)',
-        'panel':      '0 4px 24px rgba(0,0,0,0.7), 0 1px 0 rgba(34,211,238,0.07)',
+        // bayangan netral & tipis. tidak ada warna.
+        card:  '0 1px 2px rgba(21,24,30,0.04), 0 1px 1px rgba(21,24,30,0.03)',
+        lift:  '0 6px 20px -8px rgba(21,24,30,0.12)',
       },
+      transitionTimingFunction: { refined: 'cubic-bezier(0.22, 1, 0.36, 1)' },
     },
   },
   plugins: [],
-}
+};

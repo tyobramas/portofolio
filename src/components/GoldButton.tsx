@@ -1,7 +1,6 @@
 import React from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
 
-interface GoldButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
+interface GoldButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'solid' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
@@ -20,44 +19,26 @@ const GoldButton: React.FC<GoldButtonProps> = ({
   ...props
 }) => {
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-xs gap-1.5 rounded-lg',
-    md: 'px-4.5 py-2.5 text-xs sm:text-sm gap-2 rounded-xl',
-    lg: 'px-6 py-3 text-sm sm:text-base gap-2.5 rounded-xl',
+    sm: 'px-3 py-1.5 text-meta gap-1.5 rounded-[3px]',
+    md: 'px-4 py-2 text-meta gap-2 rounded-[3px]',
+    lg: 'px-6 py-2.5 text-body gap-2.5 rounded-[3px]',
   };
 
   const variantClasses = {
-    solid: [
-      'bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600',
-      'text-white font-semibold',
-      'border border-cyan-300/40',
-      'shadow-[0_0_20px_rgba(56,189,248,0.25)]',
-      'hover:shadow-[0_0_25px_rgba(56,189,248,0.4)] hover:brightness-110',
-      'active:scale-[0.98]',
-    ].join(' '),
-    outline: [
-      'bg-slate-900/60',
-      'text-cyan-300 font-medium',
-      'border border-cyan-400/40',
-      'hover:bg-cyan-500/10 hover:border-cyan-300 hover:text-white',
-      'shadow-sm',
-    ].join(' '),
-    ghost: [
-      'bg-transparent',
-      'text-cyan-300/90',
-      'border border-transparent',
-      'hover:bg-slate-800/60 hover:text-white',
-    ].join(' '),
+    solid:
+      'bg-ink-900 text-canvas font-semibold shadow-card hover:bg-brass-600 transition-colors duration-150',
+    outline:
+      'bg-transparent text-ink-900 border border-rule font-medium hover:border-brass-500 hover:text-brass-600 transition-colors',
+    ghost:
+      'bg-transparent text-ink-700 hover:bg-canvas-sunken hover:text-ink-900 transition-colors',
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
-      transition={{ duration: 0.15 }}
+    <button
       className={[
-        'relative inline-flex items-center justify-center font-sans font-semibold tracking-wide whitespace-nowrap',
-        'transition-all duration-150 shrink-0',
-        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2',
+        'inline-flex items-center justify-center font-sans tracking-wide whitespace-nowrap',
+        'transition-colors duration-150 shrink-0 cursor-pointer',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass-500',
         'disabled:opacity-40 disabled:cursor-not-allowed',
         sizeClasses[size],
         variantClasses[variant],
@@ -67,14 +48,13 @@ const GoldButton: React.FC<GoldButtonProps> = ({
       {...props}
     >
       {loading ? (
-        <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        <span className="inline-block w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin mr-1" />
       ) : icon ? (
         <span className="shrink-0">{icon}</span>
       ) : null}
       {children}
-    </motion.button>
+    </button>
   );
 };
 
 export default GoldButton;
-

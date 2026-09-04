@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, LogOut, LayoutDashboard, FolderOpen, Clock, Cpu,
   Settings, Plus, Pencil, Trash2, RefreshCw, Save, X,
@@ -518,71 +517,62 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </nav>
 
         {/* Tab Panels */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className="flex-1"
-          >
-            {activeTab === 'overview' && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {[
-                  { label: 'Projects', value: store.projects.length, color: 'text-gold-400' },
-                  { label: 'Live Projects', value: store.projects.filter(p => p.status === 'live').length, color: 'text-emerald-400' },
-                  { label: 'Milestones', value: store.milestones.length, color: 'text-blue-300' },
-                  { label: 'Skills', value: store.skills.length, color: 'text-amber-300' },
-                ].map(stat => (
-                  <div key={stat.label} className="glass-panel pixel-border rounded-sm p-4 text-center">
-                    <p className={['font-mono text-2xl font-bold', stat.color].join(' ')}>{stat.value}</p>
-                    <p className="font-mono text-[10px] text-graphite-400 mt-1 tracking-widest">{stat.label.toUpperCase()}</p>
-                  </div>
-                ))}
-                <div className="col-span-2 sm:col-span-4 glass-panel pixel-border rounded-sm p-4">
-                  <p className="font-mono text-[10px] text-graphite-400 tracking-widest mb-2">SYSTEM STATUS</p>
-                  <div className="flex flex-wrap gap-4 text-xs font-mono">
-                    <span className="text-graphite-300">Config updated: <span className="text-gold-400">{new Date(store.config.updatedAt).toLocaleDateString()}</span></span>
-                    <span className="text-graphite-300">Available for work: <span className={store.config.availableForWork ? 'text-emerald-400' : 'text-red-400'}>{store.config.availableForWork ? 'YES' : 'NO'}</span></span>
-                    <span className="text-graphite-300">Storage: <span className="text-gold-400">localStorage</span></span>
-                  </div>
+        <div key={activeTab} className="flex-1">
+          {activeTab === 'overview' && (
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { label: 'Projects', value: store.projects.length, color: 'text-gold-400' },
+                { label: 'Live Projects', value: store.projects.filter(p => p.status === 'live').length, color: 'text-emerald-400' },
+                { label: 'Milestones', value: store.milestones.length, color: 'text-blue-300' },
+                { label: 'Skills', value: store.skills.length, color: 'text-amber-300' },
+              ].map(stat => (
+                <div key={stat.label} className="glass-panel pixel-border rounded-sm p-4 text-center">
+                  <p className={['font-mono text-2xl font-bold', stat.color].join(' ')}>{stat.value}</p>
+                  <p className="font-mono text-[10px] text-graphite-400 mt-1 tracking-widest">{stat.label.toUpperCase()}</p>
+                </div>
+              ))}
+              <div className="col-span-2 sm:col-span-4 glass-panel pixel-border rounded-sm p-4">
+                <p className="font-mono text-[10px] text-graphite-400 tracking-widest mb-2">SYSTEM STATUS</p>
+                <div className="flex flex-wrap gap-4 text-xs font-mono">
+                  <span className="text-graphite-300">Config updated: <span className="text-gold-400">{new Date(store.config.updatedAt).toLocaleDateString()}</span></span>
+                  <span className="text-graphite-300">Available for work: <span className={store.config.availableForWork ? 'text-emerald-400' : 'text-red-400'}>{store.config.availableForWork ? 'YES' : 'NO'}</span></span>
+                  <span className="text-graphite-300">Storage: <span className="text-gold-400">localStorage</span></span>
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {activeTab === 'projects' && (
-              <ProjectsTab
-                projects={store.projects}
-                onAdd={onAddProject}
-                onUpdate={onUpdateProject}
-                onDelete={onDeleteProject}
-              />
-            )}
+          {activeTab === 'projects' && (
+            <ProjectsTab
+              projects={store.projects}
+              onAdd={onAddProject}
+              onUpdate={onUpdateProject}
+              onDelete={onDeleteProject}
+            />
+          )}
 
-            {activeTab === 'timeline' && (
-              <TimelineTab
-                milestones={store.milestones}
-                onAdd={onAddMilestone}
-                onUpdate={onUpdateMilestone}
-                onDelete={onDeleteMilestone}
-              />
-            )}
+          {activeTab === 'timeline' && (
+            <TimelineTab
+              milestones={store.milestones}
+              onAdd={onAddMilestone}
+              onUpdate={onUpdateMilestone}
+              onDelete={onDeleteMilestone}
+            />
+          )}
 
-            {activeTab === 'skills' && (
-              <SkillsTab
-                skills={store.skills}
-                onAdd={onAddSkill}
-                onUpdate={onUpdateSkill}
-                onDelete={onDeleteSkill}
-              />
-            )}
+          {activeTab === 'skills' && (
+            <SkillsTab
+              skills={store.skills}
+              onAdd={onAddSkill}
+              onUpdate={onUpdateSkill}
+              onDelete={onDeleteSkill}
+            />
+          )}
 
-            {activeTab === 'config' && (
-              <ConfigTab config={store.config} onSave={onUpdateConfig} />
-            )}
-          </motion.div>
-        </AnimatePresence>
+          {activeTab === 'config' && (
+            <ConfigTab config={store.config} onSave={onUpdateConfig} />
+          )}
+        </div>
       </div>
 
       {/* Reset confirm */}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   User,
   Building2,
@@ -68,7 +67,6 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
     '[SYSTEM] LinkedIn Scraping Cluster Initialized v3.4.1',
     `[APIFY ACTOR 1] URL Scraper: "${ACTOR_PROFILE_SCRAPER}" Ready`,
     `[APIFY ACTOR 2] Name Search: "${ACTOR_NAME_SEARCH}" Ready`,
-    '[PROXY] Connected to 10,482 Residential Proxies (Automated Rotation Enabled)',
     '[READY] Enter Name or URL to execute live extraction.',
   ]);
 
@@ -210,6 +208,9 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
             <div>
               <h1 className="font-display text-sm font-bold tracking-tight text-white flex items-center gap-2">
                 Apify LinkedIn Scraper Hub
+                <span className="px-2 py-0.5 rounded-[2px] text-[10px] font-mono bg-amber-950/80 text-amber-300 border border-amber-500/40 font-bold">
+                  DATA DEMO
+                </span>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-cyan-950/80 text-cyan-400 border border-cyan-500/30">
                   DEV FUSION & HARVEST API
                 </span>
@@ -410,14 +411,11 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
 
         {/* Active Module Panel */}
         <div className="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 bg-slate-900/60 relative overflow-hidden">
-          <AnimatePresence mode="wait">
+          <>
             {/* MODULE 1: SEARCH BY NAME (harvestapi/linkedin-profile-search-by-name) */}
             {activeTab === 'search' && (
-              <motion.div
+              <div
                 key="name-search-tab"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -560,16 +558,13 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                     </div>
                   </div>
                 )}
-              </motion.div>
+              </div>
             )}
 
             {/* MODULE 2: PROFILE URL SCRAPER (dev_fusion/Linkedin-Profile-Scraper) */}
             {activeTab === 'profile' && (
-              <motion.div
+              <div
                 key="profile-tab"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -598,7 +593,7 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                       rows={4}
                       value={profileUrlsInput}
                       onChange={(e) => setProfileUrlsInput(e.target.value)}
-                      placeholder="https://www.linkedin.com/in/williamhgates&#10;http://www.linkedin.com/in/jeannie-wyrick-b4760710a"
+                      placeholder="https://www.linkedin.com/in/nadiaprameswari&#10;https://www.linkedin.com/in/dimaspratama"
                       className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-4 font-mono text-xs text-cyan-200 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 leading-relaxed"
                     />
                   </div>
@@ -623,14 +618,11 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                     </GoldButton>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )}            {/* MODULE 3: SAVED DATASETS DATABASE */}
             {activeTab === 'saved' && (
-              <motion.div
+              <div
                 key="saved-tab"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-4 gap-4">
@@ -822,16 +814,13 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                     )}
                   </div>
                 )}
-              </motion.div>
+              </div>
             )}
 
             {/* MODULE 4: COMPANY SCRAPER */}
             {activeTab === 'company' && (
-              <motion.div
+              <div
                 key="company-tab"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -895,16 +884,13 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                     Execute Company Scrape
                   </GoldButton>
                 </div>
-              </motion.div>
+              </div>
             )}
 
             {/* MODULE 5: EMPLOYEE DIRECTORY */}
             {activeTab === 'employee' && (
-              <motion.div
+              <div
                 key="employee-tab"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
                 className="space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -977,9 +963,9 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                     Execute Employee Scrape
                   </GoldButton>
                 </div>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
+          </>
         </div>
 
         {/* Live Terminal Cluster Logs & Export Panel */}
@@ -1061,13 +1047,10 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
       </main>
 
       {/* APIFY TOKEN MODAL */}
-      <AnimatePresence>
+      <>
         {isTokenModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+            <div
               className="bg-[#0f172a] border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl relative"
             >
               <button
@@ -1118,19 +1101,16 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                   Save Apify Token
                 </GoldButton>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
-      </AnimatePresence>
+      </>
 
       {/* PROFILE DETAIL VIEWER MODAL */}
-      <AnimatePresence>
+      <>
         {selectedProfile && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+            <div
               className="bg-[#0b1120] border border-slate-700 rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden"
             >
               {/* Profile Header */}
@@ -1462,10 +1442,10 @@ export const LinkedInScraperDashboard: React.FC<LinkedInScraperDashboardProps> =
                   Close Drawer
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
-      </AnimatePresence>
+      </>
     </div>
   );
 };

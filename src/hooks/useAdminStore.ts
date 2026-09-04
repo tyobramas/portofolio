@@ -5,72 +5,37 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
+const STORE_VERSION = 2;
 
 function loadStore(): AdminStore {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as AdminStore;
-
-      // Force update config with fresh owner location, email, and empty social links
-      const updatedConfig: SystemConfig = {
-        ...parsed.config,
-        ownerName: defaultConfig.ownerName,
-        ownerTitle: defaultConfig.ownerTitle,
-        ownerEmail: defaultConfig.ownerEmail,
-        ownerGithub: '',
-        ownerLinkedIn: '',
-        ownerLocation: defaultConfig.ownerLocation,
-        ownerBio: defaultConfig.ownerBio,
-        heroTagline: defaultConfig.heroTagline,
-        updatedAt: new Date().toISOString(),
-      };
-
-      // Force update milestones: Ensure Education (ms-004) and Locations are set to Universitas BSI (Bekasi 2010-2013)
-      const updatedMilestones = parsed.milestones.map(m => {
-        if (m.id === 'ms-004' || m.type === 'education' || m.organisation.includes('Brawijaya') || m.organisation.includes('BSI')) {
-          return defaultMilestones.find(dm => dm.id === 'ms-004') || m;
-        }
-        return {
-          ...m,
-          location: m.location.replace(/Malang/g, 'Bekasi'),
-        };
-      });
-
-      // Merge skills: Ensure defaultSkills and icons are present
-      const existingIds = new Set(parsed.skills.map(s => s.id));
-      const missingSkills = defaultSkills.filter(s => !existingIds.has(s.id));
-
-      const updatedSkills = [
-        ...parsed.skills.map(s => {
-          const match = defaultSkills.find(ds => ds.id === s.id);
-          return {
-            ...s,
-            icon: s.icon || match?.icon,
-          };
-        }),
-        ...missingSkills,
-      ];
-
-      return {
-        ...parsed,
-        projects: defaultProjects,
-        config: updatedConfig,
-        milestones: updatedMilestones,
-        skills: updatedSkills,
-        certificates: parsed.certificates && parsed.certificates.length > 0 ? parsed.certificates : defaultCertificates,
-      };
-    }
-  } catch {
-    // ignore
-  }
-  return {
+  const fresh: AdminStore = {
     projects: defaultProjects,
     milestones: defaultMilestones,
     skills: defaultSkills,
     certificates: defaultCertificates,
     config: defaultConfig,
+    version: STORE_VERSION,
   };
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return fresh;
+    const parsed = JSON.parse(raw) as AdminStore;
+
+    if ((parsed.version ?? 0) < STORE_VERSION) {
+      // Migrasi sekali jalan: isi field baru, jangan timpa hasil edit user
+      const migrated: AdminStore = {
+        ...fresh,
+        ...parsed,
+        certificates: parsed.certificates?.length ? parsed.certificates : defaultCertificates,
+        version: STORE_VERSION,
+      };
+      saveStore(migrated);
+      return migrated;
+    }
+    return parsed;
+  } catch {
+    return fresh;
+  }
 }
 
 function saveStore(store: AdminStore): void {
@@ -199,7 +164,9 @@ export function useAdminStore() {
       projects: defaultProjects,
       milestones: defaultMilestones,
       skills: defaultSkills,
+      certificates: defaultCertificates,
       config: defaultConfig,
+      version: STORE_VERSION,
     };
     setStore(fresh);
     saveStore(fresh);
