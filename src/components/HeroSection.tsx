@@ -55,9 +55,9 @@ export default function HeroSection({ config }: HeroSectionProps) {
               <div className="flex flex-wrap items-center gap-4 pt-2">
                 <button
                   onClick={() => handleScrollTo('#projects')}
-                  className="btn-gold inline-flex items-center gap-2 rounded-lg px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer"
+                  className="btn-gold btn-gold-shimmer inline-flex items-center gap-2 rounded-lg px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer group"
                 >
-                  VIEW MY WORK <ArrowRight size={15} />
+                  VIEW MY WORK <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 <a
@@ -123,7 +123,10 @@ export default function HeroSection({ config }: HeroSectionProps) {
                 {/* 1. Outer Astronomical Hairline Ring */}
                 <div className="absolute h-[410px] w-[410px] sm:h-[470px] sm:w-[470px] lg:h-[500px] lg:w-[500px] rounded-full border border-gold-500/25 pointer-events-none animate-pulse" />
 
-                {/* 2. Radiant Golden Halo Ring Frame */}
+                {/* 2. Rotating Astronomical Orbital Light Sweep */}
+                <div className="absolute h-[386px] w-[386px] sm:h-[436px] sm:w-[436px] lg:h-[466px] lg:w-[466px] rounded-full conic-halo-sweep pointer-events-none z-10 opacity-70 blur-[1px]" />
+
+                {/* 3. Radiant Golden Halo Ring Frame */}
                 <div className="absolute h-[380px] w-[380px] sm:h-[430px] sm:w-[430px] lg:h-[460px] lg:w-[460px] rounded-full border-[3px] border-[#F5C869] shadow-[0_0_50px_10px_rgba(229,169,60,0.45),0_0_100px_25px_rgba(229,169,60,0.2),inset_0_0_35px_rgba(229,169,60,0.25)] pointer-events-none z-10" />
 
                 {/* 3. Warm Ambient Gold Radial Aura behind */}

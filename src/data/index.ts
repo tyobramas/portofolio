@@ -124,6 +124,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Laravel', 'Flutter', 'Dart', 'MySQL', 'Livewire'],
     tech: ['Laravel', 'Flutter', 'Dart', 'MySQL', 'Livewire'],
     year: 2024,
+    image: '/images/masjid_system.jpg',
     impact: 'Sistem multi-tenant terdistribusi menghubungkan puluhan display digital secara tersentral.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -146,6 +147,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Flutter', 'Dart', 'Laravel API', 'GetX', 'Google Maps'],
     tech: ['Flutter', 'Dart', 'Laravel API', 'GetX', 'Google Maps'],
     year: 2023,
+    image: '/images/mbtech_catalog.jpg',
     impact: 'Menghubungkan ratusan dealer dan ribuan katalog bahan secara instan dengan offline-first caching.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -168,6 +170,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Laravel', 'Flutter', 'React', 'TypeScript', 'MySQL'],
     tech: ['Laravel', 'Flutter', 'React', 'TypeScript', 'MySQL'],
     year: 2023,
+    image: '/images/kerjanasional_portal.jpg',
     impact: 'Sentralisasi pelacakan komisi dan performa 500+ agen lapangan secara realtime.',
     link: 'https://sales.kerjanasional.id',
     metrics: [
@@ -190,6 +193,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Laravel', 'Filament', 'PHP', 'WhatsApp API', 'MySQL', 'LangChain'],
     tech: ['Laravel', 'Filament', 'PHP', 'WhatsApp API', 'MySQL', 'LangChain'],
     year: 2024,
+    image: '/images/reflexo_pos.jpg',
     impact: 'Otomasi reservasi WhatsApp dan skrining kontraindikasi pasien memangkas waktu tunggu 40%.',
     link: 'https://github.com/tyobramas',
     metrics: [
@@ -212,6 +216,7 @@ export const defaultProjects: Project[] = [
     techStack: ['Flutter', 'Dart', 'Backtracking Algorithm', 'GetX'],
     tech: ['Flutter', 'Dart', 'Backtracking Algorithm', 'GetX'],
     year: 2023,
+    image: '/images/diamond_miner.jpg',
     impact: 'Implementasi algoritma backtracking presisi dengan 60fps animasi pada layar mobile.',
     link: 'https://github.com/tyobramas',
     metrics: [

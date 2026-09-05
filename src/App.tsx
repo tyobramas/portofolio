@@ -188,7 +188,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0C10] text-[#E1E4EA] selection:bg-gold-500/30 selection:text-gold-200">
+    <div className="min-h-screen bg-[#0B0C10] text-[#E1E4EA] selection:bg-gold-500/30 selection:text-gold-200 relative">
+      {/* Matte Titanium Micro-Grain Overlay */}
+      <div className="noise-overlay" aria-hidden="true" />
+
       {/* Skip to main content for accessibility */}
       <a
         href="#main-content"

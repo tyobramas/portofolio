@@ -5,7 +5,7 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 2;
+const STORE_VERSION = 4;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -21,18 +21,31 @@ function loadStore(): AdminStore {
     if (!raw) return fresh;
     const parsed = JSON.parse(raw) as AdminStore;
 
-    if ((parsed.version ?? 0) < STORE_VERSION) {
-      // Migrasi sekali jalan: isi field baru, jangan timpa hasil edit user
-      const migrated: AdminStore = {
-        ...fresh,
-        ...parsed,
-        certificates: parsed.certificates?.length ? parsed.certificates : defaultCertificates,
-        version: STORE_VERSION,
-      };
-      saveStore(migrated);
-      return migrated;
-    }
-    return parsed;
+    const projectMap = new Map(defaultProjects.map((p) => [p.id, p]));
+    const updatedProjects = (parsed.projects || []).map((p) => {
+      const def = projectMap.get(p.id);
+      if (def) {
+        return {
+          ...def,
+          ...p,
+          image: p.image || def.image,
+          metrics: p.metrics && p.metrics.length > 0 ? p.metrics : def.metrics,
+          impact: p.impact || def.impact,
+          longDescription: p.longDescription || def.longDescription,
+        };
+      }
+      return p;
+    });
+
+    const migrated: AdminStore = {
+      ...fresh,
+      ...parsed,
+      projects: updatedProjects.length ? updatedProjects : defaultProjects,
+      certificates: parsed.certificates?.length ? parsed.certificates : defaultCertificates,
+      version: STORE_VERSION,
+    };
+    saveStore(migrated);
+    return migrated;
   } catch {
     return fresh;
   }

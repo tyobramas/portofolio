@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, Copy, Check, Send, ArrowRight, ShieldCheck } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './SpotlightCard';
 import type { SystemConfig } from '../types';
 
 export default function ContactSection({ config }: { config: SystemConfig }) {
@@ -44,7 +45,7 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
           </Reveal>
           <Reveal delay={60}>
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Get In Touch
+              Initiate Executive Consultation
             </h2>
           </Reveal>
         </div>
@@ -53,7 +54,11 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
           {/* Left Column: Direct Info */}
           <div className="lg:col-span-5 space-y-6">
             <Reveal>
-              <div className="card-dark p-6 sm:p-8 space-y-6 border-[#232736]">
+              <SpotlightCard
+                className="p-6 sm:p-8 space-y-6 group"
+                spotlightColor="rgba(229, 169, 60, 0.16)"
+                borderColor="rgba(245, 200, 105, 0.45)"
+              >
                 <div>
                   <h3 className="font-sans text-lg font-bold text-white mb-2">
                     Executive Direct Line
@@ -91,18 +96,22 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
                     <ShieldCheck size={18} className="text-gold-400 shrink-0 mt-0.5" />
                     <div>
                       <p className="font-bold text-white">Non-Disclosure & Security</p>
-                      <p className="text-ink-400">All technical project requirements remain strictly confidential.</p>
+                      <p className="text-ink-400">All technical project requirements remain strictly confidential under mutual NDA.</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           </div>
 
           {/* Right Column: Direct Message Form */}
           <div className="lg:col-span-7">
             <Reveal delay={60}>
-              <div className="card-dark p-6 sm:p-8 border-[#232736]">
+              <SpotlightCard
+                className="p-6 sm:p-8 group"
+                spotlightColor="rgba(229, 169, 60, 0.14)"
+                borderColor="rgba(245, 200, 105, 0.4)"
+              >
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
@@ -164,7 +173,7 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="btn-gold inline-flex items-center justify-center gap-2 rounded-lg px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas cursor-pointer shadow-gold-glow"
+                      className="btn-gold btn-gold-shimmer inline-flex items-center justify-center gap-2 rounded-lg px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas cursor-pointer shadow-gold-glow group"
                     >
                       {submitted ? (
                         <>
@@ -172,13 +181,13 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
                         </>
                       ) : (
                         <>
-                          <Send size={16} /> Send Message <ArrowRight size={16} />
+                          <Send size={16} /> Send Message <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </>
                       )}
                     </button>
                   </div>
                 </form>
-              </div>
+              </SpotlightCard>
             </Reveal>
           </div>
         </div>
@@ -186,4 +195,3 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
     </section>
   );
 }
-

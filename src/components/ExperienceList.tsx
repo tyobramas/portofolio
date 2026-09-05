@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import SpotlightCard from './SpotlightCard';
 import type { Milestone } from '../types';
 
 export default function ExperienceList({ milestones }: { milestones: Milestone[] }) {
@@ -13,7 +14,7 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
           </Reveal>
           <Reveal delay={60}>
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Experience & Leadership
+              Executive Experience & Leadership
             </h2>
           </Reveal>
         </div>
@@ -21,21 +22,25 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
         <div className="space-y-4">
           {milestones.map((m, i) => (
             <Reveal key={m.id} delay={i * 45}>
-              <div className="card-dark p-6 sm:p-7 hover:border-gold-500/40 transition-all duration-300">
-                <div className="grid gap-4 sm:grid-cols-[160px_1fr] sm:gap-6 items-start">
+              <SpotlightCard
+                className="p-6 sm:p-7 group hover:border-gold-500/50"
+                spotlightColor="rgba(229, 169, 60, 0.14)"
+                borderColor="rgba(245, 200, 105, 0.4)"
+              >
+                <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:gap-6 items-start">
                   <div>
                     <span className="inline-block tabular font-sans text-xs font-bold text-gold-300 bg-gold-500/10 border border-gold-500/30 px-3 py-1 rounded-md">
                       {m.period}
                     </span>
                     {m.current && (
-                      <span className="block mt-2 text-[0.6875rem] font-bold text-emerald-400">
+                      <span className="block mt-2 text-[0.6875rem] font-bold text-emerald-400 tracking-wider">
                         ● CURRENT ROLE
                       </span>
                     )}
                   </div>
 
                   <div>
-                    <h3 className="font-sans text-lg font-bold text-white">
+                    <h3 className="font-sans text-lg font-bold text-white group-hover:text-gold-200 transition-colors">
                       {m.title}
                     </h3>
                     <p className="text-sm font-semibold text-gold-400/90 mt-0.5">
@@ -60,7 +65,7 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
                     )}
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
@@ -68,4 +73,3 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
     </section>
   );
 }
-

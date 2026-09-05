@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface TopBarProps {
@@ -17,7 +17,21 @@ const NAV_ITEMS = [
 
 export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const clickCountRef = React.useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(Math.min(Math.max(progress, 0), 100));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogoClick = () => {
     clickCountRef.current += 1;
@@ -40,13 +54,13 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#1E2230] bg-[#0B0C10]/90 backdrop-blur-md transition-colors">
+    <header className="sticky top-0 z-50 border-b border-[#1E2230] bg-[#0B0C10]/95 backdrop-blur-md transition-colors relative">
       <div className="mx-auto flex h-20 max-w-shell items-center justify-between px-6 lg:px-10">
         {/* Brand Logo */}
         <button
           onClick={handleLogoClick}
           title="Klik 3x untuk konsol admin"
-          className="flex items-center gap-1.5 text-left focus:outline-none group"
+          className="flex items-center gap-1.5 text-left focus:outline-none group cursor-pointer"
         >
           <span className="font-sans text-2xl font-extrabold tracking-tight text-white group-hover:text-gold-400 transition-colors">
             TyoBramas<span className="text-gold-500">.</span>
@@ -59,7 +73,7 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
             <button
               key={item.href}
               onClick={() => handleNavClick(item.href)}
-              className="font-sans text-xs font-semibold tracking-wider text-ink-300 transition-colors duration-150 hover:text-gold-400 focus:outline-none"
+              className="font-sans text-xs font-semibold tracking-wider text-ink-300 transition-colors duration-150 hover:text-gold-400 focus:outline-none cursor-pointer"
             >
               {item.label}
             </button>
@@ -68,18 +82,18 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
           {onOpenScraper && (
             <button
               onClick={onOpenScraper}
-              className="font-sans text-xs font-semibold tracking-wider text-ink-400 hover:text-gold-400 transition-colors border-l border-[#232736] pl-6"
+              className="font-sans text-xs font-semibold tracking-wider text-ink-400 hover:text-gold-400 transition-colors border-l border-[#232736] pl-6 cursor-pointer"
             >
               SCRAPER
             </button>
           )}
 
-          {/* LET'S TALK button */}
+          {/* LET'S TALK button with liquid gold shimmer */}
           <button
             onClick={() => handleNavClick('#contact')}
-            className="btn-gold ml-2 inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow"
+            className="btn-gold btn-gold-shimmer ml-2 inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer group"
           >
-            LET'S TALK <ArrowRight size={14} />
+            LET'S TALK <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </nav>
 
@@ -87,7 +101,7 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
         <div className="flex items-center md:hidden gap-3">
           <button
             onClick={() => handleNavClick('#contact')}
-            className="btn-gold rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-canvas"
+            className="btn-gold btn-gold-shimmer rounded-md px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-canvas"
           >
             LET'S TALK
           </button>
@@ -99,6 +113,14 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+      </div>
+
+      {/* Top Hairline Scroll Progress Indicator */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1A1D28]/60 overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-[#E5A93C] via-[#F5C869] to-[#FFF1C5] shadow-[0_0_10px_rgba(229,169,60,0.9)] transition-all duration-75"
+          style={{ width: `${scrollProgress}%` }}
+        />
       </div>
 
       {/* Mobile Drawer */}
