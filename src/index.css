@@ -176,16 +176,6 @@
     pointer-events: none;
   }
 
-  @keyframes haloRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  .conic-halo-sweep {
-    background: conic-gradient(from 0deg, transparent 0deg, rgba(245, 200, 105, 0.8) 45deg, transparent 90deg);
-    animation: haloRotate 8s linear infinite;
-  }
-
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
   }

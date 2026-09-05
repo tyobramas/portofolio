@@ -120,17 +120,14 @@ export default function HeroSection({ config }: HeroSectionProps) {
           <div className="lg:col-span-5 flex justify-center items-center relative">
             <Reveal delay={100}>
               <div className="relative flex items-center justify-center">
-                {/* 1. Outer Astronomical Hairline Ring */}
-                <div className="absolute h-[410px] w-[410px] sm:h-[470px] sm:w-[470px] lg:h-[500px] lg:w-[500px] rounded-full border border-gold-500/25 pointer-events-none animate-pulse" />
+                {/* 1. Outer Delicate Hairline Ring (Static & Refined) */}
+                <div className="absolute h-[410px] w-[410px] sm:h-[470px] sm:w-[470px] lg:h-[500px] lg:w-[500px] rounded-full border border-gold-500/20 pointer-events-none" />
 
-                {/* 2. Rotating Astronomical Orbital Light Sweep */}
-                <div className="absolute h-[386px] w-[386px] sm:h-[436px] sm:w-[436px] lg:h-[466px] lg:w-[466px] rounded-full conic-halo-sweep pointer-events-none z-10 opacity-70 blur-[1px]" />
-
-                {/* 3. Radiant Golden Halo Ring Frame */}
-                <div className="absolute h-[380px] w-[380px] sm:h-[430px] sm:w-[430px] lg:h-[460px] lg:w-[460px] rounded-full border-[3px] border-[#F5C869] shadow-[0_0_50px_10px_rgba(229,169,60,0.45),0_0_100px_25px_rgba(229,169,60,0.2),inset_0_0_35px_rgba(229,169,60,0.25)] pointer-events-none z-10" />
+                {/* 2. Prestigious Gold Halo Frame with Depth & Warm Lighting */}
+                <div className="absolute h-[380px] w-[380px] sm:h-[430px] sm:w-[430px] lg:h-[460px] lg:w-[460px] rounded-full border-[3px] border-[#F5C869] shadow-[0_0_45px_8px_rgba(229,169,60,0.35),0_0_80px_18px_rgba(229,169,60,0.15),inset_0_0_30px_rgba(229,169,60,0.2)] pointer-events-none z-10" />
 
                 {/* 3. Warm Ambient Gold Radial Aura behind */}
-                <div className="absolute h-80 w-80 sm:h-96 sm:w-96 rounded-full bg-amber-400/25 blur-3xl pointer-events-none" />
+                <div className="absolute h-80 w-80 sm:h-96 sm:w-96 rounded-full bg-amber-400/20 blur-3xl pointer-events-none" />
 
                 {/* 4. The Developer Portrait (Close-Up, Sharp, Seamless Fit) */}
                 <div className="relative z-0 h-[374px] w-[374px] sm:h-[424px] sm:w-[424px] lg:h-[454px] lg:w-[454px] overflow-hidden rounded-full bg-[#050608] shadow-2xl group">
