@@ -20,84 +20,121 @@ const box = (w: number, h: number, d: number, m: THREE.Material) => {
   return mesh;
 };
 
-// ── Seated person ──────────────────────────────────────────
+// ── Sosok orang duduk, membelakangi kamera ─────────────────
 function buildPerson() {
   const g = new THREE.Group();
-  const skinM = mat(C.skin, 0.9);
+  const skinM  = mat(C.skin, 0.9);
   const shirtM = mat(0x3d5a7a, 0.9);
+  const pantM  = mat(0x2c3542, 0.95);
+  const chairM = mat(C.fabric, 0.95);
+  const steelM = mat(C.metal, 0.4, 0.85);
 
-  // Hips
-  const hips = box(0.52, 0.22, 0.44, shirtM);
-  hips.position.y = 0.62;
-  g.add(hips);
+  const SEAT = 0.92;            // tinggi dudukan — 0.6 × tinggi meja (1.5)
 
-  // Torso — slightly leaning forward toward screen
-  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.24, 0.42, 6, 14), shirtM);
-  torso.position.set(0, 1.02, -0.02);
-  torso.rotation.x = 0.16;
-  torso.castShadow = true;
-  g.add(torso);
-
-  // Head
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.19, 20, 16), skinM);
-  head.position.set(0, 1.46, 0.04);
-  head.castShadow = true;
-  g.add(head);
-
-  // Hair (top half of sphere)
-  const hair = new THREE.Mesh(
-    new THREE.SphereGeometry(0.196, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.62),
-    mat(C.hair, 0.95)
-  );
-  hair.position.copy(head.position);
-  g.add(hair);
-
-  // Thighs (seated) + shins (downward)
-  [-0.16, 0.16].forEach((x) => {
-    const thigh = box(0.19, 0.17, 0.5, shirtM);
-    thigh.position.set(x, 0.55, 0.26);
-    g.add(thigh);
-
-    const shin = box(0.16, 0.44, 0.17, mat(0x2c3542, 0.95));
-    shin.position.set(x, 0.28, 0.48);
-    g.add(shin);
-  });
-
-  // Arms reaching toward keyboard — animated later
-  const arms: THREE.Mesh[] = [];
-  [-0.3, 0.3].forEach((x) => {
-    const arm = new THREE.Mesh(new THREE.CapsuleGeometry(0.075, 0.46, 5, 10), shirtM);
-    arm.position.set(x, 1.02, 0.3);
-    arm.rotation.set(1.16, 0, x < 0 ? -0.16 : 0.16);
-    arm.castShadow = true;
-    g.add(arm);
-    arms.push(arm);
-
-    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.072, 10, 8), skinM);
-    hand.position.set(x * 0.72, 0.9, 0.66);
-    g.add(hand);
-    arms.push(hand);
-  });
-
-  // Office chair
+  // ── Kursi: base bintang 5 + roda + gas lift ──
   const chair = new THREE.Group();
-  const seat = box(0.6, 0.09, 0.58, mat(C.fabric, 0.95));
-  seat.position.set(0, 0.5, 0.14);
-  chair.add(seat);
 
-  const back = box(0.58, 0.72, 0.09, mat(C.fabric, 0.95));
-  back.position.set(0, 0.88, -0.16);
-  back.rotation.x = -0.1;
-  chair.add(back);
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.08, 12), steelM);
+  hub.position.y = 0.11; chair.add(hub);
 
-  const post = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.05, 0.05, 0.42, 10),
-    mat(C.metal, 0.4, 0.8)
-  );
-  post.position.set(0, 0.26, 0.14);
-  chair.add(post);
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2;
+    const leg = box(0.42, 0.055, 0.09, steelM);
+    leg.position.set(Math.cos(a) * 0.21, 0.1, Math.sin(a) * 0.21);
+    leg.rotation.y = -a;
+    chair.add(leg);
+
+    const caster = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 8), mat(0x14171d, 0.7));
+    caster.position.set(Math.cos(a) * 0.4, 0.055, Math.sin(a) * 0.4);
+    caster.castShadow = true;
+    chair.add(caster);
+  }
+
+  const lift = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.07, SEAT - 0.28, 12), steelM);
+  lift.position.y = 0.14 + (SEAT - 0.28) / 2; chair.add(lift);
+
+  const seat = box(0.58, 0.11, 0.56, chairM);
+  seat.position.set(0, SEAT, 0.02); chair.add(seat);
+
+  const back = box(0.56, 0.78, 0.1, chairM);
+  back.position.set(0, SEAT + 0.44, -0.26);
+  back.rotation.x = -0.12; chair.add(back);
+
+  // sandaran tangan
+  [-0.33, 0.33].forEach((x) => {
+    const rest = box(0.07, 0.06, 0.38, mat(0x1e242c, 0.9));
+    rest.position.set(x, SEAT + 0.24, 0.02); chair.add(rest);
+    const support = box(0.05, 0.22, 0.05, steelM);
+    support.position.set(x, SEAT + 0.12, -0.1); chair.add(support);
+  });
 
   g.add(chair);
+
+  // ── Badan ──
+  const hips = box(0.46, 0.2, 0.42, pantM);
+  hips.position.set(0, SEAT + 0.14, 0.02); g.add(hips);
+
+  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.21, 0.4, 6, 14), shirtM);
+  torso.position.set(0, SEAT + 0.5, -0.02);
+  torso.rotation.x = 0.14;                      // membungkuk ringan ke layar
+  torso.castShadow = true; g.add(torso);
+
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, 0.1, 10), skinM);
+  neck.position.set(0, SEAT + 0.78, 0.01); g.add(neck);
+
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 16), skinM);
+  head.position.set(0, SEAT + 0.92, 0.03);
+  head.castShadow = true; g.add(head);
+
+  const hair = new THREE.Mesh(
+    new THREE.SphereGeometry(0.178, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.6),
+    mat(C.hair, 0.95)
+  );
+  hair.position.set(0, SEAT + 0.94, 0.02); g.add(hair);
+
+  // ── Kaki: paha horizontal, betis turun ke lantai ──
+  [-0.14, 0.14].forEach((x) => {
+    const thigh = box(0.17, 0.15, 0.46, pantM);
+    thigh.position.set(x, SEAT + 0.03, 0.26); g.add(thigh);
+
+    const shin = box(0.15, SEAT - 0.16, 0.15, pantM);
+    shin.position.set(x, (SEAT - 0.16) / 2 + 0.06, 0.46); g.add(shin);
+
+    const shoe = box(0.17, 0.09, 0.3, mat(0x14171d, 0.8));
+    shoe.position.set(x, 0.05, 0.56);
+    shoe.castShadow = true; g.add(shoe);
+  });
+
+  // ── Lengan bersegmen: bahu → siku → tangan di keyboard ──
+  const KB_Y = 1.63;            // permukaan keyboard
+  const arms: THREE.Object3D[] = [];
+
+  [-1, 1].forEach((side) => {
+    const shoulder = new THREE.Vector3(side * 0.26, SEAT + 0.66, 0);
+    const elbow    = new THREE.Vector3(side * 0.3,  SEAT + 0.34, 0.3);
+    const hand     = new THREE.Vector3(side * 0.13, KB_Y, 0.58);
+
+    const upper = new THREE.Mesh(new THREE.CapsuleGeometry(0.068, shoulder.distanceTo(elbow), 5, 10), shirtM);
+    upper.position.copy(shoulder.clone().lerp(elbow, 0.5));
+    upper.lookAt(elbow); upper.rotateX(Math.PI / 2);
+    upper.castShadow = true; g.add(upper);
+
+    const fore = new THREE.Mesh(new THREE.CapsuleGeometry(0.058, elbow.distanceTo(hand), 5, 10), skinM);
+    fore.position.copy(elbow.clone().lerp(hand, 0.5));
+    fore.lookAt(hand); fore.rotateX(Math.PI / 2);
+    fore.castShadow = true; g.add(fore);
+
+    const palm = new THREE.Mesh(new THREE.SphereGeometry(0.062, 10, 8), skinM);
+    palm.position.copy(hand);
+    palm.scale.set(1, 0.65, 1.15);
+    palm.castShadow = true; g.add(palm);
+
+    arms.push(fore, palm);      // hanya dua ini yang dianimasikan
+  });
+
+  arms.forEach((obj) => {
+    obj.userData.baseY = obj.position.y;
+  });
 
   return { group: g, arms };
 }
@@ -455,68 +492,62 @@ function buildRoom() {
   const code = buildCodeScreen();
   const term = buildTerminalScreen();
 
-  // Monitor utama — 27" landscape
+  const MON_Y = 2.14;                   // dari 2.42 — sejajar pandangan
+  const MON_Z = -D / 2 + 0.72;          // z sama untuk keduanya
+
+  // Monitor utama — landscape 27"
   const mon = new THREE.Group();
-  const monBody = box(2.15, 1.32, 0.07, mat(C.metal, 0.4, 0.7));
-  monBody.position.set(0, 2.42, 0);
-  mon.add(monBody);
+  const monBody = box(2.15, 1.3, 0.07, mat(C.metal, 0.4, 0.7));
+  monBody.position.set(0, MON_Y, 0); mon.add(monBody);
 
   const screen = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.98, 1.15),
+    new THREE.PlaneGeometry(1.98, 1.13),
     new THREE.MeshBasicMaterial({ map: code.tex, toneMapped: false })
   );
-  screen.position.set(0, 2.42, 0.045);
-  mon.add(screen);
+  screen.position.set(0, MON_Y, 0.045); mon.add(screen);
 
-  const neck = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.055, 0.055, 0.4, 8),
-    mat(C.metal, 0.4, 0.8)
-  );
-  neck.position.set(0, 1.72, 0);
-  mon.add(neck);
+  const neckA = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.34, 8), mat(C.metal, 0.4, 0.8));
+  neckA.position.set(0, MON_Y - 0.8, 0); mon.add(neckA);
+  const footA = box(0.66, 0.04, 0.24, mat(C.metal, 0.4, 0.8));
+  footA.position.set(0, 1.58, 0.04); mon.add(footA);
 
-  const footPlate = box(0.7, 0.04, 0.26, mat(C.metal, 0.4, 0.8));
-  footPlate.position.set(0, 1.58, 0.05);
-  mon.add(footPlate);
-
-  mon.position.set(-0.42, 0, -D / 2 + 0.72);
+  mon.position.set(-0.62, 0, MON_Z);
   room.add(mon);
 
-  // Monitor kedua — portrait, dimiringkan ke arah user
+  // Monitor kedua — portrait, sejajar, tanpa miring
   const mon2 = new THREE.Group();
-  const mon2Body = box(0.95, 1.5, 0.07, mat(C.metal, 0.4, 0.7));
-  mon2Body.position.set(0, 2.5, 0);
-  mon2.add(mon2Body);
+  const mon2Body = box(0.84, 1.44, 0.07, mat(C.metal, 0.4, 0.7));
+  mon2Body.position.set(0, MON_Y + 0.06, 0); mon2.add(mon2Body);
 
   const screen2 = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.84, 1.36),
+    new THREE.PlaneGeometry(0.74, 1.3),
     new THREE.MeshBasicMaterial({ map: term.tex, toneMapped: false })
   );
-  screen2.position.set(0, 2.5, 0.045);
-  mon2.add(screen2);
+  screen2.position.set(0, MON_Y + 0.06, 0.045); mon2.add(screen2);
 
-  const neck2 = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.05, 0.05, 0.44, 8),
-    mat(C.metal, 0.4, 0.8)
-  );
-  neck2.position.set(0, 1.74, 0);
-  mon2.add(neck2);
+  const neckB = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3, 8), mat(C.metal, 0.4, 0.8));
+  neckB.position.set(0, MON_Y - 0.72, 0); mon2.add(neckB);
+  const footB = box(0.42, 0.04, 0.24, mat(C.metal, 0.4, 0.8));
+  footB.position.set(0, 1.58, 0.04); mon2.add(footB);
 
-  mon2.position.set(1.62, 0, -D / 2 + 0.95);
-  mon2.rotation.y = -0.44; // menghadap ke tempat duduk
+  mon2.position.set(0.92, 0, MON_Z);   // rotation.y dihapus — sejajar bidang
   room.add(mon2);
 
-  // Keyboard (geser ke depan monitor utama)
+  // Keyboard, mouse, dan lampu
   const kb = box(0.95, 0.05, 0.34, mat(0x22262e, 0.8));
-  kb.position.set(-0.42, 1.58, -D / 2 + 1.45);
+  kb.position.set(-0.62, 1.58, -D / 2 + 1.5);
   room.add(kb);
 
-  // Gold desk lamp — dipindah ke kiri meja
+  const mouse = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), mat(0x22262e, 0.7));
+  mouse.scale.set(0.8, 0.5, 1.25);
+  mouse.position.set(0.16, 1.6, -D / 2 + 1.5);
+  room.add(mouse);
+
   const lampArm = new THREE.Mesh(
     new THREE.CylinderGeometry(0.03, 0.03, 0.8, 8),
     mat(C.gold, 0.3, 0.9)
   );
-  lampArm.position.set(-1.95, 1.95, -D / 2 + 0.9);
+  lampArm.position.set(-2.1, 1.95, -D / 2 + 0.85);
   lampArm.rotation.z = -0.28;
   room.add(lampArm);
 
@@ -531,14 +562,14 @@ function buildRoom() {
       emissiveIntensity: 0.35,
     })
   );
-  shade.position.set(-1.77, 2.32, -D / 2 + 0.9);
+  shade.position.set(-1.92, 2.32, -D / 2 + 0.85);
   shade.rotation.z = Math.PI - 0.3;
   room.add(shade);
 
-  // Bookshelf on back wall
+  // Bookshelf on back wall (digeser ke dinding dan ditipiskan)
   const shelf = new THREE.Group();
-  const shelfBody = box(2.1, 2.6, 0.5, mat(C.woodDark, 0.8));
-  shelfBody.position.set(0, 1.3, 0);
+  const shelfBody = box(1.7, 2.5, 0.42, mat(C.woodDark, 0.8));
+  shelfBody.position.set(0, 1.25, 0);
   shelf.add(shelfBody);
 
   const bookColors = [0x7a3b2a, 0x2f5240, 0x4a3a62, 0xa8763c, 0x36527a];
@@ -546,32 +577,57 @@ function buildRoom() {
     for (let i = 0; i < 9; i++) {
       const h = 0.26 + Math.random() * 0.16;
       const b = box(0.14, h, 0.3, mat(bookColors[i % 5], 0.9));
-      b.position.set(-0.85 + i * 0.2, 0.55 + r * 0.78 + h / 2, 0.16);
+      b.position.set(-0.68 + i * 0.17, 0.52 + r * 0.75 + h / 2, 0.16);
       shelf.add(b);
     }
   }
-  shelf.position.set(-2.5, 0, -D / 2 + 0.4);
+  shelf.position.set(-2.72, 0, -D / 2 + 0.32);
   room.add(shelf);
 
-  // Potted plant (dirapatkan ke meja)
-  const pot = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.28, 0.22, 0.4, 12),
-    mat(0x8a5a3a, 0.9)
-  );
-  pot.position.set(2.5, 0.2, -0.7);
-  pot.castShadow = true;
-  room.add(pot);
+  // ── Tanaman pot ──
+  const plant = new THREE.Group();
 
-  for (let i = 0; i < 7; i++) {
-    const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 6), mat(0x2f5a3a, 0.95));
-    leaf.position.set(
-      2.5 + Math.sin(i) * 0.3,
-      0.65 + i * 0.14,
-      -0.7 + Math.cos(i) * 0.3
-    );
-    leaf.scale.set(1, 0.6, 1);
-    room.add(leaf);
-  }
+  const potBody = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.26, 0.19, 0.36, 16),
+    mat(0xa9663f, 0.9)
+  );
+  potBody.position.y = 0.18;
+  potBody.castShadow = true; potBody.receiveShadow = true;
+  plant.add(potBody);
+
+  const potRim = new THREE.Mesh(new THREE.CylinderGeometry(0.285, 0.275, 0.06, 16), mat(0xbd7548, 0.85));
+  potRim.position.y = 0.37; plant.add(potRim);
+
+  const soil = new THREE.Mesh(new THREE.CylinderGeometry(0.245, 0.245, 0.03, 16), mat(0x33241a, 0.98));
+  soil.position.y = 0.385; plant.add(soil);
+
+  // batang
+  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.038, 0.42, 8), mat(0x3f6b3a, 0.9));
+  stem.position.y = 0.6; plant.add(stem);
+
+  // kanopi: rumpun daun mengelilingi titik pusat, bukan tumpukan vertikal
+  const leafM = mat(0x3d7a4a, 0.92);
+  const CANOPY = [
+    [ 0.00, 0.95, 0.00, 0.30],
+    [ 0.24, 0.86, 0.10, 0.22],
+    [-0.22, 0.88, -0.08, 0.21],
+    [ 0.08, 0.80, -0.24, 0.19],
+    [-0.10, 0.78, 0.23, 0.18],
+    [ 0.15, 1.06, -0.12, 0.17],
+    [-0.14, 1.04, 0.10, 0.16],
+  ] as const;
+
+  CANOPY.forEach(([x, y, z, r]) => {
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(r, 10, 8), leafM);
+    leaf.position.set(x, y, z);
+    leaf.scale.set(1.25, 0.72, 1.25);        // pipih seperti rumpun daun
+    leaf.rotation.y = Math.random() * Math.PI;
+    leaf.castShadow = true;
+    plant.add(leaf);
+  });
+
+  plant.position.set(2.55, 0, -1.35);        // sudut kanan-belakang, bebas dari meja
+  room.add(plant);
 
   // Area rug (dirapatkan)
   const rug = new THREE.Mesh(
@@ -582,11 +638,10 @@ function buildRoom() {
   rug.receiveShadow = true;
   room.add(rug);
 
-  // Person (geser sejajar monitor utama)
+  // Person (skala 1:1 absolut, posisi x: 0, z: -D / 2 + 2.05)
   const person = buildPerson();
-  person.group.scale.setScalar(1.28);
   person.group.rotation.y = Math.PI;
-  person.group.position.set(-0.42, 0, -D / 2 + 2.15);
+  person.group.position.set(0, 0, -D / 2 + 2.05);
   room.add(person.group);
 
   return { room, person, code, board, term };
@@ -674,17 +729,17 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
 
     // Lampu meja (kiri meja, dekat lampu emas)
     const deskLight = new THREE.PointLight(C.lamp, 22, 8, 2);
-    deskLight.position.set(-1.77, 2.32, -2.1);
+    deskLight.position.set(-1.92, 2.32, -2.15);
     scene.add(deskLight);
 
     // Monitor 1 (utama) light
     const screenLight = new THREE.PointLight(C.screen, 9, 5.5, 2);
-    screenLight.position.set(-0.42, 2.42, -2.0);
+    screenLight.position.set(-0.4, 2.14, -1.58);
     scene.add(screenLight);
 
     // Monitor 2 (portrait) light
     const screenLight2 = new THREE.PointLight(0xa3e635, 4, 4, 2);
-    screenLight2.position.set(1.62, 2.5, -1.8);
+    screenLight2.position.set(0.92, 2.2, -1.58);
     scene.add(screenLight2);
 
     // ── Smooth parallax following cursor ──
@@ -727,7 +782,8 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       // Micro-animations (keyboard typing, breathing)
       if (!reduced) {
         person.arms.forEach((a, i) => {
-          a.position.y += Math.sin(t * 7 + i * 1.6) * 0.0016;
+          const baseY = (a.userData.baseY as number) ?? a.position.y;
+          a.position.y = baseY + Math.sin(t * 8 + i * 1.6) * 0.004;
         });
         person.group.position.y = Math.sin(t * 1.4) * 0.012;
       }
