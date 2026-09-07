@@ -1,8 +1,10 @@
+import { lazy, Suspense } from 'react';
 import { CheckCircle2, Sparkles } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './SpotlightCard';
-import TechWorkstation3D from './TechWorkstation3D';
 import type { SystemConfig } from '../types';
+
+const DioramaRoom3D = lazy(() => import('./DioramaRoom3D'));
 
 const HIGHLIGHTS = [
   'Clean Architecture & Separation of Concerns',
@@ -73,7 +75,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
             </Reveal>
           </div>
 
-          {/* Right Column: 3D Interactive Three.js Workstation in SpotlightCard */}
+          {/* Right Column: 3D Isometric Diorama in SpotlightCard */}
           <div className="lg:col-span-6">
             <Reveal delay={100}>
               <SpotlightCard
@@ -81,7 +83,9 @@ export default function AboutSection({ config }: AboutSectionProps) {
                 spotlightColor="rgba(229, 169, 60, 0.22)"
                 borderColor="rgba(245, 200, 105, 0.5)"
               >
-                <TechWorkstation3D className="w-full h-80 sm:h-[400px] lg:h-[420px]" />
+                <Suspense fallback={<div className="h-[460px] animate-pulse rounded-xl bg-[#12141c]" />}>
+                  <DioramaRoom3D className="h-[380px] w-full sm:h-[440px] lg:h-[520px]" />
+                </Suspense>
               </SpotlightCard>
             </Reveal>
           </div>
