@@ -37,9 +37,9 @@ const SKILL_DOMAINS = [
 
 export default function SkillsCompact({ skills: _skills }: { skills?: Skill[] }) {
   return (
-    <section id="skills" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+    <section id="skills" className="relative py-12 sm:py-14">
+      <div className="shell">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-7">
           <Reveal>
             <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
               CORE COMPETENCIES
@@ -52,7 +52,7 @@ export default function SkillsCompact({ skills: _skills }: { skills?: Skill[] })
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 gap-6">
           {SKILL_DOMAINS.map((domain, i) => (
             <Reveal key={domain.category} delay={i * 45}>
               <SpotlightCard

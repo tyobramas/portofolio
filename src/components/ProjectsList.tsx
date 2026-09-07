@@ -33,10 +33,10 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
   });
 
   return (
-    <section id="projects" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
+    <section id="projects" className="relative py-12 sm:py-14">
+      <div className="shell">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-7 gap-4">
           <div className="space-y-2">
             <Reveal>
               <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
@@ -75,8 +75,8 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
           </Reveal>
         </div>
 
-        {/* 3-Column Projects Grid with Interactive Dossier Modals */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Projects Grid with Interactive Dossier Modals */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredProjects.map((p, i) => {
             const projectLink = p.link || p.links?.live || '#';
             return (
@@ -153,7 +153,7 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
                         )}
                       </div>
 
-                      <p className="text-xs sm:text-sm text-ink-300 line-clamp-2 leading-relaxed">
+                      <p className="max-w-prose text-xs sm:text-sm text-ink-300 line-clamp-2 leading-relaxed">
                         {p.description}
                       </p>
 

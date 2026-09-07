@@ -62,8 +62,12 @@ export default {
         h1:   ['2.75rem',   { lineHeight: '1.1' }],
       },
       maxWidth: {
-        shell: '1200px',
+        shell: 'min(1560px, 92vw)',
+        narrow: '1200px',
         prose: '68ch',
+      },
+      spacing: {
+        gutter: 'clamp(1rem, 3vw, 2.5rem)',
       },
       boxShadow: {
         'gold-halo': '0 0 60px 10px rgba(229, 169, 60, 0.35), inset 0 0 25px rgba(229, 169, 60, 0.25)',

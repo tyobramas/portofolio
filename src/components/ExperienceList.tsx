@@ -4,9 +4,9 @@ import type { Milestone } from '../types';
 
 export default function ExperienceList({ milestones }: { milestones: Milestone[] }) {
   return (
-    <section id="experience" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+    <section id="experience" className="relative py-12 sm:py-14">
+      <div className="shell">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-7">
           <Reveal>
             <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
               CAREER TIMELINE
@@ -56,7 +56,7 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
                     </p>
 
                     {m.description && (
-                      <p className="mt-3 text-sm text-ink-300 leading-relaxed">
+                      <p className="mt-3 text-sm text-ink-300 leading-relaxed max-w-prose">
                         {m.description}
                       </p>
                     )}

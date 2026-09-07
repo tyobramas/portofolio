@@ -24,10 +24,10 @@ export default function Footer({ ownerName = 'Tyo Bramas' }: FooterProps) {
   };
 
   return (
-    <footer className="relative z-10 border-t border-[#1C202C] bg-[#07080B]/95 backdrop-blur-sm pt-14 pb-8 text-ink-300">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
+    <footer className="relative z-10 border-t border-[#1C202C] bg-[#07080B]/95 backdrop-blur-sm pt-10 pb-6 text-ink-300">
+      <div className="shell">
         {/* Main Footer Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-12 border-b border-[#1A1D28]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#1A1D28]">
           {/* Logo & Copyright */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-center sm:text-left">
             <span className="font-sans text-xl font-extrabold text-white">

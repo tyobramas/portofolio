@@ -47,9 +47,9 @@ export default function ServicesSection() {
   };
 
   return (
-    <section id="services" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
-        <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
+    <section id="services" className="relative py-12 sm:py-14">
+      <div className="shell">
+        <div className="text-center max-w-2xl mx-auto space-y-3 mb-7">
           <Reveal>
             <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
               MY SERVICES
@@ -62,7 +62,7 @@ export default function ServicesSection() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SERVICES.map((service, index) => (
             <Reveal key={service.title} delay={index * 60}>
               <SpotlightCard

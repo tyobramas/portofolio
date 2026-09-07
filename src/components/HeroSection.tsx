@@ -13,12 +13,12 @@ export default function HeroSection({ config }: HeroSectionProps) {
   };
 
   return (
-    <section id="home" className="relative pt-10 pb-16 lg:pt-16 lg:pb-24 overflow-hidden">
+    <section id="home" className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-hidden">
       {/* Cinematic ambient background glow */}
       <div className="absolute top-10 right-1/4 h-[500px] w-[500px] rounded-full bg-amber-500/10 blur-[130px] pointer-events-none" />
       <div className="absolute top-1/3 -left-20 h-[400px] w-[400px] rounded-full bg-amber-600/5 blur-[120px] pointer-events-none" />
 
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
+      <div className="shell">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
           {/* Left Column: Intro text, Title, Bio, and CTAs */}
           <div className="lg:col-span-7 space-y-6 text-left relative z-20">
@@ -44,7 +44,7 @@ export default function HeroSection({ config }: HeroSectionProps) {
             </Reveal>
 
             <Reveal delay={180}>
-              <p className="max-w-xl text-ink-300 text-sm sm:text-base leading-relaxed font-normal">
+              <p className="max-w-prose text-ink-300 text-sm sm:text-base leading-relaxed font-normal">
                 {config.ownerBio ||
                   'I architect and engineer high-concurrency mobile platforms (Flutter), distributed cloud backends, and autonomous AI automation pipelines with enterprise reliability.'}
               </p>

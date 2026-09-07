@@ -43,7 +43,7 @@ function StatCardItem({ stat }: { stat: StatConfig }) {
 
   return (
     <SpotlightCard
-      className="p-6 sm:p-7 text-center group relative"
+      className="p-4 sm:p-5 text-center group relative"
       spotlightColor="rgba(229, 169, 60, 0.16)"
       borderColor="rgba(245, 200, 105, 0.45)"
     >
@@ -77,8 +77,8 @@ function StatCardItem({ stat }: { stat: StatConfig }) {
 
 export default function StatsBar() {
   return (
-    <section className="py-8 relative z-20">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
+    <section className="relative py-6 sm:py-8 z-20">
+      <div className="shell">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {STATS.map((stat, i) => (
             <Reveal key={stat.label} delay={i * 60}>

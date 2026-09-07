@@ -35,10 +35,10 @@ export default function CertificatesList({ items = defaultCertificates }: { item
   });
 
   return (
-    <section id="certificates" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
+    <section id="certificates" className="relative py-12 sm:py-14">
+      <div className="shell">
         {/* Section Header with Category Tabs */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-7 gap-4">
           <div className="space-y-2">
             <Reveal>
               <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
@@ -75,8 +75,8 @@ export default function CertificatesList({ items = defaultCertificates }: { item
           </Reveal>
         </div>
 
-        {/* 2-Column Responsive Grid */}
-        <div className="grid gap-6 sm:grid-cols-2">
+        {/* Responsive Grid */}
+        <div className="grid gap-6 sm:grid-cols-2 2xl:grid-cols-3">
           {filteredItems.map((cert, i) => {
             const isCopied = copiedId === cert.id;
 

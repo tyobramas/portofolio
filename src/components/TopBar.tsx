@@ -56,7 +56,7 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#1E2230] bg-[#0B0C10]/95 backdrop-blur-md transition-colors relative">
-      <div className="mx-auto flex h-20 max-w-shell items-center justify-between px-6 lg:px-10">
+      <div className="shell flex h-20 items-center justify-between">
         {/* Brand Logo */}
         <button
           onClick={handleLogoClick}

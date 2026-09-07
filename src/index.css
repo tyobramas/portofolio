@@ -74,6 +74,21 @@
 }
 
 @layer components {
+  .shell {
+    width: 100%;
+    max-width: min(1560px, 92vw);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  /* untuk blok teks panjang yang tidak boleh terlalu lebar */
+  .shell-narrow {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+
   .gold-text-gradient {
     background: linear-gradient(135deg, #F5C869 0%, #E5A93C 50%, #D4952B 100%);
     -webkit-background-clip: text;

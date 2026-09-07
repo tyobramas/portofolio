@@ -19,11 +19,11 @@ interface AboutSectionProps {
 
 export default function AboutSection({ config }: AboutSectionProps) {
   return (
-    <section id="about" className="relative py-12 sm:py-16">
-      <div className="mx-auto max-w-[1320px] px-5 sm:px-8">
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
+    <section id="about" className="relative py-12 sm:py-14">
+      <div className="shell">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Left Column: Narrative, Checkmarks, and Signature */}
-          <div className="lg:col-span-6 space-y-5">
+          <div className="lg:col-span-5 space-y-5">
             <Reveal>
               <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
                 ABOUT ME
@@ -38,7 +38,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
             </Reveal>
 
             <Reveal delay={120}>
-              <p className="max-w-[56ch] text-[15px] leading-7 text-ink-300">
+              <p className="max-w-prose text-[15px] leading-7 text-ink-300">
                 {config.ownerBio ||
                   'I am a Principal Software Engineer with over 13 years of production experience in building scalable web, mobile, and automated systems. I focus on translating mission-critical business requirements into robust, high-performance, and maintainable software architecture.'}
               </p>
@@ -76,7 +76,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
           </div>
 
           {/* Right Column: 3D Isometric Diorama in SpotlightCard */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-7">
             <Reveal delay={100}>
               <SpotlightCard
                 className="relative p-1.5 overflow-hidden group shadow-2xl"

@@ -35,9 +35,9 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
   };
 
   return (
-    <section id="contact" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
-        <div className="text-center max-w-2xl mx-auto space-y-2 mb-12">
+    <section id="contact" className="relative py-12 sm:py-14">
+      <div className="shell">
+        <div className="text-center max-w-2xl mx-auto space-y-2 mb-7">
           <Reveal>
             <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
               CONTACT
