@@ -4,10 +4,10 @@ import { Award, Compass } from 'lucide-react';
 
 // ── Brand-aligned color palette ────────────────────────────
 const C = {
-  wallWarm:  0x3a2f26, wallSide: 0x2e251e, floor: 0x5a3f2a,
-  woodDark:  0x4a3222, woodMid:  0x6b4a2f, fabric: 0x2f3a34,
-  metal:     0x1a1d24, gold:     0xe5a93c,
-  skin:      0xc9a07a, shirt:    0x27303a, hair: 0x1b1512,
+  wallWarm:  0x74604c, wallSide: 0x5e4c3a, floor: 0x9a7048,
+  woodDark:  0x6b4a30, woodMid:  0xa1734a, fabric: 0x44514a,
+  metal:     0x2a2f38, gold:     0xe5a93c,
+  skin:      0xd9b28c, shirt:    0x3d5a7a, hair: 0x2b211a,
   screen:    0x9fd8ff, lamp:     0xffcf8a,
 };
 
@@ -16,8 +16,7 @@ const mat = (color: number, rough = 0.85, metal = 0.05) =>
 
 const box = (w: number, h: number, d: number, m: THREE.Material) => {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
-  mesh.castShadow = true;
-  mesh.receiveShadow = true;
+  mesh.castShadow = true; mesh.receiveShadow = true;
   return mesh;
 };
 
@@ -25,7 +24,7 @@ const box = (w: number, h: number, d: number, m: THREE.Material) => {
 function buildPerson() {
   const g = new THREE.Group();
   const skinM = mat(C.skin, 0.9);
-  const shirtM = mat(C.shirt, 0.95);
+  const shirtM = mat(0x3d5a7a, 0.9);
 
   // Hips
   const hips = box(0.52, 0.22, 0.44, shirtM);
@@ -59,7 +58,7 @@ function buildPerson() {
     thigh.position.set(x, 0.55, 0.26);
     g.add(thigh);
 
-    const shin = box(0.16, 0.44, 0.17, mat(0x1f262e, 0.95));
+    const shin = box(0.16, 0.44, 0.17, mat(0x2c3542, 0.95));
     shin.position.set(x, 0.28, 0.48);
     g.add(shin);
   });
@@ -103,10 +102,107 @@ function buildPerson() {
   return { group: g, arms };
 }
 
+// ── Layar kode: mengetik → jeda → ulang ──────────────────────
+const S = { kw: '#c792ea', str: '#c3e88d', fn: '#82aaff',
+            num: '#f78c6c', com: '#637777', txt: '#d6deeb', op: '#89ddff' };
+
+const CODE: [string, string][][] = [
+  [['// offline-first sync engine', S.com]],
+  [['export ', S.kw], ['async ', S.kw], ['function ', S.kw], ['syncQueue', S.fn], ['() {', S.op]],
+  [['  const ', S.kw], ['pending', S.txt], [' = ', S.op], ['await ', S.kw], ['db', S.txt], ['.', S.op], ['unsynced', S.fn], ['();', S.op]],
+  [['  if ', S.kw], ['(!pending.length) ', S.txt], ['return ', S.kw], ['0', S.num], [';', S.op]],
+  [['', S.txt]],
+  [['  for ', S.kw], ['(const ', S.kw], ['batch ', S.txt], ['of ', S.kw], ['chunk', S.fn], ['(pending, ', S.txt], ['50', S.num], [')) {', S.op]],
+  [['    await ', S.kw], ['api', S.txt], ['.', S.op], ['post', S.fn], ['(', S.op], ["'/v1/sync'", S.str], [', batch);', S.op]],
+  [['    await ', S.kw], ['db', S.txt], ['.', S.op], ['markSynced', S.fn], ['(batch);', S.op]],
+  [['  }', S.op]],
+  [['', S.txt]],
+  [['  return ', S.kw], ['pending', S.txt], ['.length;', S.op]],
+  [['}', S.op]],
+];
+
+function buildCodeScreen() {
+  const cv = document.createElement('canvas');
+  cv.width = 1024; cv.height = 616;
+  const ctx = cv.getContext('2d')!;
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+
+  const lineLens = CODE.map(l => l.reduce((a, [t]) => a + t.length, 0));
+  const total = lineLens.reduce((a, b) => a + b + 1, 0);
+  const FS = 25, LH = 38, PAD_L = 92, PAD_T = 74;
+
+  let typed = 0, hold = 0;
+
+  function draw(t: number) {
+    // latar editor
+    ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, cv.width, cv.height);
+    // title bar
+    ctx.fillStyle = '#122536'; ctx.fillRect(0, 0, cv.width, 46);
+    ['#ff5f57', '#febc2e', '#28c840'].forEach((c, i) => {
+      ctx.fillStyle = c; ctx.beginPath();
+      ctx.arc(26 + i * 26, 23, 7, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.fillStyle = '#5f7f96'; ctx.font = '500 20px ui-monospace, monospace';
+    ctx.fillText('syncQueue.ts', 120, 30);
+    // gutter
+    ctx.fillStyle = '#0a1520'; ctx.fillRect(0, 46, 66, cv.height);
+
+    // hitung baris aktif
+    let acc = 0, cur = 0, curChars = 0;
+    for (let i = 0; i < CODE.length; i++) {
+      if (typed <= acc + lineLens[i]) { cur = i; curChars = Math.floor(typed - acc); break; }
+      acc += lineLens[i] + 1; cur = i; curChars = lineLens[i];
+    }
+
+    const visible = Math.floor((cv.height - PAD_T) / LH);
+    const scroll = Math.max(0, cur - visible + 3);
+
+    ctx.font = `${FS}px ui-monospace, "IBM Plex Mono", monospace`;
+    ctx.textBaseline = 'middle';
+
+    for (let i = scroll; i < Math.min(CODE.length, scroll + visible + 1); i++) {
+      const y = PAD_T + (i - scroll) * LH;
+      if (i > cur) break;
+
+      ctx.fillStyle = i === cur ? '#7c9cb5' : '#33505f';
+      ctx.font = `${FS - 3}px ui-monospace, monospace`;
+      ctx.fillText(String(i + 1).padStart(2, ' '), 22, y);
+      ctx.font = `${FS}px ui-monospace, monospace`;
+
+      let x = PAD_L, budget = i === cur ? curChars : lineLens[i];
+      for (const [text, color] of CODE[i]) {
+        if (budget <= 0) break;
+        const slice = text.slice(0, budget);
+        ctx.fillStyle = color; ctx.fillText(slice, x, y);
+        x += ctx.measureText(slice).width; budget -= slice.length;
+      }
+      // kursor kedip di baris aktif
+      if (i === cur && Math.sin(t * 7) > -0.3) {
+        ctx.fillStyle = '#e5a93c'; ctx.fillRect(x + 2, y - FS / 2, 3, FS + 2);
+      }
+    }
+    tex.needsUpdate = true;
+  }
+
+  function update(dt: number, t: number) {
+    if (hold > 0) { hold -= dt; if (hold <= 0) typed = 0; }
+    else {
+      typed += dt * 36;                       // kecepatan ketik ≈36 char/detik
+      if (typed >= total) { typed = total; hold = 2.4; }
+    }
+    draw(t);
+  }
+
+  draw(0);
+  return { tex, update };
+}
+
 // ── Complete room scene ────────────────────────────────────
 function buildRoom() {
   const room = new THREE.Group();
-  const W = 9, D = 9, H = 5.2;
+  const W = 7, D = 7, H = 4.3;
 
   // Floor
   const floor = new THREE.Mesh(new THREE.BoxGeometry(W, 0.3, D), mat(C.floor, 0.8));
@@ -116,7 +212,7 @@ function buildRoom() {
 
   // Floor plank lines (subtle detail)
   for (let i = 1; i < 9; i++) {
-    const plank = box(W, 0.02, 0.02, mat(0x3f2b1c, 0.9));
+    const plank = box(W, 0.02, 0.02, mat(0x6d4a2c, 0.9));
     plank.position.set(0, 0.005, -D / 2 + i * (D / 9));
     room.add(plank);
   }
@@ -168,19 +264,16 @@ function buildRoom() {
 
   // Monitor + emissive screen
   const mon = new THREE.Group();
-  const monBody = box(1.5, 0.95, 0.07, mat(C.metal, 0.4, 0.7));
+  const monBody = box(1.66, 1.04, 0.07, mat(C.metal, 0.4, 0.7));
   monBody.position.set(0, 2.28, 0);
   mon.add(monBody);
 
+  const code = buildCodeScreen();
   const screen = new THREE.Mesh(
     new THREE.PlaneGeometry(1.36, 0.82),
-    new THREE.MeshStandardMaterial({
-      color: 0x0d1b28,
-      emissive: C.screen,
-      emissiveIntensity: 0.85,
-    })
+    new THREE.MeshBasicMaterial({ map: code.tex, toneMapped: false })
   );
-  screen.position.set(0, 2.28, 0.04);
+  screen.position.set(0, 2.28, 0.045);
   mon.add(screen);
 
   const stand = new THREE.Mesh(
@@ -237,7 +330,7 @@ function buildRoom() {
       shelf.add(b);
     }
   }
-  shelf.position.set(-2.9, 0, -D / 2 + 0.4);
+  shelf.position.set(-2.3, 0, -D / 2 + 0.4);
   room.add(shelf);
 
   // Potted plant
@@ -245,14 +338,14 @@ function buildRoom() {
     new THREE.CylinderGeometry(0.28, 0.22, 0.4, 12),
     mat(0x8a5a3a, 0.9)
   );
-  pot.position.set(3.1, 0.2, -1.2);
+  pot.position.set(2.8, 0.2, -1.2);
   pot.castShadow = true;
   room.add(pot);
 
   for (let i = 0; i < 7; i++) {
     const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 6), mat(0x2f5a3a, 0.95));
     leaf.position.set(
-      3.1 + Math.sin(i) * 0.3,
+      2.8 + Math.sin(i) * 0.3,
       0.65 + i * 0.14,
       -1.2 + Math.cos(i) * 0.3
     );
@@ -262,19 +355,21 @@ function buildRoom() {
 
   // Area rug
   const rug = new THREE.Mesh(
-    new THREE.CylinderGeometry(1.7, 1.7, 0.03, 28),
+    new THREE.CylinderGeometry(1.6, 1.6, 0.03, 28),
     mat(0x4a4438, 0.98)
   );
-  rug.position.set(0.8, 0.02, 1.9);
+  rug.position.set(0.6, 0.02, 1.5);
   rug.receiveShadow = true;
   room.add(rug);
 
   // Person
   const person = buildPerson();
-  person.group.position.set(0, 0, -D / 2 + 2.3);
+  person.group.scale.setScalar(1.28);            // proporsional dengan meja 1.5 tinggi
+  person.group.rotation.y = Math.PI;             // ← balik badan supaya menghadap meja
+  person.group.position.set(0, 0, -D / 2 + 2.15);
   room.add(person.group);
 
-  return { room, person, screen };
+  return { room, person, screen, code };
 }
 
 // ── React Component ────────────────────────────────────────
@@ -300,16 +395,16 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
 
     const scene = new THREE.Scene();
     scene.background = null;
-    scene.fog = new THREE.Fog(0x0b0d12, 22, 40);
+    scene.fog = null;
 
     // ── Isometric orthographic camera ──
-    const frustum = 8.2;
+    const frustum = 5.1;
     const aspect = mount.clientWidth / mount.clientHeight;
     const camera = new THREE.OrthographicCamera(
       -frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 120
     );
-    camera.position.set(15, 12.5, 15);
-    camera.lookAt(0, 2, 0);
+    camera.position.set(11.5, 9, 11.5);
+    camera.lookAt(0, 1.75, 0);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -327,33 +422,39 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.45;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
-    const { room, person, screen } = buildRoom();
+    const { room, person, code } = buildRoom();
     scene.add(room);
 
     // ── Cinematic lighting ──
-    scene.add(new THREE.HemisphereLight(0x6a7a88, 0x2a1e16, 0.42));
+    scene.add(new THREE.AmbientLight(0xd8c9b4, 0.5));
+    scene.add(new THREE.HemisphereLight(0x9fb4c4, 0x6a4f38, 0.85));
 
-    const key = new THREE.DirectionalLight(0xffe2b0, 2.1);
+    const key = new THREE.DirectionalLight(0xffe8c4, 2.7);
     key.position.set(-9, 9, 4);
     key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
-    key.shadow.camera.left = -10;
-    key.shadow.camera.right = 10;
-    key.shadow.camera.top = 10;
-    key.shadow.camera.bottom = -10;
-    key.shadow.bias = -0.0012;
+    key.shadow.mapSize.set(2048, 2048);
+    key.shadow.camera.left = -7;
+    key.shadow.camera.right = 7;
+    key.shadow.camera.top = 7;
+    key.shadow.camera.bottom = -7;
+    key.shadow.normalBias = 0.02;
+    key.shadow.bias = -0.0005;
     scene.add(key);
 
-    const deskLight = new THREE.PointLight(C.lamp, 14, 7, 2);
-    deskLight.position.set(1.1, 2.15, -3.6);
+    const fill = new THREE.DirectionalLight(0xbfd4e8, 0.75);
+    fill.position.set(9, 6, 9);
+    scene.add(fill);
+
+    const deskLight = new THREE.PointLight(C.lamp, 22, 8, 2);
+    deskLight.position.set(1.1, 2.15, -2.6);
     scene.add(deskLight);
 
-    const screenLight = new THREE.PointLight(C.screen, 6, 4.5, 2);
-    screenLight.position.set(0, 2.3, -3.2);
+    const screenLight = new THREE.PointLight(C.screen, 9, 5.5, 2);
+    screenLight.position.set(0, 2.3, -2.2);
     scene.add(screenLight);
 
     // ── Smooth parallax following cursor ──
@@ -383,24 +484,24 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     const tick = () => {
       raf = requestAnimationFrame(tick);
       if (!visible) return;
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const t = clock.elapsedTime;
 
-      const t = clock.getElapsedTime();
+      code.update(dt, t);
 
       // Parallax lerp
       cx += (tx - cx) * 0.05;
       cy += (ty - cy) * 0.05;
       room.rotation.y = cx;
-      camera.position.y = 12.5 + cy * 4;
-      camera.lookAt(0, 2, 0);
+      camera.position.y = 9 + cy * 3.4;
+      camera.lookAt(0, 1.75, 0);
 
-      // Micro-animations (keyboard typing, breathing, screen flicker)
+      // Micro-animations (keyboard typing, breathing)
       if (!reduced) {
         person.arms.forEach((a, i) => {
           a.position.y += Math.sin(t * 7 + i * 1.6) * 0.0016;
         });
         person.group.position.y = Math.sin(t * 1.4) * 0.012;
-        (screen.material as THREE.MeshStandardMaterial).emissiveIntensity =
-          0.85 + Math.sin(t * 2.6) * 0.07;
       }
 
       renderer.render(scene, camera);
@@ -430,6 +531,7 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       io.disconnect();
       ro.disconnect();
       mount.removeEventListener('mousemove', onMove);
+      code.tex.dispose();
       scene.traverse((o) => {
         if (o instanceof THREE.Mesh) {
           o.geometry.dispose();
