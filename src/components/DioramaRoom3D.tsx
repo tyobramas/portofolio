@@ -20,7 +20,7 @@ const box = (w: number, h: number, d: number, m: THREE.Material) => {
   return mesh;
 };
 
-// ── Seated person, facing away from camera ─────────────────
+// ── Seated person ──────────────────────────────────────────
 function buildPerson() {
   const g = new THREE.Group();
   const skinM = mat(C.skin, 0.9);
@@ -100,6 +100,127 @@ function buildPerson() {
   g.add(chair);
 
   return { group: g, arms };
+}
+
+// ── Papan tech stack di dinding kiri, animasi checklist ─────
+const STACK = [
+  { tag: 'TS',  label: 'TypeScript',   color: '#3178c6' },
+  { tag: 'FL',  label: 'Flutter',      color: '#42a5f5' },
+  { tag: 'PHP', label: 'Laravel',      color: '#f05340' },
+  { tag: 'RE',  label: 'React 18',     color: '#61dafb' },
+  { tag: 'PY',  label: 'Python / AI',  color: '#ffd845' },
+  { tag: 'PG',  label: 'PostgreSQL',   color: '#4d97c4' },
+  { tag: 'DK',  label: 'Docker / CI',  color: '#2496ed' },
+];
+
+function roundRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number
+) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function buildStackBoard() {
+  const cv = document.createElement('canvas');
+  cv.width = 900;
+  cv.height = 660;
+  const ctx = cv.getContext('2d')!;
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+
+  let checked = 0, timer = 0, hold = 0;
+
+  function draw() {
+    ctx.fillStyle = '#141821';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+
+    // header
+    ctx.fillStyle = '#e5a93c';
+    ctx.font = '700 30px Inter, system-ui, sans-serif';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('TECH STACK', 46, 52);
+    ctx.fillStyle = '#5d6472';
+    ctx.font = '500 20px ui-monospace, monospace';
+    ctx.fillText(`${checked}/${STACK.length}`, cv.width - 100, 54);
+    ctx.fillStyle = '#e5a93c';
+    ctx.fillRect(46, 82, 84, 3);
+
+    STACK.forEach((s, i) => {
+      const y = 132 + i * 72;
+      const on = i < checked;
+
+      ctx.fillStyle = on ? 'rgba(229,169,60,0.07)' : 'rgba(255,255,255,0.02)';
+      roundRect(ctx, 42, y, cv.width - 84, 58, 8);
+      ctx.fill();
+
+      // checkbox
+      ctx.strokeStyle = on ? '#e5a93c' : '#3a4150';
+      ctx.lineWidth = 2.5;
+      roundRect(ctx, 62, y + 17, 24, 24, 5);
+      ctx.stroke();
+      if (on) {
+        ctx.strokeStyle = '#e5a93c';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(67, y + 29);
+        ctx.lineTo(73, y + 35);
+        ctx.lineTo(82, y + 22);
+        ctx.stroke();
+      }
+
+      // chip logo (inisial berwarna)
+      ctx.fillStyle = on ? s.color : '#2c323d';
+      roundRect(ctx, 108, y + 13, 52, 32, 6);
+      ctx.fill();
+      ctx.fillStyle = on ? '#0d1117' : '#5d6472';
+      ctx.font = '700 19px ui-monospace, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(s.tag, 134, y + 30);
+      ctx.textAlign = 'left';
+
+      // label
+      ctx.fillStyle = on ? '#e8edf5' : '#727a88';
+      ctx.font = '600 23px Inter, system-ui, sans-serif';
+      ctx.fillText(s.label, 180, y + 30);
+    });
+
+    tex.needsUpdate = true;
+  }
+
+  function update(dt: number) {
+    if (hold > 0) {
+      hold -= dt;
+      if (hold <= 0) {
+        checked = 0;
+        draw();
+      }
+      return;
+    }
+    timer += dt;
+    if (timer > 0.75) {
+      timer = 0;
+      checked++;
+      if (checked >= STACK.length) {
+        checked = STACK.length;
+        hold = 3;
+      }
+      draw();
+    }
+  }
+
+  draw();
+  return { tex, update };
 }
 
 // ── Layar kode: mengetik → jeda → ulang ──────────────────────
@@ -189,7 +310,7 @@ function buildCodeScreen() {
   function update(dt: number, t: number) {
     if (hold > 0) { hold -= dt; if (hold <= 0) typed = 0; }
     else {
-      typed += dt * 36;                       // kecepatan ketik ≈36 char/detik
+      typed += dt * 36;
       if (typed >= total) { typed = total; hold = 2.4; }
     }
     draw(t);
@@ -199,10 +320,80 @@ function buildCodeScreen() {
   return { tex, update };
 }
 
+// ── Layar terminal portrait bergulir ────────────────────────
+function buildTerminalScreen() {
+  const cv = document.createElement('canvas');
+  cv.width = 512;
+  cv.height = 830;
+  const ctx = cv.getContext('2d')!;
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+
+  const LOGS = [
+    ['$ npm run test', '#e5e9f0'],
+    ['  PASS  sync.spec.ts', '#a3e635'],
+    ['  PASS  auth.spec.ts', '#a3e635'],
+    ['  PASS  queue.spec.ts', '#a3e635'],
+    ['  42 passed, 0 failed', '#67e8f9'],
+    ['', '#fff'],
+    ['$ docker compose up -d', '#e5e9f0'],
+    ['  api      ready 68ms', '#a3e635'],
+    ['  worker   ready 41ms', '#a3e635'],
+    ['  postgres healthy', '#a3e635'],
+    ['', '#fff'],
+    ['$ git push origin main', '#e5e9f0'],
+    ['  build  ✓  deploy ✓', '#e5a93c'],
+  ] as [string, string][];
+
+  let shown = 0, timer = 0, hold = 0;
+
+  function draw() {
+    ctx.fillStyle = '#0a0f16';
+    ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = '#131c26';
+    ctx.fillRect(0, 0, cv.width, 38);
+    ctx.fillStyle = '#4a5a6a';
+    ctx.font = '500 17px ui-monospace, monospace';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('zsh — build', 18, 19);
+
+    ctx.font = '17px ui-monospace, monospace';
+    for (let i = 0; i < shown; i++) {
+      ctx.fillStyle = LOGS[i][1];
+      ctx.fillText(LOGS[i][0], 18, 66 + i * 26);
+    }
+    tex.needsUpdate = true;
+  }
+
+  function update(dt: number) {
+    if (hold > 0) {
+      hold -= dt;
+      if (hold <= 0) {
+        shown = 0;
+        draw();
+      }
+      return;
+    }
+    timer += dt;
+    if (timer > 0.4) {
+      timer = 0;
+      shown++;
+      if (shown >= LOGS.length) {
+        shown = LOGS.length;
+        hold = 2.6;
+      }
+      draw();
+    }
+  }
+
+  draw();
+  return { tex, update };
+}
+
 // ── Complete room scene ────────────────────────────────────
 function buildRoom() {
   const room = new THREE.Group();
-  const W = 7, D = 7, H = 4.3;
+  const W = 7.2, D = 6, H = 4.4;
 
   // Floor
   const floor = new THREE.Mesh(new THREE.BoxGeometry(W, 0.3, D), mat(C.floor, 0.8));
@@ -226,35 +417,33 @@ function buildRoom() {
   leftWall.position.set(-W / 2, H / 2, 0);
   room.add(leftWall);
 
-  // Window on left wall (primary light source)
-  const glass = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.4, 2.6),
+  // Papan tech stack — menempel dinding kiri (menggantikan jendela)
+  const board = buildStackBoard();
+  const boardFrame = box(0.08, 2.24, 3.04, mat(C.gold, 0.35, 0.85));
+  boardFrame.position.set(-W / 2 + 0.14, 2.35, 0.3);
+  room.add(boardFrame);
+
+  const boardFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.9, 2.1),
     new THREE.MeshStandardMaterial({
-      color: 0xdfeede,
-      emissive: 0xbcd9c4,
-      emissiveIntensity: 1.5,
-      transparent: true,
-      opacity: 0.9,
+      map: board.tex,
+      roughness: 0.85,
+      emissive: 0xffffff,
+      emissiveMap: board.tex,
+      emissiveIntensity: 0.42,
     })
   );
-  glass.rotation.y = Math.PI / 2;
-  glass.position.set(-W / 2 + 0.13, 2.7, 0.4);
-  room.add(glass);
+  boardFace.rotation.y = Math.PI / 2;
+  boardFace.position.set(-W / 2 + 0.19, 2.35, 0.3);
+  room.add(boardFace);
 
-  // Window bars
-  for (let i = 0; i < 4; i++) {
-    const bar = box(0.06, 0.06, 2.7, mat(C.woodDark, 0.9));
-    bar.position.set(-W / 2 + 0.2, 1.5 + i * 0.8, 0.4);
-    room.add(bar);
-  }
-
-  // Desk against back wall
+  // Desk against back wall (diperlebar untuk dual monitor)
   const desk = new THREE.Group();
-  const deskTop = box(3.4, 0.12, 1.3, mat(C.woodMid, 0.7));
+  const deskTop = box(4.2, 0.12, 1.3, mat(C.woodMid, 0.7));
   deskTop.position.set(0, 1.5, 0);
   desk.add(deskTop);
 
-  ([[-1.55, -0.5], [1.55, -0.5], [-1.55, 0.5], [1.55, 0.5]] as [number, number][]).forEach(([x, z]) => {
+  ([[-1.95, -0.5], [1.95, -0.5], [-1.95, 0.5], [1.95, 0.5]] as [number, number][]).forEach(([x, z]) => {
     const leg = box(0.1, 1.5, 0.1, mat(C.woodDark, 0.8));
     leg.position.set(x, 0.75, z);
     desk.add(leg);
@@ -262,42 +451,73 @@ function buildRoom() {
   desk.position.set(0, 0, -D / 2 + 1.1);
   room.add(desk);
 
-  // Monitor + emissive screen
+  // Dual monitor setup
+  const code = buildCodeScreen();
+  const term = buildTerminalScreen();
+
+  // Monitor utama — 27" landscape
   const mon = new THREE.Group();
-  const monBody = box(1.66, 1.04, 0.07, mat(C.metal, 0.4, 0.7));
-  monBody.position.set(0, 2.28, 0);
+  const monBody = box(2.15, 1.32, 0.07, mat(C.metal, 0.4, 0.7));
+  monBody.position.set(0, 2.42, 0);
   mon.add(monBody);
 
-  const code = buildCodeScreen();
   const screen = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.36, 0.82),
+    new THREE.PlaneGeometry(1.98, 1.15),
     new THREE.MeshBasicMaterial({ map: code.tex, toneMapped: false })
   );
-  screen.position.set(0, 2.28, 0.045);
+  screen.position.set(0, 2.42, 0.045);
   mon.add(screen);
 
-  const stand = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.05, 0.05, 0.42, 8),
+  const neck = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.055, 0.055, 0.4, 8),
     mat(C.metal, 0.4, 0.8)
   );
-  stand.position.set(0, 1.7, 0);
-  mon.add(stand);
+  neck.position.set(0, 1.72, 0);
+  mon.add(neck);
 
-  mon.position.set(0, 0, -D / 2 + 0.75);
+  const footPlate = box(0.7, 0.04, 0.26, mat(C.metal, 0.4, 0.8));
+  footPlate.position.set(0, 1.58, 0.05);
+  mon.add(footPlate);
+
+  mon.position.set(-0.42, 0, -D / 2 + 0.72);
   room.add(mon);
 
-  // Keyboard
+  // Monitor kedua — portrait, dimiringkan ke arah user
+  const mon2 = new THREE.Group();
+  const mon2Body = box(0.95, 1.5, 0.07, mat(C.metal, 0.4, 0.7));
+  mon2Body.position.set(0, 2.5, 0);
+  mon2.add(mon2Body);
+
+  const screen2 = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.84, 1.36),
+    new THREE.MeshBasicMaterial({ map: term.tex, toneMapped: false })
+  );
+  screen2.position.set(0, 2.5, 0.045);
+  mon2.add(screen2);
+
+  const neck2 = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.05, 0.05, 0.44, 8),
+    mat(C.metal, 0.4, 0.8)
+  );
+  neck2.position.set(0, 1.74, 0);
+  mon2.add(neck2);
+
+  mon2.position.set(1.62, 0, -D / 2 + 0.95);
+  mon2.rotation.y = -0.44; // menghadap ke tempat duduk
+  room.add(mon2);
+
+  // Keyboard (geser ke depan monitor utama)
   const kb = box(0.95, 0.05, 0.34, mat(0x22262e, 0.8));
-  kb.position.set(0, 1.58, -D / 2 + 1.45);
+  kb.position.set(-0.42, 1.58, -D / 2 + 1.45);
   room.add(kb);
 
-  // Gold desk lamp — brand accent
+  // Gold desk lamp — dipindah ke kiri meja
   const lampArm = new THREE.Mesh(
     new THREE.CylinderGeometry(0.03, 0.03, 0.8, 8),
     mat(C.gold, 0.3, 0.9)
   );
-  lampArm.position.set(1.3, 1.95, -D / 2 + 0.9);
-  lampArm.rotation.z = 0.28;
+  lampArm.position.set(-1.95, 1.95, -D / 2 + 0.9);
+  lampArm.rotation.z = -0.28;
   room.add(lampArm);
 
   const shade = new THREE.Mesh(
@@ -311,8 +531,8 @@ function buildRoom() {
       emissiveIntensity: 0.35,
     })
   );
-  shade.position.set(1.12, 2.32, -D / 2 + 0.9);
-  shade.rotation.z = Math.PI + 0.3;
+  shade.position.set(-1.77, 2.32, -D / 2 + 0.9);
+  shade.rotation.z = Math.PI - 0.3;
   room.add(shade);
 
   // Bookshelf on back wall
@@ -330,30 +550,30 @@ function buildRoom() {
       shelf.add(b);
     }
   }
-  shelf.position.set(-2.3, 0, -D / 2 + 0.4);
+  shelf.position.set(-2.5, 0, -D / 2 + 0.4);
   room.add(shelf);
 
-  // Potted plant
+  // Potted plant (dirapatkan ke meja)
   const pot = new THREE.Mesh(
     new THREE.CylinderGeometry(0.28, 0.22, 0.4, 12),
     mat(0x8a5a3a, 0.9)
   );
-  pot.position.set(2.8, 0.2, -1.2);
+  pot.position.set(2.5, 0.2, -0.7);
   pot.castShadow = true;
   room.add(pot);
 
   for (let i = 0; i < 7; i++) {
     const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.3, 8, 6), mat(0x2f5a3a, 0.95));
     leaf.position.set(
-      2.8 + Math.sin(i) * 0.3,
+      2.5 + Math.sin(i) * 0.3,
       0.65 + i * 0.14,
-      -1.2 + Math.cos(i) * 0.3
+      -0.7 + Math.cos(i) * 0.3
     );
     leaf.scale.set(1, 0.6, 1);
     room.add(leaf);
   }
 
-  // Area rug
+  // Area rug (dirapatkan)
   const rug = new THREE.Mesh(
     new THREE.CylinderGeometry(1.6, 1.6, 0.03, 28),
     mat(0x4a4438, 0.98)
@@ -362,22 +582,20 @@ function buildRoom() {
   rug.receiveShadow = true;
   room.add(rug);
 
-  // Person
+  // Person (geser sejajar monitor utama)
   const person = buildPerson();
-  person.group.scale.setScalar(1.28);            // proporsional dengan meja 1.5 tinggi
-  person.group.rotation.y = Math.PI;             // ← balik badan supaya menghadap meja
-  person.group.position.set(0, 0, -D / 2 + 2.15);
+  person.group.scale.setScalar(1.28);
+  person.group.rotation.y = Math.PI;
+  person.group.position.set(-0.42, 0, -D / 2 + 2.15);
   room.add(person.group);
 
-  return { room, person, screen, code };
+  return { room, person, code, board, term };
 }
 
 // ── React Component ────────────────────────────────────────
 export default function DioramaRoom3D({ className = '' }: { className?: string }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const hasInteractedRef = useRef(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Check mobile on mount
@@ -398,13 +616,13 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     scene.fog = null;
 
     // ── Isometric orthographic camera ──
-    const frustum = 5.1;
+    const frustum = 4.55;
     const aspect = mount.clientWidth / mount.clientHeight;
     const camera = new THREE.OrthographicCamera(
       -frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 120
     );
-    camera.position.set(11.5, 9, 11.5);
-    camera.lookAt(0, 1.75, 0);
+    camera.position.set(11, 8.7, 11);
+    camera.lookAt(0, 1.95, 0);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -422,25 +640,25 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.45;
+    renderer.toneMappingExposure = 1.5;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
-    const { room, person, code } = buildRoom();
+    const { room, person, code, board, term } = buildRoom();
     scene.add(room);
 
     // ── Cinematic lighting ──
-    scene.add(new THREE.AmbientLight(0xd8c9b4, 0.5));
+    scene.add(new THREE.AmbientLight(0xd8c9b4, 0.62));
     scene.add(new THREE.HemisphereLight(0x9fb4c4, 0x6a4f38, 0.85));
 
-    const key = new THREE.DirectionalLight(0xffe8c4, 2.7);
+    const key = new THREE.DirectionalLight(0xffe8c4, 2.9);
     key.position.set(-9, 9, 4);
     key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048);
-    key.shadow.camera.left = -7;
-    key.shadow.camera.right = 7;
-    key.shadow.camera.top = 7;
-    key.shadow.camera.bottom = -7;
+    key.shadow.camera.left = -6;
+    key.shadow.camera.right = 6;
+    key.shadow.camera.top = 6;
+    key.shadow.camera.bottom = -6;
     key.shadow.normalBias = 0.02;
     key.shadow.bias = -0.0005;
     scene.add(key);
@@ -449,13 +667,25 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     fill.position.set(9, 6, 9);
     scene.add(fill);
 
+    // Pengganti cahaya jendela: lampu plafon hangat
+    const ceiling = new THREE.PointLight(0xffd9a8, 16, 13, 2);
+    ceiling.position.set(0.2, 3.9, 0.6);
+    scene.add(ceiling);
+
+    // Lampu meja (kiri meja, dekat lampu emas)
     const deskLight = new THREE.PointLight(C.lamp, 22, 8, 2);
-    deskLight.position.set(1.1, 2.15, -2.6);
+    deskLight.position.set(-1.77, 2.32, -2.1);
     scene.add(deskLight);
 
+    // Monitor 1 (utama) light
     const screenLight = new THREE.PointLight(C.screen, 9, 5.5, 2);
-    screenLight.position.set(0, 2.3, -2.2);
+    screenLight.position.set(-0.42, 2.42, -2.0);
     scene.add(screenLight);
+
+    // Monitor 2 (portrait) light
+    const screenLight2 = new THREE.PointLight(0xa3e635, 4, 4, 2);
+    screenLight2.position.set(1.62, 2.5, -1.8);
+    scene.add(screenLight2);
 
     // ── Smooth parallax following cursor ──
     let tx = 0, ty = 0, cx = 0, cy = 0;
@@ -463,10 +693,6 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       const r = mount.getBoundingClientRect();
       tx = ((e.clientX - r.left) / r.width - 0.5) * 0.22;
       ty = ((e.clientY - r.top) / r.height - 0.5) * 0.1;
-      if (!hasInteractedRef.current) {
-        hasInteractedRef.current = true;
-        setHasInteracted(true);
-      }
     };
     if (!reduced) mount.addEventListener('mousemove', onMove);
 
@@ -488,13 +714,15 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       const t = clock.elapsedTime;
 
       code.update(dt, t);
+      board.update(dt);
+      term.update(dt);
 
       // Parallax lerp
       cx += (tx - cx) * 0.05;
       cy += (ty - cy) * 0.05;
       room.rotation.y = cx;
-      camera.position.y = 9 + cy * 3.4;
-      camera.lookAt(0, 1.75, 0);
+      camera.position.y = 8.7 + cy * 3.4;
+      camera.lookAt(0, 1.95, 0);
 
       // Micro-animations (keyboard typing, breathing)
       if (!reduced) {
@@ -532,6 +760,8 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       ro.disconnect();
       mount.removeEventListener('mousemove', onMove);
       code.tex.dispose();
+      board.tex.dispose();
+      term.tex.dispose();
       scene.traverse((o) => {
         if (o instanceof THREE.Mesh) {
           o.geometry.dispose();
@@ -615,13 +845,11 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
         </span>
       </div>
 
-      {/* Interaction hint */}
-      {!hasInteracted && (
-        <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#0B0C10]/80 backdrop-blur-md px-2.5 py-1 text-[11px] font-sans text-ink-300 pointer-events-none animate-pulse">
-          <Compass size={12} className="text-gold-400" />
-          <span>Move mouse to explore 3D depth</span>
-        </div>
-      )}
+      {/* Interaction hint (selalu dipertahankan) */}
+      <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#0B0C10]/80 backdrop-blur-md px-2.5 py-1 text-[11px] font-sans text-ink-300 pointer-events-none">
+        <Compass size={12} className="text-gold-400 animate-spin" style={{ animationDuration: '6s' }} />
+        <span>Move mouse to explore 3D depth</span>
+      </div>
 
       {/* Bottom-left: Experience badge */}
       <div className="absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-xl border border-gold-500/40 bg-[#0B0C10]/95 backdrop-blur-md px-4 py-2.5 shadow-2xl pointer-events-none">

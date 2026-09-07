@@ -19,11 +19,11 @@ interface AboutSectionProps {
 
 export default function AboutSection({ config }: AboutSectionProps) {
   return (
-    <section id="about" className="py-16 sm:py-20 relative">
-      <div className="mx-auto max-w-shell px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+    <section id="about" className="relative py-12 sm:py-16">
+      <div className="mx-auto max-w-[1320px] px-5 sm:px-8">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
           {/* Left Column: Narrative, Checkmarks, and Signature */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-5">
             <Reveal>
               <span className="font-sans text-xs font-bold uppercase tracking-widest text-gold-400">
                 ABOUT ME
@@ -38,22 +38,22 @@ export default function AboutSection({ config }: AboutSectionProps) {
             </Reveal>
 
             <Reveal delay={120}>
-              <p className="text-ink-300 text-sm sm:text-base leading-relaxed">
+              <p className="max-w-[56ch] text-[15px] leading-7 text-ink-300">
                 {config.ownerBio ||
                   'I am a Principal Software Engineer with over 13 years of production experience in building scalable web, mobile, and automated systems. I focus on translating mission-critical business requirements into robust, high-performance, and maintainable software architecture.'}
               </p>
             </Reveal>
 
-            {/* Checklist with Tactile Highlights */}
+            {/* Checklist with Tactile Highlights - 2 Columns */}
             <Reveal delay={180}>
-              <div className="space-y-3 pt-2">
+              <div className="grid gap-2.5 pt-1 sm:grid-cols-2">
                 {HIGHLIGHTS.map((item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-3.5 p-2.5 rounded-xl border border-[#232736]/70 bg-[#12141C]/60 hover:border-gold-500/40 hover:bg-gold-500/5 transition-all"
+                    className="flex items-start gap-3 rounded-lg border border-[#232736]/70 bg-[#12141C]/60 p-3 transition-all hover:border-gold-500/40 hover:bg-gold-500/5"
                   >
-                    <CheckCircle2 className="h-5 w-5 text-gold-accent shrink-0" />
-                    <span className="font-sans text-xs sm:text-sm font-semibold text-ink-200">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold-accent" />
+                    <span className="font-sans text-[13px] font-semibold leading-snug text-ink-200">
                       {item}
                     </span>
                   </div>
@@ -64,7 +64,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
             {/* Cursive Signature & Motto */}
             <Reveal delay={240}>
               <div className="pt-4 flex items-center justify-between border-t border-[#232736]/80">
-                <div className="font-signature text-4xl sm:text-5xl font-bold text-gold-light select-none tracking-wide drop-shadow-[0_2px_10px_rgba(229,169,60,0.35)]">
+                <div className="font-signature text-3xl sm:text-4xl font-bold text-gold-light select-none tracking-wide drop-shadow-[0_2px_10px_rgba(229,169,60,0.35)]">
                   {config.ownerName || 'Tyo Bramas'}
                 </div>
                 <div className="flex items-center gap-2 text-xs font-mono text-ink-400">
@@ -79,12 +79,12 @@ export default function AboutSection({ config }: AboutSectionProps) {
           <div className="lg:col-span-6">
             <Reveal delay={100}>
               <SpotlightCard
-                className="relative p-2 sm:p-3 overflow-hidden group shadow-2xl"
+                className="relative p-1.5 overflow-hidden group shadow-2xl"
                 spotlightColor="rgba(229, 169, 60, 0.22)"
                 borderColor="rgba(245, 200, 105, 0.5)"
               >
                 <Suspense fallback={<div className="h-[460px] animate-pulse rounded-xl bg-[#12141c]" />}>
-                  <DioramaRoom3D className="h-[380px] w-full sm:h-[440px] lg:h-[520px]" />
+                  <DioramaRoom3D className="h-[400px] w-full sm:h-[470px] lg:h-[540px]" />
                 </Suspense>
               </SpotlightCard>
             </Reveal>
