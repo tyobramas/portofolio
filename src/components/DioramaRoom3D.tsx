@@ -56,8 +56,8 @@ function buildPerson() {
   const seat = box(0.58, 0.11, 0.56, chairM);
   seat.position.set(0, SEAT, 0.02); chair.add(seat);
 
-  const back = box(0.56, 0.78, 0.1, chairM);
-  back.position.set(0, SEAT + 0.44, -0.26);
+  const back = box(0.56, 0.9, 0.1, chairM);
+  back.position.set(0, SEAT + 0.5, -0.26);
   back.rotation.x = -0.12; chair.add(back);
 
   // sandaran tangan
@@ -74,23 +74,23 @@ function buildPerson() {
   const hips = box(0.46, 0.2, 0.42, pantM);
   hips.position.set(0, SEAT + 0.14, 0.02); g.add(hips);
 
-  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.21, 0.4, 6, 14), shirtM);
-  torso.position.set(0, SEAT + 0.5, -0.02);
-  torso.rotation.x = 0.14;                      // membungkuk ringan ke layar
+  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.21, 0.5, 6, 14), shirtM);
+  torso.position.set(0, SEAT + 0.54, -0.03);
+  torso.rotation.x = 0.16;
   torso.castShadow = true; g.add(torso);
 
-  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, 0.1, 10), skinM);
-  neck.position.set(0, SEAT + 0.78, 0.01); g.add(neck);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.085, 0.12, 10), skinM);
+  neck.position.set(0, SEAT + 0.87, 0.02); g.add(neck);
 
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 16), skinM);
-  head.position.set(0, SEAT + 0.92, 0.03);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.175, 20, 16), skinM);
+  head.position.set(0, SEAT + 1.03, 0.04);
   head.castShadow = true; g.add(head);
 
   const hair = new THREE.Mesh(
-    new THREE.SphereGeometry(0.178, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.6),
+    new THREE.SphereGeometry(0.183, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.62),
     mat(C.hair, 0.95)
   );
-  hair.position.set(0, SEAT + 0.94, 0.02); g.add(hair);
+  hair.position.set(0, SEAT + 1.05, 0.03); g.add(hair);
 
   // ── Kaki: paha horizontal, betis turun ke lantai ──
   [-0.14, 0.14].forEach((x) => {
@@ -105,14 +105,15 @@ function buildPerson() {
     shoe.castShadow = true; g.add(shoe);
   });
 
-  // ── Lengan bersegmen: bahu → siku → tangan di keyboard ──
-  const KB_Y = 1.63;            // permukaan keyboard
+  // ── Lengan: bahu → siku → telapak di keyboard ──
+  const KB_TOP = 1.62;          // meja 1.56 + tebal keyboard 0.06
+  const HAND_Z = 0.60;          // jarak jangkauan ke depan
   const arms: THREE.Object3D[] = [];
 
   [-1, 1].forEach((side) => {
-    const shoulder = new THREE.Vector3(side * 0.26, SEAT + 0.66, 0);
-    const elbow    = new THREE.Vector3(side * 0.3,  SEAT + 0.34, 0.3);
-    const hand     = new THREE.Vector3(side * 0.13, KB_Y, 0.58);
+    const shoulder = new THREE.Vector3(side * 0.27, SEAT + 0.74, -0.01);
+    const elbow    = new THREE.Vector3(side * 0.33, SEAT + 0.40, 0.30);
+    const hand     = new THREE.Vector3(side * 0.16, KB_TOP + 0.04, HAND_Z);
 
     const upper = new THREE.Mesh(new THREE.CapsuleGeometry(0.068, shoulder.distanceTo(elbow), 5, 10), shirtM);
     upper.position.copy(shoulder.clone().lerp(elbow, 0.5));
@@ -281,7 +282,7 @@ const CODE: [string, string][][] = [
 
 function buildCodeScreen() {
   const cv = document.createElement('canvas');
-  cv.width = 1024; cv.height = 616;
+  cv.width = 1280; cv.height = 720;
   const ctx = cv.getContext('2d')!;
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;
@@ -289,7 +290,7 @@ function buildCodeScreen() {
 
   const lineLens = CODE.map(l => l.reduce((a, [t]) => a + t.length, 0));
   const total = lineLens.reduce((a, b) => a + b + 1, 0);
-  const FS = 25, LH = 38, PAD_L = 92, PAD_T = 74;
+  const FS = 31, LH = 47, PAD_L = 104, PAD_T = 100;
 
   let typed = 0, hold = 0;
 
@@ -297,15 +298,15 @@ function buildCodeScreen() {
     // latar editor
     ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, cv.width, cv.height);
     // title bar
-    ctx.fillStyle = '#122536'; ctx.fillRect(0, 0, cv.width, 46);
+    ctx.fillStyle = '#122536'; ctx.fillRect(0, 0, cv.width, 54);
     ['#ff5f57', '#febc2e', '#28c840'].forEach((c, i) => {
       ctx.fillStyle = c; ctx.beginPath();
-      ctx.arc(26 + i * 26, 23, 7, 0, Math.PI * 2); ctx.fill();
+      ctx.arc(30 + i * 30, 27, 8, 0, Math.PI * 2); ctx.fill();
     });
-    ctx.fillStyle = '#5f7f96'; ctx.font = '500 20px ui-monospace, monospace';
-    ctx.fillText('syncQueue.ts', 120, 30);
+    ctx.fillStyle = '#5f7f96'; ctx.font = '500 23px ui-monospace, monospace';
+    ctx.fillText('syncQueue.ts', 138, 28);
     // gutter
-    ctx.fillStyle = '#0a1520'; ctx.fillRect(0, 46, 66, cv.height);
+    ctx.fillStyle = '#0a1520'; ctx.fillRect(0, 54, 78, cv.height);
 
     // hitung baris aktif
     let acc = 0, cur = 0, curChars = 0;
@@ -326,7 +327,7 @@ function buildCodeScreen() {
 
       ctx.fillStyle = i === cur ? '#7c9cb5' : '#33505f';
       ctx.font = `${FS - 3}px ui-monospace, monospace`;
-      ctx.fillText(String(i + 1).padStart(2, ' '), 22, y);
+      ctx.fillText(String(i + 1).padStart(2, ' '), 26, y);
       ctx.font = `${FS}px ui-monospace, monospace`;
 
       let x = PAD_L, budget = i === cur ? curChars : lineLens[i];
@@ -354,76 +355,6 @@ function buildCodeScreen() {
   }
 
   draw(0);
-  return { tex, update };
-}
-
-// ── Layar terminal portrait bergulir ────────────────────────
-function buildTerminalScreen() {
-  const cv = document.createElement('canvas');
-  cv.width = 512;
-  cv.height = 830;
-  const ctx = cv.getContext('2d')!;
-  const tex = new THREE.CanvasTexture(cv);
-  tex.colorSpace = THREE.SRGBColorSpace;
-
-  const LOGS = [
-    ['$ npm run test', '#e5e9f0'],
-    ['  PASS  sync.spec.ts', '#a3e635'],
-    ['  PASS  auth.spec.ts', '#a3e635'],
-    ['  PASS  queue.spec.ts', '#a3e635'],
-    ['  42 passed, 0 failed', '#67e8f9'],
-    ['', '#fff'],
-    ['$ docker compose up -d', '#e5e9f0'],
-    ['  api      ready 68ms', '#a3e635'],
-    ['  worker   ready 41ms', '#a3e635'],
-    ['  postgres healthy', '#a3e635'],
-    ['', '#fff'],
-    ['$ git push origin main', '#e5e9f0'],
-    ['  build  ✓  deploy ✓', '#e5a93c'],
-  ] as [string, string][];
-
-  let shown = 0, timer = 0, hold = 0;
-
-  function draw() {
-    ctx.fillStyle = '#0a0f16';
-    ctx.fillRect(0, 0, cv.width, cv.height);
-    ctx.fillStyle = '#131c26';
-    ctx.fillRect(0, 0, cv.width, 38);
-    ctx.fillStyle = '#4a5a6a';
-    ctx.font = '500 17px ui-monospace, monospace';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('zsh — build', 18, 19);
-
-    ctx.font = '17px ui-monospace, monospace';
-    for (let i = 0; i < shown; i++) {
-      ctx.fillStyle = LOGS[i][1];
-      ctx.fillText(LOGS[i][0], 18, 66 + i * 26);
-    }
-    tex.needsUpdate = true;
-  }
-
-  function update(dt: number) {
-    if (hold > 0) {
-      hold -= dt;
-      if (hold <= 0) {
-        shown = 0;
-        draw();
-      }
-      return;
-    }
-    timer += dt;
-    if (timer > 0.4) {
-      timer = 0;
-      shown++;
-      if (shown >= LOGS.length) {
-        shown = LOGS.length;
-        hold = 2.6;
-      }
-      draw();
-    }
-  }
-
-  draw();
   return { tex, update };
 }
 
@@ -488,61 +419,52 @@ function buildRoom() {
   desk.position.set(0, 0, -D / 2 + 1.1);
   room.add(desk);
 
-  // Dual monitor setup
+  // Ultrawide 34" Monitor
   const code = buildCodeScreen();
-  const term = buildTerminalScreen();
 
-  const MON_Y = 2.14;                   // dari 2.42 — sejajar pandangan
-  const MON_Z = -D / 2 + 0.72;          // z sama untuk keduanya
+  const MON_Y = 2.52;
+  const MON_Z = -D / 2 + 0.75;
 
-  // Monitor utama — landscape 27"
   const mon = new THREE.Group();
-  const monBody = box(2.15, 1.3, 0.07, mat(C.metal, 0.4, 0.7));
+  const monBody = box(2.9, 1.68, 0.08, mat(C.metal, 0.4, 0.7));
   monBody.position.set(0, MON_Y, 0); mon.add(monBody);
 
   const screen = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.98, 1.13),
+    new THREE.PlaneGeometry(2.72, 1.53),          // 16:9 pas dengan canvas
     new THREE.MeshBasicMaterial({ map: code.tex, toneMapped: false })
   );
-  screen.position.set(0, MON_Y, 0.045); mon.add(screen);
+  screen.position.set(0, MON_Y, 0.05); mon.add(screen);
 
-  const neckA = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.34, 8), mat(C.metal, 0.4, 0.8));
-  neckA.position.set(0, MON_Y - 0.8, 0); mon.add(neckA);
-  const footA = box(0.66, 0.04, 0.24, mat(C.metal, 0.4, 0.8));
-  footA.position.set(0, 1.58, 0.04); mon.add(footA);
+  const neckA = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.3, 10), mat(C.metal, 0.4, 0.8));
+  neckA.position.set(0, 1.72, 0); mon.add(neckA);
+  const footA = box(0.95, 0.05, 0.32, mat(C.metal, 0.4, 0.8));
+  footA.position.set(0, 1.59, 0.06); mon.add(footA);
 
-  mon.position.set(-0.62, 0, MON_Z);
+  mon.position.set(0, 0, MON_Z);                  // center, tidak offset lagi
   room.add(mon);
 
-  // Monitor kedua — portrait, sejajar, tanpa miring
-  const mon2 = new THREE.Group();
-  const mon2Body = box(0.84, 1.44, 0.07, mat(C.metal, 0.4, 0.7));
-  mon2Body.position.set(0, MON_Y + 0.06, 0); mon2.add(mon2Body);
+  const PERSON_Z = -D / 2 + 2.0;        // -1.0 → torso bebas dari bibir meja (-1.25)
+  const HAND_Z   = PERSON_Z - 0.60;     // -1.60 → titik keyboard
 
-  const screen2 = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.74, 1.3),
-    new THREE.MeshBasicMaterial({ map: term.tex, toneMapped: false })
-  );
-  screen2.position.set(0, MON_Y + 0.06, 0.045); mon2.add(screen2);
-
-  const neckB = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.3, 8), mat(C.metal, 0.4, 0.8));
-  neckB.position.set(0, MON_Y - 0.72, 0); mon2.add(neckB);
-  const footB = box(0.42, 0.04, 0.24, mat(C.metal, 0.4, 0.8));
-  footB.position.set(0, 1.58, 0.04); mon2.add(footB);
-
-  mon2.position.set(0.92, 0, MON_Z);   // rotation.y dihapus — sejajar bidang
-  room.add(mon2);
-
-  // Keyboard, mouse, dan lampu
-  const kb = box(0.95, 0.05, 0.34, mat(0x22262e, 0.8));
-  kb.position.set(-0.62, 1.58, -D / 2 + 1.5);
+  // Keyboard tepat di bawah telapak tangan, center x = 0
+  const kb = box(1.15, 0.06, 0.4, mat(0x22262e, 0.8));
+  kb.position.set(0, 1.59, HAND_Z);
   room.add(kb);
 
-  const mouse = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 10), mat(0x22262e, 0.7));
+  const mouse = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 10), mat(0x22262e, 0.7));
   mouse.scale.set(0.8, 0.5, 1.25);
-  mouse.position.set(0.16, 1.6, -D / 2 + 1.5);
+  mouse.position.set(0.85, 1.61, HAND_Z + 0.02);
   room.add(mouse);
 
+  // Mug: mengisi sisi kanan meja yang kosong setelah monitor 2 dihapus
+  const mug = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.085, 0.17, 14), mat(0xd9d3c7, 0.75));
+  mug.position.set(1.5, 1.65, HAND_Z + 0.05);
+  mug.castShadow = true; room.add(mug);
+  const mugEar = new THREE.Mesh(new THREE.TorusGeometry(0.055, 0.018, 8, 14), mat(0xd9d3c7, 0.75));
+  mugEar.position.set(1.6, 1.66, HAND_Z + 0.05);
+  mugEar.rotation.y = Math.PI / 2; room.add(mugEar);
+
+  // Gold desk lamp — dipindah ke kiri meja
   const lampArm = new THREE.Mesh(
     new THREE.CylinderGeometry(0.03, 0.03, 0.8, 8),
     mat(C.gold, 0.3, 0.9)
@@ -638,13 +560,13 @@ function buildRoom() {
   rug.receiveShadow = true;
   room.add(rug);
 
-  // Person (skala 1:1 absolut, posisi x: 0, z: -D / 2 + 2.05)
+  // Person
   const person = buildPerson();
   person.group.rotation.y = Math.PI;
-  person.group.position.set(0, 0, -D / 2 + 2.05);
+  person.group.position.set(0, 0, PERSON_Z);
   room.add(person.group);
 
-  return { room, person, code, board, term };
+  return { room, person, code, board };
 }
 
 // ── React Component ────────────────────────────────────────
@@ -671,13 +593,13 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     scene.fog = null;
 
     // ── Isometric orthographic camera ──
-    const frustum = 4.55;
+    const frustum = 4.35;
     const aspect = mount.clientWidth / mount.clientHeight;
     const camera = new THREE.OrthographicCamera(
       -frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 120
     );
     camera.position.set(11, 8.7, 11);
-    camera.lookAt(0, 1.95, 0);
+    camera.lookAt(0, 2.1, 0);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -699,11 +621,11 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
-    const { room, person, code, board, term } = buildRoom();
+    const { room, person, code, board } = buildRoom();
     scene.add(room);
 
     // ── Cinematic lighting ──
-    scene.add(new THREE.AmbientLight(0xd8c9b4, 0.62));
+    scene.add(new THREE.AmbientLight(0xd8c9b4, 0.7));
     scene.add(new THREE.HemisphereLight(0x9fb4c4, 0x6a4f38, 0.85));
 
     const key = new THREE.DirectionalLight(0xffe8c4, 2.9);
@@ -718,12 +640,12 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     key.shadow.bias = -0.0005;
     scene.add(key);
 
-    const fill = new THREE.DirectionalLight(0xbfd4e8, 0.75);
+    const fill = new THREE.DirectionalLight(0xbfd4e8, 0.95);
     fill.position.set(9, 6, 9);
     scene.add(fill);
 
     // Pengganti cahaya jendela: lampu plafon hangat
-    const ceiling = new THREE.PointLight(0xffd9a8, 16, 13, 2);
+    const ceiling = new THREE.PointLight(0xffd9a8, 20, 14, 2);
     ceiling.position.set(0.2, 3.9, 0.6);
     scene.add(ceiling);
 
@@ -733,14 +655,9 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     scene.add(deskLight);
 
     // Monitor 1 (utama) light
-    const screenLight = new THREE.PointLight(C.screen, 9, 5.5, 2);
-    screenLight.position.set(-0.4, 2.14, -1.58);
+    const screenLight = new THREE.PointLight(C.screen, 13, 6.5, 2);
+    screenLight.position.set(0, 2.4, -1.95);
     scene.add(screenLight);
-
-    // Monitor 2 (portrait) light
-    const screenLight2 = new THREE.PointLight(0xa3e635, 4, 4, 2);
-    screenLight2.position.set(0.92, 2.2, -1.58);
-    scene.add(screenLight2);
 
     // ── Smooth parallax following cursor ──
     let tx = 0, ty = 0, cx = 0, cy = 0;
@@ -770,14 +687,13 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
 
       code.update(dt, t);
       board.update(dt);
-      term.update(dt);
 
       // Parallax lerp
       cx += (tx - cx) * 0.05;
       cy += (ty - cy) * 0.05;
       room.rotation.y = cx;
       camera.position.y = 8.7 + cy * 3.4;
-      camera.lookAt(0, 1.95, 0);
+      camera.lookAt(0, 2.1, 0);
 
       // Micro-animations (keyboard typing, breathing)
       if (!reduced) {
@@ -817,7 +733,6 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       mount.removeEventListener('mousemove', onMove);
       code.tex.dispose();
       board.tex.dispose();
-      term.tex.dispose();
       scene.traverse((o) => {
         if (o instanceof THREE.Mesh) {
           o.geometry.dispose();
