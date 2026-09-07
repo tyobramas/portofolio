@@ -55,7 +55,7 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
           <div className="lg:col-span-5 space-y-6">
             <Reveal>
               <SpotlightCard
-                className="p-6 sm:p-8 space-y-6 group"
+                className="p-6 sm:p-8 space-y-6 group relative"
                 spotlightColor="rgba(229, 169, 60, 0.16)"
                 borderColor="rgba(245, 200, 105, 0.45)"
               >

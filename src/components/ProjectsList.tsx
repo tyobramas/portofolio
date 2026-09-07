@@ -111,13 +111,15 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
                       </div>
 
                       {/* Category Badge overlay */}
-                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#0B0C10]/85 backdrop-blur-md border border-[#262A38] text-[0.6875rem] font-bold text-gold-400 uppercase tracking-wider shadow-sm">
-                        {p.category}
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2.5 py-1 rounded-md bg-[#0B0C10]/85 backdrop-blur-md border border-[#262A38] text-[0.6875rem] font-bold text-gold-400 uppercase tracking-wider shadow-sm">
+                          {p.category}
+                        </span>
                       </div>
 
                       {/* Year badge */}
                       {p.year && (
-                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-[#0B0C10]/80 backdrop-blur-md border border-[#262A38] text-[0.625rem] font-semibold text-ink-300">
+                        <div className="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-[#0B0C10]/80 backdrop-blur-md border border-[#262A38] text-[0.625rem] font-mono font-semibold text-ink-300">
                           {p.year}
                         </div>
                       )}

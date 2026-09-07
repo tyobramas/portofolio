@@ -43,16 +43,13 @@ function StatCardItem({ stat }: { stat: StatConfig }) {
 
   return (
     <SpotlightCard
-      className="p-6 sm:p-7 text-center group"
+      className="p-6 sm:p-7 text-center group relative"
       spotlightColor="rgba(229, 169, 60, 0.16)"
       borderColor="rgba(245, 200, 105, 0.45)"
     >
       <div className="flex flex-col items-center justify-center text-center h-full">
-        {/* Top subtle hairline glow */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-300" />
-
         {/* Icon Squircle */}
-        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gold-500/10 border border-gold-500/25 group-hover:scale-110 group-hover:bg-gold-500/20 group-hover:border-gold-400/50 transition-all duration-300 shadow-sm shrink-0">
+        <div className="mb-3.5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-gold-500/15 to-gold-500/5 border border-gold-500/25 group-hover:scale-110 group-hover:bg-gold-500/20 group-hover:border-gold-400/50 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] shrink-0">
           {stat.icon}
         </div>
 

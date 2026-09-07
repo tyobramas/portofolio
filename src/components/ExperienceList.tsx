@@ -29,12 +29,20 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
               >
                 <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:gap-6 items-start">
                   <div>
-                    <span className="inline-block tabular font-sans text-xs font-bold text-gold-300 bg-gold-500/10 border border-gold-500/30 px-3 py-1 rounded-md">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-mono text-[8.5px] font-semibold text-gold-500/60 uppercase tracking-wider">
+                        NODE.0{i + 1}
+                      </span>
+                      {m.current && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      )}
+                    </div>
+                    <span className="inline-block tabular font-mono text-xs font-bold text-gold-300 bg-gold-500/10 border border-gold-500/30 px-3 py-1 rounded-md">
                       {m.period}
                     </span>
                     {m.current && (
-                      <span className="block mt-2 text-[0.6875rem] font-bold text-emerald-400 tracking-wider">
-                        ● CURRENT ROLE
+                      <span className="block mt-2 text-[0.6875rem] font-sans font-bold text-emerald-400 tracking-wider">
+                        ● Present
                       </span>
                     )}
                   </div>
@@ -57,7 +65,7 @@ export default function ExperienceList({ milestones }: { milestones: Milestone[]
                       <ul className="mt-3.5 space-y-2 border-t border-[#232736] pt-3">
                         {m.highlights.map((h) => (
                           <li key={h} className="text-xs sm:text-sm text-ink-300 flex items-start gap-2.5">
-                            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0 mt-2" />
+                            <span className="font-mono text-[10px] text-gold-400 font-bold shrink-0 mt-0.5">❯</span>
                             <span>{h}</span>
                           </li>
                         ))}

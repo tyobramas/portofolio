@@ -7,11 +7,13 @@ import ServicesSection from './components/ServicesSection';
 import ProjectsList from './components/ProjectsList';
 import SkillsCompact from './components/SkillsCompact';
 import ExperienceList from './components/ExperienceList';
+import CertificatesList from './components/CertificatesList';
 import WorkTogetherBanner from './components/WorkTogetherBanner';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import Modal from './components/Modal';
 import GoldButton from './components/GoldButton';
+import ParallaxTechBackground from './components/ParallaxTechBackground';
 import { useAdminStore } from './hooks/useAdminStore';
 
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
@@ -192,6 +194,9 @@ export default function App() {
       {/* Matte Titanium Micro-Grain Overlay */}
       <div className="noise-overlay" aria-hidden="true" />
 
+      {/* Elegant Vector & Terminal Animated Parallax Background */}
+      <ParallaxTechBackground />
+
       {/* Skip to main content for accessibility */}
       <a
         href="#main-content"
@@ -219,7 +224,7 @@ export default function App() {
           />
 
           {/* Unified Single-Page Flow Matching Reference Template */}
-          <main id="main-content" tabIndex={-1} className="min-w-0">
+          <main id="main-content" tabIndex={-1} className="min-w-0 relative z-10">
             {/* 1. Hero Section with Glowing Golden Halo Portrait */}
             <HeroSection config={store.config} />
 
@@ -241,17 +246,20 @@ export default function App() {
             {/* 7. Career Timeline & Experience */}
             <ExperienceList milestones={store.milestones} />
 
-            {/* 8. Let's Work Together! Banner */}
+            {/* 8. Verified Certifications & Industry Accreditations */}
+            <CertificatesList items={store.certificates} />
+
+            {/* 9. Let's Work Together! Banner */}
             <WorkTogetherBanner onContactClick={() => {
               const el = document.querySelector('#contact');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }} />
 
-            {/* 9. Contact / Get In Touch Form */}
+            {/* 10. Contact / Get In Touch Form */}
             <ContactSection config={store.config} />
           </main>
 
-          {/* 10. Footer with Engineering Standard Badges */}
+          {/* 11. Footer with Engineering Standard Badges */}
           <Footer ownerName={store.config.ownerName} />
         </>
       )}

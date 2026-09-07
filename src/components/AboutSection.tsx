@@ -1,11 +1,8 @@
-import { CheckCircle2, Award, Terminal } from 'lucide-react';
+import { CheckCircle2, Sparkles } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './SpotlightCard';
+import TechWorkstation3D from './TechWorkstation3D';
 import type { SystemConfig } from '../types';
-
-interface AboutSectionProps {
-  config: SystemConfig;
-}
 
 const HIGHLIGHTS = [
   'Clean Architecture & Separation of Concerns',
@@ -13,6 +10,10 @@ const HIGHLIGHTS = [
   'Sub-80ms High-Throughput REST & GraphQL APIs',
   'Autonomous AI Agent & RAG Pipelines (n8n, Vector DB)',
 ];
+
+interface AboutSectionProps {
+  config: SystemConfig;
+}
 
 export default function AboutSection({ config }: AboutSectionProps) {
   return (
@@ -65,46 +66,22 @@ export default function AboutSection({ config }: AboutSectionProps) {
                   {config.ownerName || 'Tyo Bramas'}
                 </div>
                 <div className="flex items-center gap-2 text-xs font-mono text-ink-400">
-                  <Terminal size={14} className="text-gold-accent" />
+                  <Sparkles size={14} className="text-gold-accent" />
                   <span>Precision Engineering</span>
                 </div>
               </div>
             </Reveal>
           </div>
 
-          {/* Right Column: Workstation photo in SpotlightCard with floating badges */}
+          {/* Right Column: 3D Interactive Three.js Workstation in SpotlightCard */}
           <div className="lg:col-span-6">
             <Reveal delay={100}>
               <SpotlightCard
                 className="relative p-2 sm:p-3 overflow-hidden group shadow-2xl"
-                spotlightColor="rgba(229, 169, 60, 0.18)"
+                spotlightColor="rgba(229, 169, 60, 0.22)"
                 borderColor="rgba(245, 200, 105, 0.5)"
               >
-                {/* Photo container */}
-                <div className="relative overflow-hidden rounded-xl border border-[#262A38] bg-[#12141C]">
-                  <img
-                    src="/images/workstation_setup.jpg"
-                    alt="Developer Workstation Setup"
-                    className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                  />
-                  {/* Subtle vignette gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C10]/80 via-transparent to-transparent pointer-events-none" />
-
-                  {/* Floating Gold Badge: 13+ Years */}
-                  <div className="absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-xl border border-gold-500/40 bg-[#0B0C10]/95 backdrop-blur-md px-4 py-2.5 shadow-2xl">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400">
-                      <Award className="h-4 w-4 text-gold-400" />
-                    </div>
-                    <div>
-                      <p className="font-sans text-sm font-extrabold text-white leading-none">
-                        13+ Years
-                      </p>
-                      <p className="font-sans text-[0.6875rem] font-semibold text-gold-400 uppercase tracking-wider mt-0.5">
-                        Production Experience
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <TechWorkstation3D className="w-full h-80 sm:h-[400px] lg:h-[420px]" />
               </SpotlightCard>
             </Reveal>
           </div>

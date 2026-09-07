@@ -66,42 +66,39 @@ export default function ServicesSection() {
           {SERVICES.map((service, index) => (
             <Reveal key={service.title} delay={index * 60}>
               <SpotlightCard
-                className="p-7 h-full flex flex-col justify-between group"
+                className="p-7 h-full flex flex-col justify-between group relative"
                 spotlightColor="rgba(229, 169, 60, 0.15)"
                 borderColor="rgba(245, 200, 105, 0.4)"
               >
                 <div>
-                  {/* Subtle top gold accent line on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
                   {/* Icon Squircle */}
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-500/10 border border-gold-500/25 group-hover:scale-110 group-hover:bg-gold-500/20 group-hover:border-gold-400/50 transition-all duration-300 shadow-sm">
+                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-500/15 to-gold-500/5 border border-gold-500/25 group-hover:scale-110 group-hover:bg-gold-500/20 group-hover:border-gold-400/50 transition-all duration-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]">
                     {service.icon}
                   </div>
 
-                  {/* Title */}
-                  <h3 className="font-sans text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
-                    {service.title}
-                  </h3>
+                    {/* Title */}
+                    <h3 className="font-sans text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+                      {service.title}
+                    </h3>
 
-                  {/* Description */}
-                  <p className="mt-3 text-sm text-ink-300 leading-relaxed">
-                    {service.description}
-                  </p>
+                    {/* Description */}
+                    <p className="mt-3 text-sm text-ink-300 leading-relaxed">
+                      {service.description}
+                    </p>
 
-                  {/* Deliverables Checklist */}
-                  <div className="mt-5 pt-4 border-t border-[#232736]/70 space-y-2">
-                    {service.deliverables.map((d) => (
-                      <div key={d} className="flex items-center gap-2 text-xs text-ink-300">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0" />
-                        <span>{d}</span>
-                      </div>
-                    ))}
+                    {/* Deliverables Checklist */}
+                    <div className="mt-5 pt-4 border-t border-[#232736]/70 space-y-2">
+                      {service.deliverables.map((d) => (
+                        <div key={d} className="flex items-center gap-2 text-xs text-ink-300">
+                          <span className="font-mono text-[10px] text-gold-400 font-bold shrink-0">❯</span>
+                          <span>{d}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                {/* Bottom interactive link */}
-                <div className="pt-6 mt-2">
+                  {/* Bottom interactive link */}
+                  <div className="pt-6 mt-2">
                   <button
                     onClick={handleConsultClick}
                     className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 group-hover:text-gold-200 transition-colors"

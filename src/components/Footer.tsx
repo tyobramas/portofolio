@@ -24,7 +24,7 @@ export default function Footer({ ownerName = 'Tyo Bramas' }: FooterProps) {
   };
 
   return (
-    <footer className="border-t border-[#1C202C] bg-[#07080B] pt-14 pb-8 text-ink-300">
+    <footer className="relative z-10 border-t border-[#1C202C] bg-[#07080B]/95 backdrop-blur-sm pt-14 pb-8 text-ink-300">
       <div className="mx-auto max-w-shell px-6 lg:px-10">
         {/* Main Footer Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-12 border-b border-[#1A1D28]">

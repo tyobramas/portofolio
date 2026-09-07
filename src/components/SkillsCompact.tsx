@@ -65,7 +65,8 @@ export default function SkillsCompact({ skills: _skills }: { skills?: Skill[] })
                     <h3 className="font-sans text-base font-bold text-white group-hover:text-gold-200 transition-colors">
                       {domain.category}
                     </h3>
-                    <span className="font-sans text-[0.6875rem] font-bold text-gold-400 uppercase tracking-wider bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/20">
+                    <span className="inline-flex items-center gap-1.5 font-sans text-[0.6875rem] font-bold text-gold-400 uppercase tracking-wider bg-gold-500/10 px-2.5 py-1 rounded-md border border-gold-500/20">
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold-400/80 shrink-0" />
                       {domain.tier}
                     </span>
                   </div>
