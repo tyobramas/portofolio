@@ -18,9 +18,9 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
         <div className="w-full max-w-[240px] overflow-hidden rounded-[3px] border border-brass-400/50 bg-canvas-sunken p-1 shadow-elevated">
           <div className="overflow-hidden rounded-[2px] border border-rule">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=600&h=750&q=85"
+              src="/images/profile.png"
               alt={config.ownerName}
-              className="aspect-[4/5] w-full object-cover object-top transition-transform duration-500 ease-refined group-hover:scale-[1.02]"
+              className="aspect-[4/5] w-full object-cover object-[center_15%] transition-transform duration-500 ease-refined group-hover:scale-[1.02]"
               loading="eager"
             />
           </div>
@@ -29,7 +29,7 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
         {/* Verified Accreditation Tag */}
         <div className="mt-3.5 inline-flex items-center gap-1.5 rounded-[2px] border border-brass-400/40 bg-brass-50/90 px-2.5 py-1 text-[0.6875rem] font-mono font-medium text-brass-700">
           <ShieldCheck size={13} className="text-brass-600 shrink-0" />
-          <span>VERIFIED PRINCIPAL ARCHITECT</span>
+          <span>VERIFIED SENIOR AI & FULL-STACK ARCHITECT</span>
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
               rel="noopener noreferrer"
               className="link-underline text-meta"
             >
-              github.com/tyobramas
+              github.com/bramastyokusumo
             </a>
           </div>
         )}
@@ -123,7 +123,7 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
 
       {/* CV Download Button */}
       <a
-        href="/cv-tyo-bramas.pdf"
+        href="/cv-bramastyo-kusumo.pdf"
         download
         className="no-print mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[3px] bg-ink-950 px-4 py-2.5 text-meta font-semibold text-canvas shadow-card transition-all duration-200 ease-refined hover:bg-brass-700 hover:shadow-gold"
       >
@@ -132,7 +132,7 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
 
       {/* Institutional seal */}
       <div className="mt-4 border-t border-rule pt-3 text-[0.6875rem] font-mono text-ink-500 space-y-0.5">
-        <p className="text-ink-600 font-semibold">Tyo Bramas, B.Comp</p>
+        <p className="text-ink-600 font-semibold">Bramastyo Kusumo, B.Comp</p>
         <p>Alumni Universitas BSI (2010 — 2013)</p>
         <p className="text-[0.625rem] text-ink-400 pt-0.5">
           Diperbarui {new Date(config.updatedAt).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}

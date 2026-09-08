@@ -286,6 +286,48 @@
   .animate-laser-sweep {
     animation: laserGridSweep 16s linear infinite;
   }
+
+  /* ─── HIGH TECH HUD KEYFRAMES ───────────────────────────── */
+  @keyframes hudSpinClockwise {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes hudSpinCounterClockwise {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+
+  @keyframes hudBreathingGlow {
+    0%, 100% {
+      opacity: 0.7;
+      filter: drop-shadow(0 0 14px rgba(229, 169, 60, 0.45));
+    }
+    50% {
+      opacity: 1;
+      filter: drop-shadow(0 0 28px rgba(245, 200, 105, 0.75));
+    }
+  }
+
+  .animate-hud-spin-cw {
+    animation: hudSpinClockwise 50s linear infinite;
+  }
+
+  .animate-hud-spin-cw-fast {
+    animation: hudSpinClockwise 28s linear infinite;
+  }
+
+  .animate-hud-spin-ccw {
+    animation: hudSpinCounterClockwise 60s linear infinite;
+  }
+
+  .animate-hud-spin-ccw-fast {
+    animation: hudSpinCounterClockwise 35s linear infinite;
+  }
+
+  .animate-hud-glow {
+    animation: hudBreathingGlow 5s ease-in-out infinite;
+  }
 }
 
 /* ─── PRINT STYLESHEET ────────────────────────────────────────── */

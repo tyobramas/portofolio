@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { AdminStore, AdminSession, SystemConfig, Project, Milestone, Skill } from '../types';
+import type { AdminStore, AdminSession, SystemConfig, Project, Milestone, Skill, Certificate } from '../types';
 import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defaultCertificates } from '../data';
 
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 4;
+const STORE_VERSION = 17;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -37,11 +37,37 @@ function loadStore(): AdminStore {
       return p;
     });
 
+    const isOldVersion = !parsed.version || parsed.version < STORE_VERSION;
+
+    // Merge any new default projects
+    const existingIds = new Set(updatedProjects.map((p) => p.id));
+    const missingDefaults = defaultProjects.filter((p) => !existingIds.has(p.id));
+    const mergedProjects = isOldVersion ? defaultProjects : [...updatedProjects, ...missingDefaults];
+
+    const rawCerts = isOldVersion ? defaultCertificates : (parsed.certificates?.length ? parsed.certificates : defaultCertificates);
+    const sanitizedCertificates = rawCerts.filter(
+      (c: Certificate) => c.id !== 'cert-005' && !c.issuer.includes('Bina Sarana Informatika') && !c.title.includes('Informatics Engineering')
+    );
+
     const migrated: AdminStore = {
       ...fresh,
       ...parsed,
-      projects: updatedProjects.length ? updatedProjects : defaultProjects,
-      certificates: parsed.certificates?.length ? parsed.certificates : defaultCertificates,
+      config: isOldVersion
+        ? {
+            ...defaultConfig,
+            ...parsed.config,
+            ownerName: 'Bramastyo Kusumo',
+            ownerTitle: defaultConfig.ownerTitle,
+            ownerBio: defaultConfig.ownerBio,
+            heroTagline: defaultConfig.heroTagline,
+            ownerAvatar: '/images/profile-hud.png',
+            ownerGithub: 'https://github.com/bramastyokusumo',
+          }
+        : { ...defaultConfig, ...parsed.config },
+      projects: mergedProjects.length ? mergedProjects : defaultProjects,
+      skills: isOldVersion ? defaultSkills : (parsed.skills?.length ? parsed.skills : defaultSkills),
+      certificates: sanitizedCertificates.length ? sanitizedCertificates : defaultCertificates,
+      milestones: isOldVersion ? defaultMilestones : (parsed.milestones?.length ? parsed.milestones : defaultMilestones),
       version: STORE_VERSION,
     };
     saveStore(migrated);

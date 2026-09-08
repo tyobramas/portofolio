@@ -7,10 +7,12 @@ import type { SystemConfig } from '../types';
 const DioramaRoom3D = lazy(() => import('./DioramaRoom3D'));
 
 const HIGHLIGHTS = [
-  'Clean Architecture & Separation of Concerns',
-  'Offline-First Mobile Sync Engine (Flutter + SQLite)',
-  'Sub-80ms High-Throughput REST & GraphQL APIs',
-  'Autonomous AI Agent & RAG Pipelines (n8n, Vector DB)',
+  'Full-Stack Web Engineering (Since 2013)',
+  'Flutter Mobile Engineering (Early Adopter)',
+  'Enterprise AI Systems & Autonomous LLMs',
+  'Remote Team Leadership & Clean Architecture',
+  'Workflow Automation & High-Scale Pipelines',
+  'Biometric Presence & Live Anti-Spoofing',
 ];
 
 interface AboutSectionProps {
@@ -32,15 +34,13 @@ export default function AboutSection({ config }: AboutSectionProps) {
 
             <Reveal delay={60}>
               <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                Architecting Systems That Drive{' '}
-                <span className="gold-text-gradient">Measurable Growth</span>
+                We Build <span className="gold-text-gradient">Solutions</span> That Drive Real Impact
               </h2>
             </Reveal>
 
             <Reveal delay={120}>
               <p className="max-w-prose text-[15px] leading-7 text-ink-300">
-                {config.ownerBio ||
-                  'I am a Principal Software Engineer with over 13 years of production experience in building scalable web, mobile, and automated systems. I focus on translating mission-critical business requirements into robust, high-performance, and maintainable software architecture.'}
+                I began software engineering in 2013 crafting robust web architectures. When Flutter made its initial public debut, I immediately stepped forward as an early adopter — delivering high-performance cross-platform mobile solutions for remote tech firms including PT Passion Abadi, PT 3D, and PT Rekayasa Digital. Today, I architect full-stack platforms and enterprise AI systems with 50+ production deployments, transforming complex business requirements into high-impact digital solutions.
               </p>
             </Reveal>
 
@@ -65,7 +65,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
             <Reveal delay={240}>
               <div className="pt-4 flex items-center justify-between border-t border-[#232736]/80">
                 <div className="font-signature text-3xl sm:text-4xl font-bold text-gold-light select-none tracking-wide drop-shadow-[0_2px_10px_rgba(229,169,60,0.35)]">
-                  {config.ownerName || 'Tyo Bramas'}
+                  {config.ownerName || 'Bramastyo Kusumo'}
                 </div>
                 <div className="flex items-center gap-2 text-xs font-mono text-ink-400">
                   <Sparkles size={14} className="text-gold-accent" />

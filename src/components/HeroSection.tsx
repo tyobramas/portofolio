@@ -1,5 +1,7 @@
-import { Github, Linkedin, Mail, Globe, Download, ArrowRight, Award, Zap } from 'lucide-react';
+import { Github, Linkedin, Mail, Globe, Download, ArrowRight } from 'lucide-react';
 import Reveal from './Reveal';
+import TechAvatarHud from './TechAvatarHud';
+import { downloadCvPdf } from '../utils/generateCvPdf';
 import type { SystemConfig } from '../types';
 
 interface HeroSectionProps {
@@ -32,22 +34,52 @@ export default function HeroSection({ config }: HeroSectionProps) {
             </Reveal>
 
             <Reveal delay={60}>
-              <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-                {config.ownerName || 'Tyo Bramas'}
+              <h1 className="font-latin text-5xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-normal tracking-wide text-white leading-[1.25] drop-shadow-[0_4px_25px_rgba(229,169,60,0.35)]">
+                {config.ownerName || 'Bramastyo Kusumo'}
               </h1>
             </Reveal>
 
             <Reveal delay={120}>
-              <h2 className="font-sans text-xl sm:text-2xl font-bold text-gold-light tracking-normal">
-                {config.ownerTitle || 'Principal Software Engineer'}
+              <h2 className="font-sans text-lg sm:text-xl font-semibold text-gold-light/80 tracking-normal">
+                {config.ownerSubtitle ||
+                  'Senior Full-Stack Engineer · Mobile · AI · 13+ Years in Production'}
               </h2>
+            </Reveal>
+
+            <Reveal delay={150}>
+              <p className="font-sans text-xl sm:text-2xl font-bold text-gold-light tracking-normal">
+                {config.ownerTitle ||
+                  'We Build Solutions'}
+              </p>
             </Reveal>
 
             <Reveal delay={180}>
               <p className="max-w-prose text-ink-300 text-sm sm:text-base leading-relaxed font-normal">
                 {config.ownerBio ||
-                  'I architect and engineer high-concurrency mobile platforms (Flutter), distributed cloud backends, and autonomous AI automation pipelines with enterprise reliability.'}
+                  'Since 2013, I have been building software that solves real business problems — from inventory systems processing tens of thousands of daily transactions, to AI platforms that cut corporate recruitment cycles by 75%.'}
               </p>
+            </Reveal>
+
+            {/* JavaScript Tech Stack Badges */}
+            <Reveal delay={210}>
+              <div className="flex flex-wrap items-center gap-2 pt-1 pb-1">
+                {[
+                  'Laravel · PHP',
+                  'Flutter · Dart',
+                  'React · Next.js',
+                  'Node.js · TypeScript',
+                  'AI · LLM · LangChain',
+                  'Three.js · WebGL',
+                ].map((tech) => (
+                  <span
+                    key={tech}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-[#12141C]/90 border border-gold-500/30 text-gold-light hover:border-gold-400 hover:text-white transition-all shadow-sm cursor-default"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-gold-400" />
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </Reveal>
 
             {/* Action Buttons */}
@@ -60,12 +92,14 @@ export default function HeroSection({ config }: HeroSectionProps) {
                   VIEW MY WORK <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
                 </button>
 
-                <a
-                  href={`mailto:${config.ownerEmail || 'bramastyodevops@gmail.com'}?subject=Inquiry%20CV%20and%20Consultation`}
-                  className="btn-dark-outline inline-flex items-center gap-2 rounded-lg px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-ink-100 cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => downloadCvPdf()}
+                  className="btn-dark-outline inline-flex items-center gap-2 rounded-lg px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-ink-100 hover:border-gold-400 hover:text-white transition-colors cursor-pointer"
+                  title="Download Official Curriculum Vitae (PDF)"
                 >
                   DOWNLOAD CV <Download size={15} className="text-gold-accent" />
-                </a>
+                </button>
               </div>
             </Reveal>
 
@@ -104,7 +138,7 @@ export default function HeroSection({ config }: HeroSectionProps) {
                   </a>
                 )}
                 <a
-                  href="https://github.com/tyobramas"
+                  href="https://github.com/bramastyokusumo"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Website"
@@ -116,60 +150,13 @@ export default function HeroSection({ config }: HeroSectionProps) {
             </Reveal>
           </div>
 
-          {/* Right Column: Prestigious Portrait with Radiant Golden Halo Ring & 3D Depth */}
+          {/* Right Column: High-Tech Golden HUD Portrait with Parallax Depth */}
           <div className="lg:col-span-5 flex justify-center items-center relative">
             <Reveal delay={100}>
-              <div className="relative flex items-center justify-center">
-                {/* 1. Outer Delicate Hairline Ring (Static & Refined) */}
-                <div className="absolute h-[410px] w-[410px] sm:h-[470px] sm:w-[470px] lg:h-[500px] lg:w-[500px] rounded-full border border-gold-500/20 pointer-events-none" />
-
-                {/* 2. Prestigious Gold Halo Frame with Depth & Warm Lighting */}
-                <div className="absolute h-[380px] w-[380px] sm:h-[430px] sm:w-[430px] lg:h-[460px] lg:w-[460px] rounded-full border-[3px] border-[#F5C869] shadow-[0_0_45px_8px_rgba(229,169,60,0.35),0_0_80px_18px_rgba(229,169,60,0.15),inset_0_0_30px_rgba(229,169,60,0.2)] pointer-events-none z-10" />
-
-                {/* 3. Warm Ambient Gold Radial Aura behind */}
-                <div className="absolute h-80 w-80 sm:h-96 sm:w-96 rounded-full bg-amber-400/20 blur-3xl pointer-events-none" />
-
-                {/* 4. The Developer Portrait (Close-Up, Sharp, Seamless Fit) */}
-                <div className="relative z-0 h-[374px] w-[374px] sm:h-[424px] sm:w-[424px] lg:h-[454px] lg:w-[454px] overflow-hidden rounded-full bg-[#050608] shadow-2xl group">
-                  <img
-                    src="/images/developer_portrait_closeup.jpg"
-                    alt={config.ownerName || 'Tyo Bramas'}
-                    className="h-full w-full object-cover object-center scale-[1.02] group-hover:scale-108 transition-transform duration-700 select-none"
-                  />
-                  {/* Subtle inner ambient gold rim overlay */}
-                  <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-gold-400/30 pointer-events-none" />
-                </div>
-
-                {/* 5. Floating Luxury Plaque: 13+ Years (Bottom Left) */}
-                <div className="absolute -bottom-3 -left-4 sm:-left-8 z-20 inline-flex items-center gap-2.5 rounded-xl border border-gold-500/40 bg-[#0B0C10]/95 backdrop-blur-md px-4 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_15px_rgba(229,169,60,0.2)] hover:border-gold-400 transition-colors">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gold-500/20 text-gold-accent">
-                    <Award size={16} />
-                  </div>
-                  <div>
-                    <p className="font-sans text-xs font-extrabold text-white leading-none">
-                      13+ Years
-                    </p>
-                    <p className="font-sans text-[0.625rem] font-semibold text-gold-accent uppercase tracking-wider mt-0.5">
-                      Production Engineering
-                    </p>
-                  </div>
-                </div>
-
-                {/* 6. Floating Luxury Plaque: 40+ Enterprise (Top Right) */}
-                <div className="absolute -top-3 -right-2 sm:-right-8 z-20 inline-flex items-center gap-2.5 rounded-xl border border-gold-500/40 bg-[#0B0C10]/95 backdrop-blur-md px-4 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_15px_rgba(229,169,60,0.2)] hover:border-gold-400 transition-colors">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gold-500/20 text-gold-accent">
-                    <Zap size={16} />
-                  </div>
-                  <div>
-                    <p className="font-sans text-xs font-extrabold text-white leading-none">
-                      40+ Enterprise
-                    </p>
-                    <p className="font-sans text-[0.625rem] font-semibold text-gold-accent uppercase tracking-wider mt-0.5">
-                      Platforms Deployed
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <TechAvatarHud
+                imageSrc="/images/profile-hud.png"
+                alt={config.ownerName || 'Bramastyo Kusumo'}
+              />
             </Reveal>
           </div>
         </div>

@@ -48,10 +48,13 @@ export default {
         },
       },
       fontFamily: {
-        sans:      ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        display:   ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-        signature: ['Caveat', 'cursive'],
-        mono:      ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        sans:        ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        display:     ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+        latin:       ['"Alex Brush"', '"Playfair Display"', 'cursive', 'serif'],
+        script:      ['"Pinyon Script"', '"Alex Brush"', 'cursive'],
+        serifLuxury: ['"Playfair Display"', 'Georgia', 'serif'],
+        signature:   ['"Alex Brush"', 'Caveat', 'cursive'],
+        mono:        ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
       fontSize: {
         meta: ['0.8125rem', { lineHeight: '1.5', letterSpacing: '0.015em' }],

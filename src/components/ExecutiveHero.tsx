@@ -37,16 +37,16 @@ export default function ExecutiveHero() {
           <div className="inline-flex items-center gap-2 rounded-full border border-brass-400/40 bg-brass-50 px-3 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-brass-500 animate-pulse" />
             <span className="font-mono text-[0.6875rem] font-semibold tracking-widest text-brass-700 uppercase">
-              Principal Engineering Dossier · 2013 — Sekarang
+              Senior Engineering Dossier · 2013 — Sekarang
             </span>
           </div>
 
           <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl text-ink-950 font-normal tracking-tight leading-[1.15]">
-            Engineering Mission-Critical Mobile, Distributed Backend & Autonomous AI Systems.
+            Engineering Mission-Critical AI Systems, LLMs, Mobile & Intelligent Automation.
           </h1>
 
           <p className="max-w-prose text-body sm:text-lead text-ink-600 leading-relaxed font-sans">
-            Membantu perusahaan dan institusi enterprise membangun keunggulan teknologi jangka panjang: dari aplikasi mobile lintas platform (Flutter) dengan jutaan interaksi, sistem transaksi inventaris berkecepatan tinggi, hingga pipeline otomasi alur kerja AI otonom tingkat produksi.
+            Membantu perusahaan dan institusi enterprise membangun keunggulan teknologi jangka panjang: dari arsitektur AI Engineer, integrasi LLM & Prompt Engineering, platform mobile (Flutter), sistem backend terdistribusi, hingga pipeline otomasi alur kerja tingkat produksi.
           </p>
         </div>
       </Reveal>

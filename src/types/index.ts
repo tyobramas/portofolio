@@ -50,6 +50,8 @@ export interface Milestone {
   highlights: string[];
   location: string;
   current: boolean;
+  badge?: string;
+  tags?: string[];
 }
 
 // ─── Skill ──────────────────────────────────────────────────────────────────
@@ -75,6 +77,7 @@ export interface SkillGroup {
 export interface SystemConfig {
   ownerName: string;
   ownerTitle: string;
+  ownerSubtitle?: string;
   ownerEmail: string;
   ownerGithub: string;
   ownerLinkedIn: string;
@@ -101,6 +104,9 @@ export interface Certificate {
   issueDate: string;
   credentialId?: string;
   credentialUrl?: string;
+  image?: string;
+  hours?: string;
+  description?: string;
   skills: string[];
   category: 'ai' | 'cloud' | 'mobile' | 'backend' | 'academic';
   featured?: boolean;

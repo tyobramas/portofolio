@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUpRight, Eye, Layers } from 'lucide-react';
+import { Eye, Layers } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './SpotlightCard';
 import ProjectModal from './ProjectModal';
@@ -9,9 +9,9 @@ type CategoryFilter = 'all' | 'ai' | 'mobile' | 'saas';
 
 const FILTERS: { id: CategoryFilter; label: string }[] = [
   { id: 'all', label: 'All Projects' },
+  { id: 'ai', label: 'AI, LLM & Automation' },
+  { id: 'saas', label: 'Web & Enterprise SaaS' },
   { id: 'mobile', label: 'Mobile Apps' },
-  { id: 'ai', label: 'AI & Automation' },
-  { id: 'saas', label: 'Enterprise Web' },
 ];
 
 export default function ProjectsList({ projects }: { projects: Project[] }) {
@@ -23,12 +23,17 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
     if (activeFilter === 'ai')
       return (
         p.category === 'api' ||
+        (p.category as string) === 'ai' ||
         p.techStack?.some(
-          (t) => t.toLowerCase().includes('ai') || t.toLowerCase().includes('langchain')
+          (t) =>
+            t.toLowerCase().includes('ai') ||
+            t.toLowerCase().includes('langchain') ||
+            t.toLowerCase().includes('llm') ||
+            t.toLowerCase().includes('openai')
         )
       );
     if (activeFilter === 'mobile') return p.category === 'mobile';
-    if (activeFilter === 'saas') return p.category === 'saas';
+    if (activeFilter === 'saas') return p.category === 'saas' || p.category === 'web';
     return true;
   });
 
@@ -78,7 +83,6 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
         {/* Projects Grid with Interactive Dossier Modals */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredProjects.map((p, i) => {
-            const projectLink = p.link || p.links?.live || '#';
             return (
               <Reveal key={p.id} delay={i * 60}>
                 <SpotlightCard
@@ -138,19 +142,9 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
                           </div>
                         </div>
 
-                        {projectLink && projectLink !== '#' && (
-                          <a
-                            href={projectLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            title="Direct link"
-                            aria-label={`View ${p.title}`}
-                            className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262A38] bg-[#1A1D29] text-ink-300 group-hover:border-gold-400 group-hover:bg-gold-500 group-hover:text-canvas transition-all duration-200 shrink-0"
-                          >
-                            <ArrowUpRight size={16} />
-                          </a>
-                        )}
+                        <span className="text-[0.6875rem] font-mono font-semibold uppercase tracking-wider text-ink-400 group-hover:text-gold-300 transition-colors shrink-0 flex items-center gap-1">
+                          Dossier &rarr;
+                        </span>
                       </div>
 
                       <p className="max-w-prose text-xs sm:text-sm text-ink-300 line-clamp-2 leading-relaxed">

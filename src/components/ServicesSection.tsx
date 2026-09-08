@@ -26,10 +26,10 @@ const SERVICES: ServiceItem[] = [
   },
   {
     icon: <Bot className="h-6 w-6 text-gold-400" />,
-    title: 'AI Agents & Automation',
+    title: 'AI Engineering, LLM & Automation',
     description:
-      'Autonomous AI agent pipelines, custom Langflow & n8n orchestration, enterprise RAG knowledge bases, and anti-bot scraper clusters.',
-    deliverables: ['Autonomous AI Agents', 'Vector Search & RAG', 'n8n Workflow Automation'],
+      'Production LLM integration, advanced prompt engineering, custom RAG knowledge engines, autonomous agent orchestration, and automated workflow pipelines.',
+    deliverables: ['LLMs & Prompt Engineering', 'Enterprise RAG Knowledge', 'End-to-End Automation'],
   },
   {
     icon: <Layout className="h-6 w-6 text-gold-400" />,
@@ -57,7 +57,7 @@ export default function ServicesSection() {
           </Reveal>
           <Reveal delay={60}>
             <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Executive Engineering Capabilities
+              What I Can Build For You
             </h2>
           </Reveal>
         </div>

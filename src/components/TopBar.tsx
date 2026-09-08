@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Download } from 'lucide-react';
+import { downloadCvPdf } from '../utils/generateCvPdf';
 
 interface TopBarProps {
   onAdminClick?: () => void;
@@ -16,7 +17,7 @@ const NAV_ITEMS = [
   { href: '#contact', label: 'CONTACT' },
 ];
 
-export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
+export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: TopBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const clickCountRef = React.useRef(0);
@@ -64,7 +65,7 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
           className="flex items-center gap-1.5 text-left focus:outline-none group cursor-pointer"
         >
           <span className="font-sans text-2xl font-extrabold tracking-tight text-white group-hover:text-gold-400 transition-colors">
-            TyoBramas<span className="text-gold-500">.</span>
+            bramastyo<span className="text-gold-500">.</span>
           </span>
         </button>
 
@@ -80,19 +81,22 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
             </button>
           ))}
 
-          {onOpenScraper && (
-            <button
-              onClick={onOpenScraper}
-              className="font-sans text-xs font-semibold tracking-wider text-ink-400 hover:text-gold-400 transition-colors border-l border-[#232736] pl-6 cursor-pointer"
-            >
-              SCRAPER
-            </button>
-          )}
+          {/* SCRAPER link hidden from public nav — access via /tools/linkedin directly */}
+
+          {/* Quick CV Download Button */}
+          <button
+            onClick={() => downloadCvPdf()}
+            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold text-gold-300 hover:text-white border border-gold-500/30 hover:border-gold-400 rounded-lg bg-[#141722] transition-colors cursor-pointer"
+            title="Download Official Curriculum Vitae (PDF)"
+          >
+            <Download size={13} className="text-gold-accent" />
+            <span>CV</span>
+          </button>
 
           {/* LET'S TALK button with liquid gold shimmer */}
           <button
             onClick={() => handleNavClick('#contact')}
-            className="btn-gold btn-gold-shimmer ml-2 inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer group"
+            className="btn-gold btn-gold-shimmer ml-1 inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer group"
           >
             LET'S TALK <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </button>
@@ -137,17 +141,7 @@ export default function TopBar({ onAdminClick, onOpenScraper }: TopBarProps) {
                 {item.label}
               </button>
             ))}
-            {onOpenScraper && (
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenScraper();
-                }}
-                className="pt-3 text-left font-sans text-sm font-semibold tracking-wider text-gold-400 border-t border-[#232736]"
-              >
-                SCRAPER TOOLS
-              </button>
-            )}
+            {/* SCRAPER hidden from public mobile nav */}
           </nav>
         </div>
       )}

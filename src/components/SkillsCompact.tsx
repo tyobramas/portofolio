@@ -5,13 +5,13 @@ import type { Skill } from '../types';
 const SKILL_DOMAINS = [
   {
     category: 'Mobile Engineering',
-    tier: 'Flutter & Dart',
-    skills: ['Flutter', 'Dart', 'BLoC State', 'GetX', 'Offline-First SQLite', 'Biometrics', 'App Store / Play Store CI'],
+    tier: 'Flutter & Dart (Early Adopter)',
+    skills: ['Flutter (Early Adopter)', 'Dart', 'BLoC State', 'GetX', 'Offline-First SQLite', 'Biometrics & Anti-Spoofing', 'App Store / Play Store CI'],
   },
   {
-    category: 'AI & Automation Agents',
-    tier: 'Autonomous Pipelines',
-    skills: ['n8n Orchestration', 'Langflow', 'LangGraph', 'Pinecone RAG', 'ChromaDB', 'FastAPI Vector DB', 'OpenAI Agents'],
+    category: 'AI Engineering & LLMs',
+    tier: 'LLM · Prompt · Automation',
+    skills: ['AI Engineering', 'LLM Fine-Tuning', 'Prompt Engineering', 'LangChain & LangGraph', 'Pinecone RAG', 'Autonomous Agents', 'Workflow Automation (n8n)'],
   },
   {
     category: 'Backend & Distributed Cloud',
@@ -20,8 +20,8 @@ const SKILL_DOMAINS = [
   },
   {
     category: 'Modern Web Engineering',
-    tier: 'Frontend Architecture',
-    skills: ['React 18', 'Next.js 14', 'TypeScript', 'Tailwind CSS', 'Vite', 'Zustand State', 'RESTful Hydration'],
+    tier: 'JavaScript & Full-Stack',
+    skills: ['Full-Stack Web Dev', 'JavaScript (ES6+)', 'Node.js', 'Three.js (WebGL 3D)', 'Vanilla JS', 'React 18', 'Next.js 14', 'TypeScript', 'Tailwind CSS', 'Vite'],
   },
   {
     category: 'Data Extraction & Scraping',

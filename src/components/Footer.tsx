@@ -13,7 +13,7 @@ const BADGES = [
   { icon: <Globe className="h-4 w-4 text-gold-400" />, label: 'CROSS BROWSER COMPATIBLE' },
 ];
 
-export default function Footer({ ownerName = 'Tyo Bramas' }: FooterProps) {
+export default function Footer({ ownerName = 'Bramastyo Kusumo' }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -31,7 +31,7 @@ export default function Footer({ ownerName = 'Tyo Bramas' }: FooterProps) {
           {/* Logo & Copyright */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-center sm:text-left">
             <span className="font-sans text-xl font-extrabold text-white">
-              {ownerName || 'TyoBramas'}<span className="text-gold-500">.</span>
+              bramastyo<span className="text-gold-500">.</span>
             </span>
             <span className="text-xs text-ink-500">
               &copy; {new Date().getFullYear()} {ownerName}. All Rights Reserved.
@@ -54,6 +54,9 @@ export default function Footer({ ownerName = 'Tyo Bramas' }: FooterProps) {
             </button>
             <button onClick={() => scrollTo('#experience')} className="hover:text-gold-400 transition-colors">
               EXPERIENCE
+            </button>
+            <button onClick={() => scrollTo('#certificates')} className="hover:text-gold-400 transition-colors">
+              CERTIFICATES
             </button>
             <button onClick={() => scrollTo('#contact')} className="hover:text-gold-400 transition-colors">
               CONTACT

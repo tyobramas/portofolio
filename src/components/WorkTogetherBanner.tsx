@@ -40,7 +40,7 @@ export default function WorkTogetherBanner({ onContactClick }: WorkTogetherBanne
                     Let's Build Something Exceptional
                   </h3>
                   <p className="mt-1 text-sm sm:text-base text-ink-300 max-w-prose leading-relaxed">
-                    Have a mission-critical platform, mobile app, or AI automation project? Let's discuss system architecture and bring your vision to life with precision.
+                    Have a mission-critical AI, LLM, mobile, or intelligent automation project? Let's discuss system architecture and bring your vision to life with precision.
                   </p>
                 </div>
               </div>
