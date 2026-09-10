@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bramastyo Kusumo — Enterprise Software House &amp; AI Engineering Studio (Executive Business Flyer)</title>
+  
+  <!-- Google Fonts: Montserrat & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- html2canvas for instant ultra-high-res PNG image export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    /* =========================================
+       CSS RESET & EXECUTIVE ROYAL GOLD THEME
+       ========================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #090c13;
+      --bg-card: #121824;
+      --bg-card-hover: #192233;
+      --gold-primary: #c5a059;
+      --gold-bright: #f5cf6d;
+      --gold-amber: #e6b84b;
+      --gold-glow: rgba(245, 207, 109, 0.35);
+      --gold-border: rgba(197, 160, 89, 0.3);
+      --gold-border-subtle: rgba(197, 160, 89, 0.16);
+      --text-white: #ffffff;
+      --text-light: #f1f5f9;
+      --text-gray: #cbd5e1;
+      --text-muted: #94a3b8;
+      --emerald-accent: #10b981;
+      --cyan-accent: #38bdf8;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #06080d;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px 12px 60px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* =========================================
+       ACTION TOOLBAR (HIDDEN WHEN PRINTING)
+       ========================================= */
+    .action-toolbar {
+      width: 210mm;
+      max-width: 100%;
+      background: linear-gradient(135deg, #131210 0%, #0a0a09 100%);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7);
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+    }
+
+    .toolbar-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toolbar-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-desc {
+      font-size: 11px;
+      color: #bfa780;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7.5px 14px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #c5a059 0%, #fae19c 50%, #c5a059 100%);
+      color: #0b0c0e;
+      border: none;
+      box-shadow: 0 3px 12px rgba(197, 160, 89, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 5px 16px rgba(245, 207, 109, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      border: 1px solid rgba(197, 160, 89, 0.28);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(197, 160, 89, 0.15);
+      color: #fff;
+      border-color: var(--gold-bright);
+    }
+
+    .btn-toggle-edit.active {
+      background: #ef4444;
+      color: #fff;
+      border-color: #f87171;
+    }
+
+    /* =========================================
+       A4 CANVAS CONTAINER (EXACT 210mm x 297mm)
+       ========================================= */
+    .flyer-canvas {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      background: 
+        radial-gradient(circle at 85% 12%, rgba(197, 160, 89, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 15% 85%, rgba(140, 105, 38, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(18, 24, 36, 0.6) 0%, transparent 80%),
+        #0a0e16;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(197, 160, 89, 0.28);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 6.5mm 7.5mm 5.5mm 7.5mm;
+      box-sizing: border-box;
+    }
+
+    /* Subtle Circuit/Tech Mesh Watermark */
+    .flyer-canvas::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(197, 160, 89, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(197, 160, 89, 0.03) 1px, transparent 1px);
+      background-size: 14mm 14mm;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flyer-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    /* =========================================
+       1. TOP BRAND HEADER
+       ========================================= */
+    .flyer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--gold-border);
+      padding-bottom: 3mm;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 3.5mm;
+    }
+
+    .brand-logo-emblem {
+      width: 12mm;
+      height: 12mm;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #1f180d 0%, #0d0f15 100%);
+      border: 1.5px solid var(--gold-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(245, 207, 109, 0.25);
+      flex-shrink: 0;
+    }
+
+    .brand-logo-emblem svg {
+      width: 7.5mm;
+      height: 7.5mm;
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 14.5px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      color: #ffffff;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-name .gold {
+      color: var(--gold-bright);
+      background: linear-gradient(90deg, #f5cf6d 0%, #fae19c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-sub {
+      font-size: 7.6px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      margin-top: 1.5px;
+    }
+
+    .header-pills-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 999px;
+      padding: 2.2px 8px;
+      font-size: 7.4px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #6ee7b7;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 7px #10b981;
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .header-motto-tag {
+      font-size: 7.2px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #94a3b8;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =========================================
+       2. HERO PROPOSITION (IMPACTFUL HEADLINE)
+       ========================================= */
+    .hero-section {
+      text-align: center;
+      padding: 2.5mm 1mm 2mm;
+      position: relative;
+    }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.18) 0%, rgba(140, 105, 38, 0.28) 100%);
+      border: 1px solid rgba(245, 207, 109, 0.45);
+      border-radius: 999px;
+      padding: 1.8px 9.5px;
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #fff6de;
+      text-transform: uppercase;
+      margin-bottom: 1.5mm;
+    }
+
+    .hero-badge-tag::before {
+      content: '★';
+      color: var(--gold-bright);
+      font-size: 7.5px;
+    }
+
+    .hero-headline {
+      font-size: 18.5px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 0.2px;
+      color: #ffffff;
+      text-transform: uppercase;
+      max-width: 178mm;
+      margin: 0 auto;
+    }
+
+    .hero-headline .highlight {
+      background: linear-gradient(90deg, #f5cf6d 0%, #ffffff 50%, #f5cf6d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(245, 207, 109, 0.4);
+    }
+
+    .hero-subhead {
+      font-family: 'Inter', sans-serif;
+      font-size: 8.8px;
+      color: #cbd5e1;
+      font-weight: 500;
+      margin-top: 1.2mm;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-subhead strong {
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    /* Core Principles Row */
+    .principles-row {
+      display: flex;
+      justify-content: center;
+      gap: 4.5px;
+      margin-top: 1.8mm;
+    }
+
+    .principle-chip {
+      background: rgba(23, 31, 45, 0.7);
+      border: 1px solid rgba(197, 160, 89, 0.22);
+      border-radius: 4px;
+      padding: 1.6px 6.5px;
+      font-size: 7.2px;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .principle-chip span.dot {
+      width: 3.8px;
+      height: 3.8px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+    }
+
+    /* =========================================
+       3. VECTOR HARDWARE & SYSTEM SHOWCASE
+       (Phone Biometrics + Laptop Console)
+       ========================================= */
+    .showcase-banner {
+      background: linear-gradient(135deg, rgba(18, 24, 36, 0.95) 0%, rgba(13, 17, 26, 0.95) 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 9px;
+      padding: 2.5mm 3.5mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3.5mm;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 24px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    /* Mobile Device Vector Mockup */
+    .device-phone {
+      width: 42mm;
+      height: 38mm;
+      background: #080a0f;
+      border: 1.6px solid rgba(197, 160, 89, 0.6);
+      border-radius: 9px;
+      padding: 2px 3px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(245, 207, 109, 0.15);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .phone-notch-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 5.2px;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0 2px 1.5px;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .phone-screen-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1px 0;
+    }
+
+    .face-scanner-box {
+      width: 19mm;
+      height: 19mm;
+      border: 1.2px dashed var(--gold-bright);
+      border-radius: 7px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+    }
+
+    .face-scanner-box svg {
+      width: 12mm;
+      height: 12mm;
+      stroke: #6ee7b7;
+    }
+
+    .scanner-laser-line {
+      position: absolute;
+      top: 32%;
+      left: 10%;
+      right: 10%;
+      height: 1.2px;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+      border-radius: 2px;
+    }
+
+    .phone-status-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border: 0.8px solid #10b981;
+      border-radius: 3px;
+      padding: 1px 3.5px;
+      font-size: 5.8px;
+      font-weight: 800;
+      color: #a7f3d0;
+      margin-top: 1.2px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .phone-meta-tags {
+      display: flex;
+      justify-content: space-between;
+      font-size: 5.2px;
+      color: #94a3b8;
+      font-family: 'Inter', sans-serif;
+      padding-top: 1.2px;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Laptop Console Vector Mockup */
+    .device-laptop {
+      flex: 1;
+      height: 38mm;
+      background: #080c14;
+      border: 1.6px solid rgba(197, 160, 89, 0.6);
+      border-radius: 9px;
+      padding: 2.5px 4.5px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .laptop-title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5px;
+      border-bottom: 0.5px solid rgba(197, 160, 89, 0.25);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .w-dot {
+      width: 3.5px;
+      height: 3.5px;
+      border-radius: 50%;
+    }
+
+    .w-red { background: #ef4444; }
+    .w-yel { background: #f59e0b; }
+    .w-grn { background: #10b981; }
+
+    .laptop-app-name {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .laptop-app-name span {
+      color: var(--gold-bright);
+    }
+
+    .laptop-status-chip {
+      font-size: 5.8px;
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.15);
+      border-radius: 3px;
+      padding: 0.8px 3.5px;
+      font-weight: 700;
+    }
+
+    .laptop-dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 3px;
+      margin-top: 2px;
+      flex: 1;
+    }
+
+    .dash-mini-card {
+      background: rgba(23, 31, 45, 0.85);
+      border: 0.5px solid rgba(197, 160, 89, 0.2);
+      border-radius: 5px;
+      padding: 1.8px 3mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .dash-mini-label {
+      font-size: 5.5px;
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .dash-mini-val {
+      font-size: 9px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.1;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .dash-mini-sub {
+      font-size: 5px;
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .laptop-agent-log {
+      margin-top: 1.8px;
+      background: #05070a;
+      border: 0.5px solid rgba(197, 160, 89, 0.15);
+      border-radius: 3px;
+      padding: 1.5px 3.5px;
+      font-size: 5.5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .agent-log-active {
+      color: #a7f3d0;
+      font-weight: 700;
+    }
+
+    /* =========================================
+       4. CORE EXPERTISE & TECHNOLOGY MATRIX (5 PILLARS)
+       ========================================= */
+    .section-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 3px solid var(--gold-bright);
+      padding-left: 2.2mm;
+      margin: 2.2mm 0 1.8mm;
+    }
+
+    .sec-title-main {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .sec-title-sub {
+      font-size: 6.8px;
+      font-weight: 600;
+      color: var(--gold-bright);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* 4-Pillar Grid */
+    .expertise-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.2mm;
+    }
+
+    .expertise-card {
+      background: rgba(18, 24, 36, 0.85);
+      border: 1px solid var(--gold-border);
+      border-radius: 7px;
+      padding: 2.2mm 2mm;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      position: relative;
+    }
+
+    .expertise-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 4.5px;
+      padding-bottom: 1.6mm;
+      border-bottom: 0.5px solid rgba(197, 160, 89, 0.2);
+      margin-bottom: 1.5mm;
+    }
+
+    .exp-icon-box {
+      width: 6mm;
+      height: 6mm;
+      border-radius: 5px;
+      background: linear-gradient(135deg, rgba(245, 207, 109, 0.2) 0%, rgba(197, 160, 89, 0.08) 100%);
+      border: 1px solid rgba(245, 207, 109, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .exp-icon-box svg {
+      width: 3.8mm;
+      height: 3.8mm;
+      stroke: var(--gold-bright);
+    }
+
+    .exp-header-text {
+      flex: 1;
+    }
+
+    .exp-card-title {
+      font-size: 8px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .exp-card-badge {
+      font-size: 5.8px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      font-family: 'Inter', sans-serif;
+      margin-top: 0.8px;
+    }
+
+    /* Tech Tags Cluster */
+    .tech-tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.2px;
+      margin-bottom: 1.6mm;
+    }
+
+    .tech-tag {
+      background: #0d121c;
+      border: 0.5px solid rgba(197, 160, 89, 0.35);
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-size: 6.4px;
+      font-weight: 700;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    .tech-tag.featured {
+      background: rgba(197, 160, 89, 0.2);
+      border-color: var(--gold-bright);
+      color: #fff9e6;
+      font-weight: 800;
+    }
+
+    .exp-card-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 6.5px;
+      color: #cbd5e1;
+      line-height: 1.3;
+      margin-top: auto;
+      border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+      padding-top: 1.5mm;
+    }
+
+    .exp-card-desc strong {
+      color: #ffffff;
+    }
+
+    /* =========================================
+       5. PROVEN REAL-WORLD IMPACT (5 STATS)
+       ========================================= */
+    .impact-bar-card {
+      background: linear-gradient(90deg, #131a29 0%, #172133 50%, #131a29 100%);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      padding: 2mm 3.5mm;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2.5mm;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      margin: 1.2mm 0;
+    }
+
+    .impact-stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .impact-stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -1.2mm;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: rgba(197, 160, 89, 0.25);
+    }
+
+    .stat-number {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.1;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.2px;
+      background: linear-gradient(180deg, #ffffff 30%, #fae19c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 6.2px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 0.5px;
+    }
+
+    .stat-sub {
+      font-size: 5.4px;
+      color: #94a3b8;
+      font-family: 'Inter', sans-serif;
+      margin-top: 0.5px;
+    }
+
+    /* =========================================
+       6. OFFICIAL ACCREDITATIONS & CERTIFICATIONS
+       ========================================= */
+    .certs-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.8mm;
+      margin: 0.8mm 0 1.2mm;
+    }
+
+    .cert-item-box {
+      background: rgba(14, 19, 29, 0.9);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 6px;
+      padding: 1.6mm 2.2mm;
+      display: flex;
+      align-items: center;
+      gap: 2mm;
+    }
+
+    .cert-icon-seal {
+      width: 5.5mm;
+      height: 5.5mm;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #423010 0%, #151410 100%);
+      border: 1px solid var(--gold-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cert-icon-seal svg {
+      width: 3.2mm;
+      height: 3.2mm;
+      stroke: var(--gold-bright);
+    }
+
+    .cert-info-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cert-issuer-badge {
+      font-size: 5.8px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .cert-title-text {
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      margin-top: 0.3px;
+    }
+
+    .cert-sub-text {
+      font-size: 5.2px;
+      color: #94a3b8;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Guarantees Bar */
+    .trust-guarantee-bar {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: rgba(23, 31, 45, 0.5);
+      border: 1px dashed rgba(197, 160, 89, 0.3);
+      border-radius: 5px;
+      padding: 1.2mm 2.5mm;
+      margin: 0.8mm 0 1.6mm;
+    }
+
+    .trust-badge-item {
+      display: flex;
+      align-items: center;
+      gap: 3.5px;
+      font-size: 6.8px;
+      font-weight: 700;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .trust-badge-item svg {
+      width: 3.2mm;
+      height: 3.2mm;
+      stroke: var(--gold-bright);
+      flex-shrink: 0;
+    }
+
+    /* =========================================
+       7. BOTTOM CONVERSION CTA & CHANNELS
+       ========================================= */
+    .flyer-footer-cta {
+      background: linear-gradient(135deg, #181510 0%, #0c0e14 100%);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 9px;
+      padding: 2.5mm 3.5mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3.5mm;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .cta-left-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6mm;
+    }
+
+    .cta-button-gold {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #c5a059 0%, #fae19c 50%, #c5a059 100%);
+      color: #0b0c0e;
+      border: none;
+      border-radius: 6px;
+      padding: 2.4mm 4.5mm;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(245, 207, 109, 0.4);
+      cursor: pointer;
+      width: fit-content;
+      text-decoration: none;
+    }
+
+    .cta-button-gold svg {
+      margin-left: 5px;
+    }
+
+    .contact-channels-row {
+      display: flex;
+      align-items: center;
+      gap: 3.5mm;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 7.2px;
+      font-weight: 700;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      text-decoration: none;
+    }
+
+    .contact-item svg {
+      width: 3.2mm;
+      height: 3.2mm;
+      stroke: var(--gold-bright);
+      flex-shrink: 0;
+    }
+
+    .contact-item span.highlight {
+      color: var(--gold-bright);
+    }
+
+    /* QR Code Box */
+    .qr-card-right {
+      display: flex;
+      align-items: center;
+      gap: 2.5mm;
+      background: rgba(10, 13, 19, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 7px;
+      padding: 1.6mm 2.4mm;
+      flex-shrink: 0;
+    }
+
+    .qr-box-inner {
+      width: 12.5mm;
+      height: 12.5mm;
+      background: #ffffff;
+      border-radius: 4px;
+      padding: 0.8mm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-box-inner svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .qr-text-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .qr-text-title {
+      font-size: 6.8px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .qr-text-sub {
+      font-size: 5.6px;
+      color: var(--gold-bright);
+      font-family: 'Inter', sans-serif;
+      margin-top: 1px;
+    }
+
+    /* Tiny Legal Footer */
+    .flyer-copyright-bar {
+      text-align: center;
+      font-size: 5.8px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-top: 1.2mm;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* =========================================
+       PRINT RULES (@media print)
+       ========================================= */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      *, *::before, *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+      }
+
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: var(--bg-dark) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .action-toolbar {
+        display: none !important;
+      }
+
+      .flyer-canvas {
+        width: 210mm !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+
+      [contenteditable="true"],
+      body.editing-active [contenteditable="true"] {
+        outline: none !important;
+        background: transparent !important;
+      }
+    }
+
+    /* Content Editable Visual Mode */
+    body.editing-active [contenteditable="true"] {
+      outline: 1.5px dashed var(--gold-bright) !important;
+      background: rgba(245, 207, 109, 0.08) !important;
+      border-radius: 3px;
+      cursor: text;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       ACTION TOOLBAR (KONTROL ATAS)
+       ========================================= -->
+  <div class="action-toolbar">
+    <div class="toolbar-info">
+      <div class="toolbar-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5cf6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+          <path d="M2 17l10 5 10-5"></path>
+          <path d="M2 12l10 5 10-5"></path>
+        </svg>
+        Bramastyo Kusumo — Executive Business Flyer (Royal Gold Edition)
+      </div>
+      <div class="toolbar-desc">Menampilkan seluruh stack teknologi riil, sistem produksi aktif, metrik dampak, &amp; sertifikasi resmi.</div>
+    </div>
+    <div class="toolbar-actions">
+      <button id="btnToggleEdit" class="btn btn-secondary btn-toggle-edit" onclick="toggleEditMode()">
+        ✏️ Edit Teks Langsung
+      </button>
+      <button class="btn btn-secondary" onclick="exportToImage()">
+        📸 Export High-Res PNG
+      </button>
+      <button class="btn btn-secondary" onclick="resetFlyerData()">
+        🔄 Reset
+      </button>
+      <button class="btn btn-primary" onclick="triggerPrint()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Save as PDF / Print
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================
+       A4 EXECUTIVE FLYER CANVAS (EXACT 210mm x 297mm)
+       ========================================= -->
+  <div class="flyer-canvas" id="flyerCanvas">
+    <div class="flyer-content">
+
+      <!-- 1. TOP BRAND HEADER -->
+      <header class="flyer-header">
+        <div class="brand-group">
+          <!-- Monogram BK Geometric Shield -->
+          <div class="brand-logo-emblem">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 4L34 11V29L20 36L6 29V11L20 4Z" stroke="#f5cf6d" stroke-width="2.5" fill="rgba(197, 160, 89, 0.15)"/>
+              <path d="M14 13H21C23.2 13 25 14.5 25 16.5C25 18 23.8 19.2 22.2 19.7C24.2 20.2 25.5 21.6 25.5 23.5C25.5 25.8 23.5 27 21 27H14V13Z" stroke="#fae19c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="14" y1="20" x2="22" y2="20" stroke="#fae19c" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="brand-titles">
+            <div class="brand-name" id="fBrandName" contenteditable="false">
+              BRAMASTYO <span class="gold">KUSUMO</span>
+            </div>
+            <div class="brand-sub" id="fBrandSub" contenteditable="false">
+              ENTERPRISE SOFTWARE HOUSE &amp; AI ENGINEERING STUDIO
+            </div>
+          </div>
+        </div>
+
+        <div class="header-pills-right">
+          <div class="live-status-pill">
+            <span class="live-dot"></span>
+            <span id="fStatusPill" contenteditable="false">AVAILABLE FOR ENTERPRISE &amp; ADVISORY</span>
+          </div>
+          <div class="header-motto-tag" id="fMottoTag" contenteditable="false">
+            BUILD · SOLVE · SCALE &nbsp;|&nbsp; IDEAS · SYSTEMS · REAL IMPACT
+          </div>
+        </div>
+      </header>
+
+      <!-- 2. HERO PROPOSITION (HIGH-IMPACT VALUE HOOK) -->
+      <section class="hero-section">
+        <div class="hero-badge-tag" id="fHeroBadge" contenteditable="false">
+          13+ YEARS ENGINEERING PRODUCTION SOFTWARE · STARTUP MVPS TO ENTERPRISE PLATFORMS
+        </div>
+        <h1 class="hero-headline" id="fHeroHeadline" contenteditable="false">
+          TURNING COMPLEX BUSINESS BOTTLENECKS INTO <span class="highlight">BULLETPROOF DIGITAL SYSTEMS</span>
+        </h1>
+        <p class="hero-subhead" id="fHeroSubhead" contenteditable="false">
+          End-to-End Engineering: <strong>Autonomous AI Agents</strong>, <strong>Enterprise Flutter Mobile &amp; Biometrics</strong>, <strong>High-Concurrency Laravel &amp; Next.js SaaS</strong>, and <strong>High-Throughput Scraping Pipelines</strong>.
+        </p>
+
+        <!-- 4 Core Engineering Pillars -->
+        <div class="principles-row">
+          <div class="principle-chip"><span class="dot"></span>Clean Modular Architecture</div>
+          <div class="principle-chip"><span class="dot"></span>Zero-Lag Sub-Second Latency</div>
+          <div class="principle-chip"><span class="dot"></span>Bank-Grade AES-256 Security</div>
+          <div class="principle-chip"><span class="dot"></span>Flutter Pioneer Since 2019</div>
+          <div class="principle-chip"><span class="dot"></span>Autonomous Multi-Agent AI</div>
+        </div>
+      </section>
+
+      <!-- 3. PRODUCTION HARDWARE & SYSTEMS SHOWCASE (VECTOR MOCKUPS) -->
+      <section class="showcase-banner">
+        
+        <!-- Left: Flutter Mobile Biometrics Device (FaceGuard) -->
+        <div class="device-phone">
+          <div class="phone-notch-bar">
+            <span>9:41</span>
+            <span>FaceGuard Biometrics</span>
+            <span>100%</span>
+          </div>
+          <div class="phone-screen-body">
+            <div class="face-scanner-box">
+              <div class="scanner-laser-line"></div>
+              <!-- Biometric Face Outline SVG -->
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="10" r="4"></circle>
+                <path d="M6 20v-2a6 6 0 0 1 12 0v2"></path>
+                <path d="M9 10h.01"></path>
+                <path d="M15 10h.01"></path>
+                <path d="M10 13a2 2 0 0 0 4 0"></path>
+                <!-- Framing Corners -->
+                <path d="M3 6V4a1 1 0 0 1 1-1h2"></path>
+                <path d="M21 6V4a1 1 0 0 0-1-1h-2"></path>
+                <path d="M3 18v2a1 1 0 0 0 1 1h2"></path>
+                <path d="M21 18v2a1 1 0 0 1-1 1h-2"></path>
+              </svg>
+            </div>
+            <div class="phone-status-badge">
+              ✓ LIVENESS DETECTED (HUMAN)
+            </div>
+          </div>
+          <div class="phone-meta-tags">
+            <span>Radius: 25m Lock</span>
+            <span>AES-256 Sync</span>
+          </div>
+        </div>
+
+        <!-- Right: Executive Cloud SaaS & AI Console (ApexWMS & Lunad AI) -->
+        <div class="device-laptop">
+          <div class="laptop-title-bar">
+            <div class="window-dots">
+              <span class="w-dot w-red"></span>
+              <span class="w-dot w-yel"></span>
+              <span class="w-dot w-grn"></span>
+            </div>
+            <div class="laptop-app-name">
+              <span>APEX-WMS</span> &amp; <span>LUNAD-AI</span> // ENTERPRISE CONSOLE
+            </div>
+            <div class="laptop-status-chip">
+              ● PROD CLUSTER ACTIVE
+            </div>
+          </div>
+
+          <div class="laptop-dashboard-grid">
+            <div class="dash-mini-card">
+              <div class="dash-mini-label">Monthly Processed Data</div>
+              <div class="dash-mini-val">5,280,000+</div>
+              <div class="dash-mini-sub">▲ 99.2% Scraping SLA</div>
+            </div>
+            <div class="dash-mini-card">
+              <div class="dash-mini-label">Daily Transactions</div>
+              <div class="dash-mini-val">50,420</div>
+              <div class="dash-mini-sub">&lt;80ms WMS Latency</div>
+            </div>
+            <div class="dash-mini-card">
+              <div class="dash-mini-label">AI Conversion Rate</div>
+              <div class="dash-mini-val">3.2x</div>
+              <div class="dash-mini-sub">Autonomous B2B Pipeline</div>
+            </div>
+          </div>
+
+          <!-- Real-Time Activity Log Strip -->
+          <div class="laptop-agent-log">
+            <span>[SYS:OK] Redis Queues: 1,420 jobs/s | PostgreSQL: 100% Health</span>
+            <span class="agent-log-active">Hermes Agent: RUNNING</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 4. CORE EXPERTISE & COMPLETE TECHNOLOGY MATRIX -->
+      <section class="expertise-section">
+        <div class="section-header-bar">
+          <div class="sec-title-main">CORE CAPABILITIES &amp; PRODUCTION TECHNOLOGY STACK</div>
+          <div class="sec-title-sub">VERIFIED ENTERPRISE-GRADE STACK · 13+ YEARS IN PRODUCTION</div>
+        </div>
+
+        <!-- 4-Column Grid covering ALL real technologies -->
+        <div class="expertise-grid-4">
+          
+          <!-- Column 1: Enterprise AI & Autonomous Agents -->
+          <div class="expertise-card">
+            <div class="expertise-card-header">
+              <div class="exp-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5v1.5h-4v-1.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4z"></path>
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <line x1="2" y1="12" x2="6" y2="12"></line>
+                  <line x1="18" y1="12" x2="22" y2="12"></line>
+                  <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                  <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                </svg>
+              </div>
+              <div class="exp-header-text">
+                <div class="exp-card-title">ENTERPRISE AI &amp; AGENTS</div>
+                <div class="exp-card-badge">Autonomous Workflows</div>
+              </div>
+            </div>
+
+            <div class="tech-tags-container">
+              <span class="tech-tag featured">OpenAI GPT-4o</span>
+              <span class="tech-tag featured">Claude 3.5</span>
+              <span class="tech-tag">DeepSeek LLM</span>
+              <span class="tech-tag featured">LangChain</span>
+              <span class="tech-tag">LangGraph</span>
+              <span class="tech-tag featured">Hermes Multi-Agent</span>
+              <span class="tech-tag">RAG Architecture</span>
+              <span class="tech-tag">Vector DB / Pinecone</span>
+              <span class="tech-tag">n8n Automation</span>
+              <span class="tech-tag">FastAPI</span>
+              <span class="tech-tag">Prompt Engineering</span>
+            </div>
+
+            <div class="exp-card-desc">
+              <strong>Autonomous B2B outreach</strong> (Lunad AI), Islamic RAG assistant (Noor), AI resume screening &amp; psychometrics (PortalRekrut).
+            </div>
+          </div>
+
+          <!-- Column 2: Mobile & Biometrics (Flutter Pioneer) -->
+          <div class="expertise-card">
+            <div class="expertise-card-header">
+              <div class="exp-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </div>
+              <div class="exp-header-text">
+                <div class="exp-card-title">MOBILE &amp; BIOMETRICS</div>
+                <div class="exp-card-badge">Flutter Pioneer Since 2019</div>
+              </div>
+            </div>
+
+            <div class="tech-tags-container">
+              <span class="tech-tag featured">Flutter (v1.0-3.x)</span>
+              <span class="tech-tag featured">Dart</span>
+              <span class="tech-tag">BLoC / Riverpod</span>
+              <span class="tech-tag">GetX</span>
+              <span class="tech-tag featured">TensorFlow Lite</span>
+              <span class="tech-tag">MediaPipe</span>
+              <span class="tech-tag featured">CameraX Face Anti-Spoof</span>
+              <span class="tech-tag">GPS Geofence Radius</span>
+              <span class="tech-tag">Anti-Mock GPS</span>
+              <span class="tech-tag">SQLite AES-256</span>
+              <span class="tech-tag">Google Maps SDK</span>
+            </div>
+
+            <div class="exp-card-desc">
+              <strong>FaceGuard &amp; HRMS Biometrics</strong> (&lt;300ms verification), SalesPulse Field Sales Tracking, MBtech e-Catalog (Android &amp; iOS).
+            </div>
+          </div>
+
+          <!-- Column 3: Full-Stack Web & Enterprise SaaS -->
+          <div class="expertise-card">
+            <div class="expertise-card-header">
+              <div class="exp-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg>
+              </div>
+              <div class="exp-header-text">
+                <div class="exp-card-title">ENTERPRISE WEB &amp; SAAS</div>
+                <div class="exp-card-badge">High Concurrency &amp; 3D</div>
+              </div>
+            </div>
+
+            <div class="tech-tags-container">
+              <span class="tech-tag featured">Laravel 11</span>
+              <span class="tech-tag">PHP 8.3</span>
+              <span class="tech-tag featured">Next.js 14</span>
+              <span class="tech-tag featured">React 18</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Vanilla JS (ES6+)</span>
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Tailwind CSS</span>
+              <span class="tech-tag featured">Three.js 3D WebGL</span>
+              <span class="tech-tag">WebRTC Audio/Video</span>
+              <span class="tech-tag">RESTful Architecture</span>
+            </div>
+
+            <div class="exp-card-desc">
+              <strong>ApexWMS Multi-Warehouse</strong>, Cakrapala 3D Space Dashboard, Reflexo POS, and multi-tenant Masjid Management Display Boards.
+            </div>
+          </div>
+
+          <!-- Column 4: Pipelines, DevOps & Cloud Scraping -->
+          <div class="expertise-card">
+            <div class="expertise-card-header">
+              <div class="exp-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                  <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                </svg>
+              </div>
+              <div class="exp-header-text">
+                <div class="exp-card-title">DATA PIPELINES &amp; OPS</div>
+                <div class="exp-card-badge">High Throughput Scraping</div>
+              </div>
+            </div>
+
+            <div class="tech-tags-container">
+              <span class="tech-tag featured">Python</span>
+              <span class="tech-tag featured">Puppeteer</span>
+              <span class="tech-tag">Playwright</span>
+              <span class="tech-tag featured">Scrapy</span>
+              <span class="tech-tag">ClickHouse</span>
+              <span class="tech-tag featured">Redis Queues</span>
+              <span class="tech-tag">MySQL &amp; PostgreSQL</span>
+              <span class="tech-tag">Docker Container</span>
+              <span class="tech-tag">Linux DevOps</span>
+              <span class="tech-tag">GitHub Actions CI/CD</span>
+              <span class="tech-tag">RFID &amp; Barcode API</span>
+            </div>
+
+            <div class="exp-card-desc">
+              <strong>OmniPipe Scraper</strong> (5M+ data points/mo, 99.2% success rate), automated marketplace intelligence, and zero-downtime deployment.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. PROVEN REAL-WORLD IMPACT (VERIFIABLE STATS) -->
+      <section class="impact-bar-card">
+        <div class="impact-stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Production Deployments</div>
+          <div class="stat-sub">13+ Years in Production</div>
+        </div>
+        <div class="impact-stat-item">
+          <div class="stat-number">75%</div>
+          <div class="stat-label">HR Cycle Reduction</div>
+          <div class="stat-sub">PortalRekrut AI Screening</div>
+        </div>
+        <div class="impact-stat-item">
+          <div class="stat-number">50k+</div>
+          <div class="stat-label">Daily WMS Transactions</div>
+          <div class="stat-sub">&lt;80ms ApexWMS Query Speed</div>
+        </div>
+        <div class="impact-stat-item">
+          <div class="stat-number">1,200+</div>
+          <div class="stat-label">Employees Automated</div>
+          <div class="stat-sub">Face Recognition &amp; Payroll</div>
+        </div>
+        <div class="impact-stat-item">
+          <div class="stat-number">99.98%</div>
+          <div class="stat-label">System Uptime SLA</div>
+          <div class="stat-sub">High-Availability Architecture</div>
+        </div>
+      </section>
+
+      <!-- 6. OFFICIAL ACCREDITATIONS & ENGINEERING STANDARDS -->
+      <section class="accreditations-section">
+        <div class="section-header-bar" style="margin: 1.5mm 0 1.5mm;">
+          <div class="sec-title-main">OFFICIAL ACCREDITATIONS &amp; CREDENTIALS</div>
+          <div class="sec-title-sub">VERIFIED GLOBAL &amp; ENTERPRISE CERTIFICATIONS</div>
+        </div>
+
+        <div class="certs-grid-4">
+          <!-- Cert 1 -->
+          <div class="cert-item-box">
+            <div class="cert-icon-seal">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div class="cert-info-col">
+              <div class="cert-issuer-badge">IBM SkillsBuild</div>
+              <div class="cert-title-text">LLM Expert Certified</div>
+              <div class="cert-sub-text">Foundation Models &amp; NLP (2026)</div>
+            </div>
+          </div>
+
+          <!-- Cert 2 -->
+          <div class="cert-item-box">
+            <div class="cert-icon-seal">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <div class="cert-info-col">
+              <div class="cert-issuer-badge">IBM &amp; Credly</div>
+              <div class="cert-title-text">Autonomous AI Architect</div>
+              <div class="cert-sub-text">ReAct Loops &amp; Agent Systems</div>
+            </div>
+          </div>
+
+          <!-- Cert 3 -->
+          <div class="cert-item-box">
+            <div class="cert-icon-seal">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <div class="cert-info-col">
+              <div class="cert-issuer-badge">Google.org × Hacktiv8</div>
+              <div class="cert-title-text">AI API &amp; Productivity</div>
+              <div class="cert-sub-text">Enterprise AI Integration</div>
+            </div>
+          </div>
+
+          <!-- Cert 4 -->
+          <div class="cert-item-box">
+            <div class="cert-icon-seal">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
+            <div class="cert-info-col">
+              <div class="cert-issuer-badge">Universitas BSI</div>
+              <div class="cert-title-text">Informatics Engineering</div>
+              <div class="cert-sub-text">Software Engineering (2010-2013)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust & Security Badges Bar -->
+        <div class="trust-guarantee-bar">
+          <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            Clean Modular Architecture
+          </div>
+          <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            100% IP &amp; Source Code Ownership
+          </div>
+          <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Strict NDA Protected
+          </div>
+          <div class="trust-badge-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            Direct Senior Lead Communication
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. CONVERSION CALL TO ACTION & DIRECT CONTACT -->
+      <footer class="flyer-footer-cta">
+        <div class="cta-left-content">
+          <a href="https://wa.me/6281289361730?text=Halo%20Bramastyo,%20saya%20tertarik%20untuk%20konsultasi%20arsitektur%20sistem%20dan%20solusi%20digital" target="_blank" class="cta-button-gold">
+            <span>📅 SCHEDULE FREE SYSTEM ARCHITECTURE AUDIT</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+
+          <!-- Contact Channels Strip -->
+          <div class="contact-channels-row">
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+              <span>Direct / WA: <span class="highlight">+62 812-8936-1730</span></span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <span>Email: <span class="highlight">bramastyodevops@gmail.com</span></span>
+            </div>
+            <div class="contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              <span>Portfolio: <span class="highlight">tyobramas</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- High-Precision SVG QR Code Box -->
+        <div class="qr-card-right">
+          <div class="qr-box-inner">
+            <!-- Vector QR Code with embedded Monogram -->
+            <svg viewBox="0 0 100 100" fill="#0c0e14">
+              <!-- Position markers -->
+              <rect x="5" y="5" width="26" height="26" fill="#0c0e14" rx="3"/>
+              <rect x="9" y="9" width="18" height="18" fill="#ffffff"/>
+              <rect x="13" y="13" width="10" height="10" fill="#0c0e14"/>
+              
+              <rect x="69" y="5" width="26" height="26" fill="#0c0e14" rx="3"/>
+              <rect x="73" y="9" width="18" height="18" fill="#ffffff"/>
+              <rect x="77" y="13" width="10" height="10" fill="#0c0e14"/>
+              
+              <rect x="5" y="69" width="26" height="26" fill="#0c0e14" rx="3"/>
+              <rect x="9" y="73" width="18" height="18" fill="#ffffff"/>
+              <rect x="13" y="77" width="10" height="10" fill="#0c0e14"/>
+              
+              <!-- Data modules pattern -->
+              <rect x="36" y="8" width="6" height="6"/>
+              <rect x="46" y="8" width="6" height="6"/>
+              <rect x="56" y="8" width="6" height="6"/>
+              <rect x="36" y="18" width="6" height="6"/>
+              <rect x="46" y="18" width="6" height="6"/>
+              <rect x="56" y="18" width="6" height="6"/>
+              <rect x="36" y="28" width="6" height="6"/>
+              <rect x="8" y="36" width="6" height="6"/>
+              <rect x="18" y="36" width="6" height="6"/>
+              <rect x="28" y="36" width="6" height="6"/>
+              <rect x="38" y="36" width="6" height="6"/>
+              <rect x="48" y="36" width="6" height="6"/>
+              <rect x="58" y="36" width="6" height="6"/>
+              <rect x="68" y="36" width="6" height="6"/>
+              <rect x="78" y="36" width="6" height="6"/>
+              <rect x="88" y="36" width="6" height="6"/>
+              
+              <!-- Center Gold Logo Emblem -->
+              <circle cx="50" cy="50" r="13" fill="#c5a059"/>
+              <text x="50" y="54" font-family="'Montserrat', sans-serif" font-size="9" font-weight="900" fill="#0c0e14" text-anchor="middle">BK</text>
+
+              <rect x="8" y="46" width="6" height="6"/>
+              <rect x="18" y="46" width="6" height="6"/>
+              <rect x="28" y="46" width="6" height="6"/>
+              <rect x="68" y="46" width="6" height="6"/>
+              <rect x="78" y="46" width="6" height="6"/>
+              <rect x="88" y="46" width="6" height="6"/>
+
+              <rect x="36" y="68" width="6" height="6"/>
+              <rect x="46" y="68" width="6" height="6"/>
+              <rect x="56" y="68" width="6" height="6"/>
+              <rect x="68" y="68" width="6" height="6"/>
+              <rect x="78" y="68" width="6" height="6"/>
+              <rect x="88" y="68" width="6" height="6"/>
+              <rect x="36" y="78" width="6" height="6"/>
+              <rect x="56" y="78" width="6" height="6"/>
+              <rect x="68" y="78" width="6" height="6"/>
+              <rect x="88" y="78" width="6" height="6"/>
+              <rect x="36" y="88" width="6" height="6"/>
+              <rect x="46" y="88" width="6" height="6"/>
+              <rect x="68" y="88" width="6" height="6"/>
+              <rect x="78" y="88" width="6" height="6"/>
+              <rect x="88" y="88" width="6" height="6"/>
+            </svg>
+          </div>
+          <div class="qr-text-meta">
+            <div class="qr-text-title">SCAN TO VIEW<br>LIVE PORTFOLIO</div>
+            <div class="qr-text-sub">github.com/tyobramas</div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Tiny Copyright Bar -->
+      <div class="flyer-copyright-bar">
+        BRAMASTYO KUSUMO &nbsp;·&nbsp; ENTERPRISE SOLUTIONS FOR A BRIGHTER TOMORROW &nbsp;·&nbsp; JAKARTA / BEKASI, INDONESIA
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================
+       INTERACTIVE JAVASCRIPT CONTROLS
+       ========================================= -->
+  <script>
+    let isEditing = false;
+
+    // Trigger Print
+    function triggerPrint() {
+      if (isEditing) toggleEditMode();
+      window.print();
+    }
+
+    // Toggle Content Editable Mode
+    function toggleEditMode() {
+      isEditing = !isEditing;
+      const btn = document.getElementById('btnToggleEdit');
+      const editableElements = document.querySelectorAll(
+        '#fBrandName, #fBrandSub, #fStatusPill, #fMottoTag, #fHeroBadge, #fHeroHeadline, #fHeroSubhead, .principle-chip, .exp-card-title, .exp-card-badge, .tech-tag, .exp-card-desc, .stat-number, .stat-label, .stat-sub, .cert-title-text, .cert-sub-text, .trust-badge-item, .contact-item'
+      );
+
+      editableElements.forEach(el => {
+        el.setAttribute('contenteditable', isEditing ? 'true' : 'false');
+      });
+
+      if (isEditing) {
+        document.body.classList.add('editing-active');
+        btn.classList.add('active');
+        btn.innerHTML = '💾 Selesai Edit';
+      } else {
+        document.body.classList.remove('editing-active');
+        btn.classList.remove('active');
+        btn.innerHTML = '✏️ Edit Teks Langsung';
+        saveFlyerState();
+      }
+    }
+
+    // Save customized text to localStorage
+    function saveFlyerState() {
+      try {
+        const data = {
+          heroHeadline: document.getElementById('fHeroHeadline').innerHTML,
+          heroSubhead: document.getElementById('fHeroSubhead').innerHTML,
+          brandSub: document.getElementById('fBrandSub').innerText,
+        };
+        localStorage.setItem('bk_flyer_custom_state', JSON.stringify(data));
+      } catch (e) {
+        console.warn('Could not save flyer state:', e);
+      }
+    }
+
+    // Load saved state
+    function loadFlyerState() {
+      try {
+        const saved = localStorage.getItem('bk_flyer_custom_state');
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data.heroHeadline) document.getElementById('fHeroHeadline').innerHTML = data.heroHeadline;
+          if (data.heroSubhead) document.getElementById('fHeroSubhead').innerHTML = data.heroSubhead;
+          if (data.brandSub) document.getElementById('fBrandSub').innerText = data.brandSub;
+        }
+      } catch (e) {}
+    }
+
+    // Reset Flyer Data
+    function resetFlyerData() {
+      if (confirm('Kembalikan semua teks flyer ke format standar default?')) {
+        localStorage.removeItem('bk_flyer_custom_state');
+        location.reload();
+      }
+    }
+
+    // Export High-Resolution PNG via html2canvas
+    async function exportToImage() {
+      if (isEditing) toggleEditMode();
+      const canvasEl = document.getElementById('flyerCanvas');
+      
+      const btn = event?.currentTarget;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) btn.innerHTML = '⏳ Menyiapkan Gambar...';
+
+      try {
+        const canvas = await html2canvas(canvasEl, {
+          scale: 2.5, // 2.5x retina resolution for ultra crisp vector & text output
+          useCORS: true,
+          backgroundColor: '#0a0e16',
+          logging: false
+        });
+
+        const imageUri = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'Bramastyo_Kusumo_Executive_Flyer.png';
+        link.href = imageUri;
+        link.click();
+      } catch (err) {
+        console.error('Failed to export image:', err);
+        alert('Gagal mengekspor gambar secara otomatis. Anda dapat menggunakan opsi Print -> Save as PDF untuk kualitas vektor terbaik.');
+      } finally {
+        if (btn) btn.innerHTML = originalText;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadFlyerState);
+  </script>
+</body>
+</html>

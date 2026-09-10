@@ -3,6 +3,7 @@ import Reveal from './Reveal';
 
 interface FooterProps {
   ownerName?: string;
+  onOpenStats?: () => void;
 }
 
 const BADGES = [
@@ -13,7 +14,7 @@ const BADGES = [
   { icon: <Globe className="h-4 w-4 text-gold-400" />, label: 'CROSS BROWSER COMPATIBLE' },
 ];
 
-export default function Footer({ ownerName = 'Bramastyo Kusumo' }: FooterProps) {
+export default function Footer({ ownerName = 'Bramastyo Kusumo', onOpenStats }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -36,6 +37,17 @@ export default function Footer({ ownerName = 'Bramastyo Kusumo' }: FooterProps) 
             <span className="text-xs text-ink-500">
               &copy; {new Date().getFullYear()} {ownerName}. All Rights Reserved.
             </span>
+            {onOpenStats && (
+              <button
+                type="button"
+                onClick={onOpenStats}
+                className="text-ink-500 hover:text-gold-400 transition-colors inline-flex items-center gap-1.5 font-mono text-[11px]"
+                title="Open Telemetry & Visitor Intelligence (/stats)"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>/stats</span>
+              </button>
+            )}
           </div>
 
           {/* Quick Links */}

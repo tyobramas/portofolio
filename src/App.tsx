@@ -15,9 +15,12 @@ import Modal from './components/Modal';
 import GoldButton from './components/GoldButton';
 import ParallaxTechBackground from './components/ParallaxTechBackground';
 import { useAdminStore } from './hooks/useAdminStore';
+import { trackVisitor } from './services/visitorTracker';
 
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const LinkedInScraperDashboard = lazy(() => import('./components/LinkedInScraperDashboard'));
+const StatsDashboard = lazy(() => import('./components/StatsDashboard'));
+const StatsPasscodeGate = lazy(() => import('./components/StatsPasscodeGate'));
 
 // ─── Admin Login Modal ────────────────────────────────────────
 interface AdminLoginProps {
@@ -141,10 +144,25 @@ export default function App() {
   }, []);
 
   const isAdminRoute = currentPath === '/admin';
+  const isStatsRoute = currentPath === '/stats';
   const isScraperRoute =
     currentPath === '/tools/linkedin' ||
     currentPath === '/dashboard' ||
     currentPath === '/scraper';
+
+  const [statsUnlocked, setStatsUnlocked] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('stats_auth_unlocked') === 'true';
+    }
+    return false;
+  });
+
+  const isStatsAllowed = statsUnlocked || session.authenticated;
+
+  useEffect(() => {
+    // Non-blocking visitor tracking to Firestore
+    trackVisitor(currentPath);
+  }, [currentPath]);
 
   useEffect(() => {
     if (isAdminRoute) {
@@ -215,6 +233,29 @@ export default function App() {
         >
           <LinkedInScraperDashboard onBackToPortfolio={() => navigateTo('/')} />
         </Suspense>
+      ) : isStatsRoute ? (
+        <Suspense
+          fallback={
+            <div className="flex h-screen items-center justify-center font-sans text-sm text-gold-400">
+              Loading visitor telemetry...
+            </div>
+          }
+        >
+          {isStatsAllowed ? (
+            <StatsDashboard
+              onBackToPortfolio={() => navigateTo('/')}
+              onLock={() => {
+                sessionStorage.removeItem('stats_auth_unlocked');
+                setStatsUnlocked(false);
+              }}
+            />
+          ) : (
+            <StatsPasscodeGate
+              onUnlock={() => setStatsUnlocked(true)}
+              onBackToPortfolio={() => navigateTo('/')}
+            />
+          )}
+        </Suspense>
       ) : (
         <>
           {/* Header TopBar */}
@@ -259,8 +300,11 @@ export default function App() {
             <ContactSection config={store.config} />
           </main>
 
-          {/* 11. Footer with Engineering Standard Badges */}
-          <Footer ownerName={store.config.ownerName} />
+          {/* 11. Footer with Engineering Standard Badges & Discrete Telemetry */}
+          <Footer
+            ownerName={store.config.ownerName}
+            onOpenStats={() => navigateTo('/stats')}
+          />
         </>
       )}
 

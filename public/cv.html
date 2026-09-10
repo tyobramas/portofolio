@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bramastyo Kusumo - Curriculum Vitae (Executive Royal Gold Edition)</title>
+  <!-- Google Fonts: Montserrat & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================
+       CSS RESET & LUXURY ROYAL GOLD VARIABLES
+       ========================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #111622;
+      --bg-card: #171f2d;
+      --gold-primary: #c5a059;
+      --gold-bright: #f5cf6d;
+      --gold-glow: rgba(245, 207, 109, 0.35);
+      --gold-dark: #5e4618;
+      --gold-card-bg: #3d2e13;
+      --text-white: #ffffff;
+      --text-light: #f1f5f9;
+      --text-gray: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-line: rgba(197, 160, 89, 0.25);
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0c0f17;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px 15px 50px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* =========================================
+       ACTION TOOLBAR (HIDDEN WHEN PRINTING)
+       ========================================= */
+    .action-toolbar {
+      width: 210mm;
+      max-width: 100%;
+      background: linear-gradient(135deg, #131210 0%, #0a0a09 100%);
+      border: 1px solid rgba(197, 160, 89, 0.3);
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65);
+    }
+
+    .toolbar-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar-desc {
+      font-size: 11px;
+      color: #bfa780;
+      font-family: 'Inter', sans-serif;
+      margin-top: 2px;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7.5px 14px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #b88e3b, #7d5e1f);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(184, 142, 59, 0.45);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #cda148, #8d6b24);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #191714;
+      color: #e2d7c5;
+      border: 1px solid #382e1d;
+    }
+
+    .btn-secondary:hover {
+      background: #25221c;
+      color: #fff;
+    }
+
+    .btn-toggle-edit.active {
+      background: #f5cf6d;
+      color: #000;
+      border-color: #c5a059;
+    }
+
+    /* =========================================
+       A4 CANVAS CONTAINER (EXACT 210mm x 297mm)
+       ========================================= */
+    .cv-page-wrapper {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(197, 160, 89, 0.22);
+      background: radial-gradient(circle at 85% 15%, rgba(197, 160, 89, 0.12) 0%, transparent 55%), radial-gradient(circle at 15% 85%, rgba(140, 105, 38, 0.08) 0%, transparent 60%), #101522;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* =========================================
+       SECTION 1: TOP HEADER (WHITE BACKGROUND)
+       ========================================= */
+    .cv-header {
+      background: #ffffff;
+      height: 48mm;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 8.5mm;
+      position: relative;
+      z-index: 2;
+      border-bottom: 2.5px solid var(--gold-primary);
+    }
+
+    /* Profile Avatar with Generous Balanced Breathing Room */
+    .avatar-wrapper {
+      position: relative;
+      width: 33mm;
+      height: 35mm;
+      flex-shrink: 0;
+      margin-right: 6.5mm;
+      cursor: pointer;
+    }
+
+    .avatar-accent-border {
+      position: absolute;
+      inset: -2.5px;
+      border: 2.5px solid var(--gold-primary);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .avatar-img-box {
+      width: 100%;
+      height: 100%;
+      background: #0d0c0a;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+    }
+
+    /* Name & Title Identity (Cleanly anchored in left zone) */
+    .header-identity {
+      flex: 1;
+      max-width: 68mm;
+      align-self: flex-start;
+      margin-top: 5mm;
+    }
+
+    .identity-name {
+      font-size: 23px;
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: 0.6px;
+      color: #0b1319;
+      text-transform: uppercase;
+    }
+
+    .identity-name .gold-highlight {
+      color: #b58933;
+    }
+
+    .identity-sep-bar {
+      width: 44mm;
+      height: 2.5px;
+      background-color: #0b1319;
+      margin: 4.5px 0 4.5px 0;
+      border-radius: 2px;
+    }
+
+    .identity-subtitle {
+      font-size: 8.2px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #0b1319;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Vertical Divider (Stays cleanly in top zone, never touches About Me) */
+    .header-vert-divider {
+      width: 1.5px;
+      height: 18mm;
+      background-color: #e2e8f0;
+      margin: 0 4.5mm;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 5mm;
+    }
+
+    /* Contact Details (Clean top-half positioning) */
+    .header-contacts {
+      width: 66mm;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-self: flex-start;
+      margin-top: 5mm;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 7.5px;
+      font-size: 9.2px;
+      font-weight: 700;
+      color: #0b1319;
+      text-decoration: none;
+      line-height: 1.25;
+    }
+
+    .contact-bubble {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: #b58933;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-bubble svg {
+      width: 9.5px;
+      height: 9.5px;
+      fill: currentColor;
+    }
+
+    .contact-val {
+      word-break: break-all;
+    }
+
+    /* =========================================
+       SECTION 2: ABOUT ME CARD (STRADDLED RIGHT IN THE MIDDLE BETWEEN WHITE & OBSIDIAN)
+       ========================================= */
+    .about-me-card {
+      position: absolute;
+      top: 28.5mm;
+      right: 0;
+      width: 116mm;
+      height: 39mm;
+      background: linear-gradient(135deg, #171f2d 0%, #111723 100%);
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+      padding: 6mm 7.5mm 6mm 8mm;
+      z-index: 10;
+      border-left: 2.5px solid var(--gold-primary);
+      border-top: 1px solid rgba(245, 207, 109, 0.45);
+      border-bottom: 1px solid rgba(245, 207, 109, 0.45);
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .about-badge {
+      align-self: flex-start;
+      background: #0d0c0a;
+      color: #f5cf6d;
+      font-size: 8.8px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      padding: 2.5px 12px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      margin-bottom: 5.5px;
+      border: 1px solid rgba(245, 207, 109, 0.45);
+    }
+
+    .about-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 10.3px;
+      line-height: 1.48;
+      color: #ffffff;
+      text-align: justify;
+      font-weight: 500;
+    }
+
+    .about-text strong {
+      color: #f5cf6d;
+      font-weight: 700;
+    }
+
+    /* =========================================
+       SECTION 3: MAIN BODY (DARK OBSIDIAN)
+       ========================================= */
+    .cv-body {
+      flex: 1;
+      display: flex;
+      padding: 3mm 8.5mm 2mm 8.5mm;
+      gap: 0;
+      position: relative;
+    }
+
+    /* LUXURY PILL BADGE (LARGER & READABLE) */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5.5px;
+      background: linear-gradient(135deg, rgba(140, 110, 50, 0.35) 0%, rgba(90, 68, 25, 0.55) 100%);
+      border: 1px solid rgba(245, 207, 109, 0.5);
+      color: #fff8eb;
+      font-size: 8.6px;
+      font-weight: 800;
+      letter-spacing: 1.1px;
+      padding: 2.5px 12px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .pill-badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+    }
+
+    /* -----------------------------------------
+       LEFT COLUMN (38% Width)
+       ----------------------------------------- */
+    .col-left {
+      width: 76mm;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+
+    /* =========================================
+       ELEGANT VERTICAL SPINE DIVIDER
+       ========================================= */
+    .cv-col-divider {
+      width: 1px;
+      margin: 0 3.5mm;
+      background: linear-gradient(180deg, 
+        rgba(197, 160, 89, 0.45) 0%, 
+        rgba(197, 160, 89, 0.22) 50%, 
+        rgba(197, 160, 89, 0.08) 100%
+      );
+      flex-shrink: 0;
+      align-self: stretch;
+    }
+
+    /* =========================================
+       HORIZONTAL SECTION SEPARATOR (HAIRLINE GOLD)
+       ========================================= */
+    .section-sep-gold {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        rgba(197, 160, 89, 0.32) 0%, 
+        rgba(197, 160, 89, 0.12) 65%, 
+        transparent 100%
+      );
+      margin: 0.2mm 0;
+      flex-shrink: 0;
+    }
+
+    /* 1. TECH STACK (8 PROMINENT TOOLS IN 4x2 GRID) */
+    .softwares-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .software-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      background: rgba(23, 31, 45, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 7px;
+      padding: 3.5px 3px;
+    }
+
+    .app-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    /* Tool Icons */
+    .app-js {
+      background: #f7df1e;
+      color: #000000;
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .app-ts {
+      background: #3178c6;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .app-react {
+      background: #071926;
+      border: 1px solid #00d8ff;
+      color: #00d8ff;
+    }
+
+    .app-laravel {
+      background: #200705;
+      border: 1px solid #ff2d20;
+      color: #ff2d20;
+    }
+
+    .app-flutter {
+      background: #051a29;
+      border: 1px solid #45d1fd;
+      color: #45d1fd;
+    }
+
+    .app-python {
+      background: #091522;
+      border: 1px solid #387eb8;
+      color: #ffd438;
+    }
+
+    .app-next {
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+    }
+
+    .app-ai {
+      background: linear-gradient(135deg, #1b0f2a 0%, #311448 100%);
+      border: 1px solid #c084fc;
+      color: #f3e8ff;
+    }
+
+    .app-name-caption {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.1px;
+    }
+
+    .dot-rating {
+      display: flex;
+      gap: 2.2px;
+    }
+
+    .dot-rating .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: #2b241a;
+    }
+
+    .dot-rating .dot.filled {
+      background-color: var(--gold-bright);
+    }
+
+    /* 2. CORE STATS METRICS (LARGE & CRISP) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    .stat-card {
+      background: rgba(23, 31, 45, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.28);
+      border-radius: 6px;
+      padding: 3.5px 2px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: var(--gold-bright);
+      line-height: 1.1;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .stat-lbl {
+      font-size: 7px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      margin-top: 2px;
+    }
+
+    /* 3. EDUCATION */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .edu-item {
+      display: flex;
+      position: relative;
+      min-height: 10mm;
+    }
+
+    .edu-years {
+      width: 17mm;
+      flex-shrink: 0;
+      font-size: 8.8px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      text-align: left;
+    }
+
+    .edu-node {
+      width: 5mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .edu-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--gold-bright);
+      margin-top: 2px;
+      z-index: 2;
+    }
+
+    .edu-line {
+      position: absolute;
+      top: 7px;
+      bottom: -7px;
+      width: 1.5px;
+      background: linear-gradient(180deg, var(--gold-bright), rgba(197, 160, 89, 0.2));
+      z-index: 1;
+    }
+
+    .edu-item:last-child .edu-line {
+      display: none;
+    }
+
+    .edu-details {
+      flex: 1;
+      padding-left: 2mm;
+    }
+
+    .edu-title {
+      font-size: 9.2px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .edu-school {
+      font-family: 'Inter', sans-serif;
+      font-size: 8.2px;
+      color: #cbd5e1;
+      line-height: 1.28;
+      margin-top: 1px;
+    }
+
+    /* 4. LANGUAGE */
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: 6.5px;
+      margin-bottom: 3.5px;
+    }
+
+    .lang-name {
+      width: 22mm;
+      font-size: 8.8px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .lang-bar-box {
+      flex: 1;
+      position: relative;
+      height: 6.5px;
+      background: #171f2d;
+      border-radius: 999px;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+    }
+
+    .lang-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7d5e1f, var(--gold-bright));
+      border-radius: 999px;
+    }
+
+    .lang-val-pill {
+      position: absolute;
+      right: 0;
+      top: -6.5px;
+      background: var(--gold-bright);
+      color: #161208;
+      font-size: 7.2px;
+      font-weight: 900;
+      padding: 1px 4.5px;
+      border-radius: 999px;
+    }
+
+    /* 5. CONSOLIDATED CORE ARCHITECTURES & DOMAINS */
+    .domains-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .domain-chip {
+      background: rgba(25, 34, 49, 0.9);
+      border: 1px solid rgba(197, 160, 89, 0.28);
+      border-radius: 5px;
+      padding: 3.5px 7px;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #fdf5e6;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* 6. WORK PROFILE */
+    .faith-columns {
+      display: flex;
+      gap: 8px;
+      background: rgba(23, 31, 45, 0.8);
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 6px;
+      padding: 5px 8px;
+    }
+
+    .faith-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .faith-heading {
+      font-size: 9.2px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .faith-text {
+      font-size: 9.5px;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.25;
+    }
+
+    /* -----------------------------------------
+       RIGHT COLUMN (62% Width)
+       ----------------------------------------- */
+    .col-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      /* Top padding to cleanly clear the About Me card (straddling boundary) */
+      padding-top: 18.5mm;
+      gap: 1.5mm;
+    }
+
+    /* 1. EXPERIENCE */
+    .exp-item {
+      display: flex;
+      position: relative;
+      min-height: 8.5mm;
+      margin-bottom: 0px;
+    }
+
+    .exp-years {
+      width: 17mm;
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+      text-align: left;
+    }
+
+    .exp-node {
+      width: 5mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .exp-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--gold-bright);
+      margin-top: 2px;
+      z-index: 2;
+    }
+
+    .exp-line {
+      position: absolute;
+      top: 7px;
+      bottom: -7px;
+      width: 1.5px;
+      background: linear-gradient(180deg, var(--gold-bright), rgba(197, 160, 89, 0.2));
+      z-index: 1;
+    }
+
+    .exp-item:last-child .exp-line {
+      display: none;
+    }
+
+    .exp-details {
+      flex: 1;
+      padding-left: 2.5mm;
+    }
+
+    .exp-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .exp-company {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.8px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      margin-top: 0.5px;
+    }
+
+    .exp-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 9px;
+      color: #e2e8f0;
+      line-height: 1.25;
+      margin-top: 0.5px;
+    }
+
+    /* 2. PRODUCTS (6 FLAGSHIP PRODUCTION PRODUCTS IN 2 COLUMNS) */
+    .projects-grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5px 4px;
+    }
+
+    .proj-card-2col {
+      background: rgba(23, 31, 45, 0.85);
+      border: 1px solid rgba(197, 160, 89, 0.28);
+      border-radius: 6px;
+      padding: 3px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8px;
+    }
+
+    .proj-card-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .proj-card-tag {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .proj-card-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 9.5px;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+
+    .proj-card-metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 9px;
+      font-weight: 800;
+      color: #fae19c;
+      background: rgba(245, 207, 109, 0.1);
+      border: 1px solid rgba(245, 207, 109, 0.32);
+      border-radius: 4px;
+      padding: 1.5px 5.5px;
+      margin-top: 1.5px;
+      width: fit-content;
+    }
+
+    /* 3. TECHNICAL EXPERTISE (8 CORE PROFICIENCIES IN 2 COLUMNS) */
+    .skills-compact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 7mm;
+    }
+
+    .skill-compact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+    }
+
+    .skill-compact-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skill-compact-name {
+      font-size: 8.4px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+    }
+
+    .skill-compact-val {
+      font-size: 8.2px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .skill-compact-track {
+      width: 100%;
+      height: 5px;
+      background: #171f2d;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .skill-compact-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6e521b 0%, #c5a059 75%, #fae19c 100%);
+      border-radius: 999px;
+    }
+
+    /* 4. ACCREDITATIONS & CREDENTIALS (LEFT COLUMN SINGLE LIST) */
+    .credentials-bottom {
+      border-top: 1px solid rgba(197, 160, 89, 0.25);
+      padding-top: 1.5mm;
+      display: flex;
+      flex-direction: column;
+      gap: 1mm;
+    }
+
+    .accreditations-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2.2px;
+    }
+
+    .bullet-list li {
+      font-size: 9.2px;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      padding-left: 9px;
+      line-height: 1.35;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--gold-bright);
+      font-size: 10.5px;
+      top: -1px;
+    }
+
+    /* =========================================
+       EDITABLE HIGHLIGHT HELPER
+       ========================================= */
+    body.editing-active [contenteditable="true"] {
+      outline: 1.5px dashed #f5cf6d !important;
+      outline-offset: 2px;
+      background: rgba(245, 207, 109, 0.1);
+      border-radius: 3px;
+      cursor: text;
+    }
+
+    /* Guide Box at Bottom */
+    .print-guide-card {
+      width: 210mm;
+      max-width: 100%;
+      background: #11100e;
+      border: 1px dashed #382e1d;
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-top: 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11.5px;
+      color: #94a3b8;
+      line-height: 1.55;
+    }
+
+    .print-guide-card strong {
+      color: #f5cf6d;
+    }
+
+    /* =========================================
+       PRINT RULES (@media print)
+       ========================================= */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      *, *::before, *::after {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+      }
+
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: var(--bg-dark) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .action-toolbar,
+      .print-guide-card {
+        display: none !important;
+      }
+
+      .cv-page-wrapper {
+        width: 210mm !important;
+        height: 297mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+
+      .cv-header {
+        height: 48mm !important;
+        flex-shrink: 0 !important;
+      }
+
+      .about-me-card {
+        top: 28.5mm !important;
+        width: 116mm !important;
+        height: 39mm !important;
+        box-shadow: none !important;
+        filter: none !important;
+      }
+
+      [contenteditable="true"],
+      body.editing-active [contenteditable="true"] {
+        outline: none !important;
+        background: transparent !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       ACTION TOOLBAR (TOMBOL KONTROL)
+       ========================================= -->
+  <div class="action-toolbar">
+    <div class="toolbar-info">
+      <div class="toolbar-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f5cf6d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        Bramastyo Kusumo - Executive CV (Royal Gold Edition)
+      </div>
+      <div class="toolbar-desc">Desain elegan profesional aksen emas, teks besar &amp; jelas saat diprint, layout A4 presisi 1 halaman.</div>
+    </div>
+    <div class="toolbar-actions">
+      <button id="btnToggleEdit" class="btn btn-secondary btn-toggle-edit" onclick="toggleEditMode()">
+        ✏️ Edit Teks Langsung
+      </button>
+      <button class="btn btn-secondary" onclick="triggerPhotoUpload()">
+        🖼️ Ganti Foto
+      </button>
+      <button class="btn btn-secondary" onclick="location.reload()">
+        🔄 Reset
+      </button>
+      <button class="btn btn-primary" onclick="triggerPrint()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Save as PDF / Print
+      </button>
+    </div>
+  </div>
+
+  <!-- Hidden Photo Uploader Input -->
+  <input type="file" id="photoUploader" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+
+  <!-- =========================================
+       A4 CV CANVAS
+       ========================================= -->
+  <div class="cv-page-wrapper" id="cvCanvas">
+
+    <!-- 1. TOP HEADER (LIGHT BACKGROUND) -->
+    <header class="cv-header">
+      
+      <!-- Avatar with Gold Outer Geometric Frame -->
+      <div class="avatar-wrapper" onclick="triggerPhotoUpload()" title="Klik untuk mengganti foto profil">
+        <div class="avatar-accent-border"></div>
+        <div class="avatar-img-box">
+          <img id="avatarImage" src="images/profile.png" alt="Bramastyo Kusumo">
+        </div>
+      </div>
+
+      <!-- Identity Name -->
+      <div class="header-identity">
+        <div class="identity-name" id="userName">
+          BRAMASTYO<br>
+          <span class="gold-highlight">KUSUMO</span>
+        </div>
+        <div class="identity-sep-bar"></div>
+        <div class="identity-subtitle" id="userTitle">SENIOR FULL-STACK &amp; AI ARCHITECT</div>
+      </div>
+
+      <!-- Vertical Separator Line -->
+      <div class="header-vert-divider"></div>
+
+      <!-- Contact Info (No phone number, ultra-clean professional contacts) -->
+      <div class="header-contacts">
+        <div class="contact-item">
+          <div class="contact-bubble">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <span class="contact-val" id="userEmail">bramastyodevops@gmail.com</span>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-bubble">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          </div>
+          <span class="contact-val" id="userLocation">Jakarta / Bekasi, Indonesia</span>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-bubble">
+            <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </div>
+          <span class="contact-val" id="userLinkedin">linkedin.com/in/bramastyo</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. ABOUT ME OVERLAY CARD (STRADDLED RIGHT IN THE MIDDLE BETWEEN WHITE & OBSIDIAN) -->
+    <div class="about-me-card">
+      <div class="about-badge">ABOUT ME</div>
+      <p class="about-text" id="userAbout">
+        Senior Full-Stack, Mobile &amp; AI Systems Architect specializing in scalable <strong>Web Development</strong> (React, Next.js, Laravel), high-performance cross-platform <strong>Mobile Engineering</strong> (Flutter), and autonomous <strong>AI Agentic Workflows</strong> (LangChain, ReAct loops, Vector RAG). Proven track record leading 50+ enterprise production deployments with 99.98% uptime and measurable business impact.
+      </p>
+    </div>
+
+    <!-- 3. MAIN CONTENT BODY (DARK THEME) -->
+    <main class="cv-body">
+
+      <!-- LEFT COLUMN -->
+      <div class="col-left">
+
+        <!-- Tech Stack (8 Premier Tools with 32px Prominent Icons & Readable Text) -->
+        <section class="softwares-block">
+          <div class="pill-badge">TECH STACK &amp; TOOLS</div>
+          <div class="softwares-grid">
+            
+            <!-- 1. JavaScript -->
+            <div class="software-item">
+              <div class="app-icon app-js" title="JavaScript (ES6+)">JS</div>
+              <span class="app-name-caption">JavaScript</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 2. TypeScript -->
+            <div class="software-item">
+              <div class="app-icon app-ts" title="TypeScript">TS</div>
+              <span class="app-name-caption">TypeScript</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 3. React -->
+            <div class="software-item">
+              <div class="app-icon app-react" title="React / Next.js">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <ellipse cx="12" cy="12" rx="10" ry="4"/>
+                  <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+                  <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+                  <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">React</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 4. Laravel -->
+            <div class="software-item">
+              <div class="app-icon app-laravel" title="Laravel">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21.17 6.46l-7.5-4.33a2 2 0 0 0-2 0l-7.5 4.33a2 2 0 0 0-1 1.73v8.66a2 2 0 0 0 1 1.73l7.5 4.33a2 2 0 0 0 2 0l7.5-4.33a2 2 0 0 0 1-1.73V8.19a2 2 0 0 0-1-1.73zM12 4.14l6.5 3.75-2.75 1.59-6.5-3.75L12 4.14zm-1 15.72l-6.5-3.75V8.65l6.5 3.75v7.46zm2 0v-7.46l2.75-1.59v3.74l3.75-2.16v3.72l-6.5 3.75z"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">Laravel</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 5. Flutter -->
+            <div class="software-item">
+              <div class="app-icon app-flutter" title="Flutter">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14.314 0L2.3 12 6 15.7 21.684 0h-7.37zM14.314 11.215L8.743 16.786l4.286 4.285h7.371l-7.371-7.37-4.286-2.486z"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">Flutter</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 6. Python -->
+            <div class="software-item">
+              <div class="app-icon app-python" title="Python">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.91 2c-5.06 0-4.73 2.19-4.73 2.19l.01 2.27h4.81v.69H5.16S2 6.78 2 11.89c0 5.12 2.76 4.93 2.76 4.93h1.64v-2.31s-.09-2.76 2.72-2.76h4.69s2.63.04 2.63-2.61V4.62S16.97 2 11.91 2zm-2.6 1.48a.98.98 0 1 1 0 1.96.98.98 0 0 1 0-1.96zM12.09 22c5.06 0 4.73-2.19 4.73-2.19l-.01-2.27H12v-.69h6.84S22 17.22 22 12.11c0-5.12-2.76-4.93-2.76-4.93h-1.64v2.31s.09 2.76-2.72 2.76H10.2s-2.63-.04-2.63 2.61v4.52s-.53 2.62 4.52 2.62zm2.6-1.48a.98.98 0 1 1 0-1.96.98.98 0 0 1 0 1.96z"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">Python</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 7. Next.js -->
+            <div class="software-item">
+              <div class="app-icon app-next" title="Next.js">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="11.5" fill="#000000" stroke="rgba(255,255,255,0.2)"/>
+                  <path d="M16.4 17.2L10.36 9.37V17.2H8.8V6.8H10.45L16.5 14.65V6.8H18V17.2H16.4Z" fill="#FFFFFF"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">Next.js</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+
+            <!-- 8. AI & LLMs -->
+            <div class="software-item">
+              <div class="app-icon app-ai" title="AI & LLMs">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2zM19 19l-1-3-3-1 3-1 1-3 1 3 3 1-3 1-1 3z"/>
+                </svg>
+              </div>
+              <span class="app-name-caption">AI / LLM</span>
+              <div class="dot-rating">
+                <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. CORE STATS METRICS (LARGE & CRISP) -->
+        <section class="stats-block">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-val">30+</div>
+              <div class="stat-lbl">Web Systems</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">50+</div>
+              <div class="stat-lbl">Deployments</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">5M+</div>
+              <div class="stat-lbl">Data / Mo</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">99.98%</div>
+              <div class="stat-lbl">Uptime</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 3. EDUCATION -->
+        <section class="education-block">
+          <div class="pill-badge">EDUCATION &amp; TRAINING</div>
+          <div class="timeline-container" id="educationList">
+
+            <div class="edu-item">
+              <div class="edu-years">2010<br>2013</div>
+              <div class="edu-node">
+                <div class="edu-dot"></div>
+                <div class="edu-line"></div>
+              </div>
+              <div class="edu-details">
+                <div class="edu-title">INFORMATICS ENGINEERING</div>
+                <div class="edu-school">Universitas Bina Sarana Informatika (BSI) — Jakarta.</div>
+                <div class="edu-school" style="font-style: italic; font-size: 7.5px; color: #94a3b8;">Software Engineering, OOP &amp; Relational Databases.</div>
+              </div>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-years">2024<br>2026</div>
+              <div class="edu-node">
+                <div class="edu-dot"></div>
+                <div class="edu-line"></div>
+              </div>
+              <div class="edu-details">
+                <div class="edu-title">AUTONOMOUS AI &amp; LLMS</div>
+                <div class="edu-school">IBM SkillsBuild &amp; Hacktiv8 x Google.org.</div>
+                <div class="edu-school" style="font-style: italic; font-size: 7.5px; color: #94a3b8;">Agentic Workflows, ReAct Loops &amp; Vector RAG.</div>
+              </div>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-years">2018<br>2022</div>
+              <div class="edu-node">
+                <div class="edu-dot"></div>
+                <div class="edu-line"></div>
+              </div>
+              <div class="edu-details">
+                <div class="edu-title">CROSS-PLATFORM ARCHITECTURE</div>
+                <div class="edu-school">Industry Continuing Engineering Practice.</div>
+                <div class="edu-school" style="font-style: italic; font-size: 7.5px; color: #94a3b8;">Early Flutter Pioneer, Clean BLoC &amp; Mobile Interfaces.</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 4. LANGUAGE -->
+        <section class="language-block">
+          <div class="pill-badge">LANGUAGE PROFICIENCY</div>
+          <div id="languageList">
+            <div class="lang-item">
+              <div class="lang-name">INDONESIAN</div>
+              <div class="lang-bar-box">
+                <div class="lang-bar-fill" style="width: 100%;"></div>
+                <div class="lang-val-pill">100%</div>
+              </div>
+            </div>
+
+            <div class="lang-item">
+              <div class="lang-name">ENGLISH</div>
+              <div class="lang-bar-box">
+                <div class="lang-bar-fill" style="width: 90%;"></div>
+                <div class="lang-val-pill">90%</div>
+              </div>
+            </div>
+
+            <div class="lang-item">
+              <div class="lang-name">TECH WRITING</div>
+              <div class="lang-bar-box">
+                <div class="lang-bar-fill" style="width: 95%;"></div>
+                <div class="lang-val-pill">95%</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 5. CONSOLIDATED CORE ARCHITECTURES & DOMAINS -->
+        <section class="specialties-block">
+          <div class="pill-badge">CORE COMPETENCIES &amp; DOMAINS</div>
+          <div class="domains-wrap">
+            <span class="domain-chip">Autonomous AI Agents</span>
+            <span class="domain-chip">LLM &amp; Vector RAG</span>
+            <span class="domain-chip">Cross-Platform Flutter</span>
+            <span class="domain-chip">Enterprise SaaS</span>
+            <span class="domain-chip">Biometrics &amp; Anti-Spoof</span>
+            <span class="domain-chip">Distributed Scrapers</span>
+            <span class="domain-chip">Smart Logistics WMS</span>
+          </div>
+        </section>
+
+        <!-- 6. DEV TOOLCHAIN & CLOUD OPS -->
+        <section class="toolchain-block">
+          <div class="pill-badge">DEV TOOLCHAIN &amp; CLOUD OPS</div>
+          <div class="domains-wrap">
+            <span class="domain-chip">TypeScript &amp; ES6+</span>
+            <span class="domain-chip">Laravel &amp; PHP</span>
+            <span class="domain-chip">React &amp; Next.js</span>
+            <span class="domain-chip">FastAPI &amp; Python</span>
+            <span class="domain-chip">Docker &amp; Linux</span>
+            <span class="domain-chip">Redis &amp; PostgreSQL</span>
+            <span class="domain-chip">Git &amp; CI/CD Pipelines</span>
+            <span class="domain-chip">Figma Systems</span>
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 7. WORK PROFILE -->
+        <section class="state-faith-block">
+          <div class="pill-badge">WORK PROFILE</div>
+          <div class="faith-columns" id="faithGrid">
+            <div class="faith-col">
+              <div class="faith-heading">LOCATION</div>
+              <div class="faith-text">Bekasi / Jakarta, ID</div>
+            </div>
+            <div class="faith-col">
+              <div class="faith-heading">WORK MODE</div>
+              <div class="faith-text">Remote / Advisory</div>
+            </div>
+            <div class="faith-col">
+              <div class="faith-heading">AVAILABILITY</div>
+              <div class="faith-text">Full-time / Contracts</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. ACCREDITATIONS & CREDENTIALS (moved from right column) -->
+        <div class="credentials-bottom">
+          <div class="pill-badge">ACCREDITATIONS &amp; CREDENTIALS</div>
+          <div class="accreditations-grid">
+            <ul class="bullet-list" id="certListCol1">
+              <li>IBM SkillsBuild: Large Language Models &amp; Generative AI (2026)</li>
+              <li>IBM SkillsBuild: Build an AI Agent with ReAct Loops - Credly (2026)</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ELEGANT VERTICAL SPINE DIVIDER -->
+      <div class="cv-col-divider"></div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col-right">
+
+        <!-- 1. Experience -->
+        <section class="experience-block">
+          <div class="pill-badge">PROFESSIONAL EXPERIENCE</div>
+          <div class="timeline-container" id="experienceList">
+
+            <!-- Role 1 -->
+            <div class="exp-item">
+              <div class="exp-years">2024<br>PRESENT</div>
+              <div class="exp-node">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-details">
+                <div class="exp-title">SENIOR FULL-STACK &amp; AI SYSTEMS ENGINEER</div>
+                <div class="exp-company">Prakarsa AI (Remote)</div>
+                <div class="exp-desc">Architecting enterprise LLM pipelines (Lunad AI), multi-agent sales &amp; recruitment outreach agents, real-time biometric Face Recognition with 3D anti-spoofing live camera validation, and sub-second RAG response engines.</div>
+              </div>
+            </div>
+
+            <!-- Role 2 -->
+            <div class="exp-item">
+              <div class="exp-years">2022<br>2024</div>
+              <div class="exp-node">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-details">
+                <div class="exp-title">FULL-STACK &amp; MOBILE LEAD DEVELOPER</div>
+                <div class="exp-company">Kerja Nasional</div>
+                <div class="exp-desc">Engineered MBtech Flutter e-Catalog &amp; Merchant app (iOS/Android), centralized multi-tenant Masjid Management system with Flutter Display Board signage, and field sales tracking with live GPS radius geofencing.</div>
+              </div>
+            </div>
+
+            <!-- Role 3 -->
+            <div class="exp-item">
+              <div class="exp-years">2019<br>2022</div>
+              <div class="exp-node">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-details">
+                <div class="exp-title">REMOTE MOBILE ENGINEER (FLUTTER EARLY ADOPTER)</div>
+                <div class="exp-company">PT Passion Abadi · PT 3D · PT Rekayasa Digital</div>
+                <div class="exp-desc">Pioneered enterprise cross-platform Flutter applications at official 1.0 framework release. Delivered smooth 60fps reactive mobile user interfaces, clean BLoC architecture, REST API microservices, and offline-first SQLite sync.</div>
+              </div>
+            </div>
+
+            <!-- Role 4 -->
+            <div class="exp-item">
+              <div class="exp-years">2013<br>2019</div>
+              <div class="exp-node">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-details">
+                <div class="exp-title">FULL-STACK WEB &amp; SOLUTIONS ENGINEER</div>
+                <div class="exp-company">Freelance &amp; Enterprise Agencies</div>
+                <div class="exp-desc">Designed and built 30+ custom web platforms, e-commerce stores, POS systems, and automated high-throughput data scraping engines with PHP, Laravel, Vanilla JavaScript (ES6+), MySQL, and Linux environments.</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 2. Products (6 Flagship Products) -->
+        <section class="projects-block">
+          <div class="pill-badge">PRODUCTS</div>
+          <div class="projects-grid-2col">
+            <!-- Project 1 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">Lunad AI Agent Platform</div>
+              <div class="proj-card-tag">Next.js · LangChain · LLM · Prisma</div>
+              <div class="proj-card-desc">Autonomous B2B outreach pipeline processing 10k+ prospects with 3.2x lead conversion boost.</div>
+              <div class="proj-card-metric-badge">⚡ 3.2x Conversion · 10k+ Prospects</div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">Noor Smart Islamic Apps</div>
+              <div class="proj-card-tag">Flutter · FastAPI · Vector DB · GetX</div>
+              <div class="proj-card-desc">20+ modules mobile ecosystem with sub-second RAG interactive Islamic AI assistant.</div>
+              <div class="proj-card-metric-badge">⚡ Sub-Second RAG · 20+ Modules</div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">PortalRekrut AI Recruiter</div>
+              <div class="proj-card-tag">Next.js 14 · Python · WebRTC · LLM</div>
+              <div class="proj-card-desc">Autonomous hiring: AI resume scoring, adaptive psychometrics &amp; contextual video interviews.</div>
+              <div class="proj-card-metric-badge">⚡ 75% Faster Hiring · Autonomous LLM</div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">FaceGuard Biometrics &amp; HRMS</div>
+              <div class="proj-card-tag">Flutter · TF Lite · CameraX · Laravel</div>
+              <div class="proj-card-desc">Biometric face presence with 3D depth anti-spoofing &amp; geofencing for 1,200+ staff.</div>
+              <div class="proj-card-metric-badge">⚡ &lt;300ms Biometric · 1.2k+ Staff</div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">ApexWMS Enterprise</div>
+              <div class="proj-card-tag">Laravel 11 · React · Redis · Docker</div>
+              <div class="proj-card-desc">Smart warehouse management: 99.98% inventory accuracy &amp; 48% picking workflow speedup.</div>
+              <div class="proj-card-metric-badge">⚡ 99.98% Accuracy · 48% Speedup</div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="proj-card-2col">
+              <div class="proj-card-title">OmniPipe Scraper Cluster</div>
+              <div class="proj-card-tag">Python · Puppeteer · Scrapy · ClickHouse</div>
+              <div class="proj-card-desc">Distributed multi-threaded scraping cluster extracting 5M+ monthly marketplace records.</div>
+              <div class="proj-card-metric-badge">⚡ 5M+ Data/Mo · 99.2% Success Rate</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="section-sep-gold"></div>
+
+        <!-- 3. Technical Expertise & Proficiency (8 Core Skills with Thicker Bars) -->
+        <section class="skills-block">
+          <div class="pill-badge">TECHNICAL EXPERTISE &amp; PROFICIENCY</div>
+          <div class="skills-compact-grid" id="personalSkillsList">
+
+            <!-- Skill 1 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">JAVASCRIPT (ES6+) &amp; TS</span>
+                <span class="skill-compact-val">98%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 2 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">FULL-STACK (LARAVEL &amp; REACT)</span>
+                <span class="skill-compact-val">96%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 96%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 3 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">PYTHON &amp; DATA SCRAPING</span>
+                <span class="skill-compact-val">95%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 95%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 4 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">AI AGENT &amp; LLMS (LANGCHAIN)</span>
+                <span class="skill-compact-val">95%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 95%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 5 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">FLUTTER &amp; MOBILE (DART)</span>
+                <span class="skill-compact-val">94%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 94%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 6 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">SYSTEM DESIGN &amp; REST APIS</span>
+                <span class="skill-compact-val">93%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 93%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 7 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">SQL &amp; HIGH-PERF DATABASES</span>
+                <span class="skill-compact-val">92%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 92%;"></div>
+              </div>
+            </div>
+
+            <!-- Skill 8 -->
+            <div class="skill-compact-item">
+              <div class="skill-compact-meta">
+                <span class="skill-compact-name">DOCKER, DEVOPS &amp; CI/CD</span>
+                <span class="skill-compact-val">90%</span>
+              </div>
+              <div class="skill-compact-track">
+                <div class="skill-compact-fill" style="width: 90%;"></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Credentials section moved to left column -->
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- =========================================
+       TIPS CETAK / SAVE AS PDF
+       ========================================= -->
+  <div class="print-guide-card">
+    <div style="font-weight: 800; color: #fff; margin-bottom: 5px; font-size: 12px;">💡 Panduan Cetak &amp; Simpan ke PDF:</div>
+    <div>1. Klik tombol <strong>Save as PDF / Print</strong> di atas (atau shortcut <kbd>Cmd</kbd> + <kbd>P</kbd> / <kbd>Ctrl</kbd> + <kbd>P</kbd>).</div>
+    <div>2. Pada jendela dialog cetak browser, pilih <strong>Destination: Save as PDF</strong>.</div>
+    <div>3. Pada pilihan <strong>Margins</strong>, pilih <strong>None</strong> agar batas kertas 0 margin presisi (sesuai layout A4).</div>
+    <div>4. <strong>Wajib centang opsi: "Background graphics"</strong> agar latar belakang gelap dan aksen emas tercetak utuh.</div>
+    <div>5. Simpan file PDF (misal: <code>cv-bramastyo-kusumo.pdf</code>) ke folder <code>public/</code> agar tombol Unduh CV di web portfolio Anda langsung mengunduhnya!</div>
+  </div>
+
+  <!-- =========================================
+       JAVASCRIPT INTERACTIONS & DYNAMIC ENHANCEMENTS
+       ========================================= -->
+  <script>
+    let isEditMode = false;
+
+    // Trigger Print safely
+    function triggerPrint() {
+      if (isEditMode) {
+        toggleEditMode();
+      }
+      window.print();
+    }
+
+    window.addEventListener('beforeprint', () => {
+      if (isEditMode) {
+        toggleEditMode();
+      }
+    });
+
+    // Toggle Content Editable
+    function toggleEditMode() {
+      isEditMode = !isEditMode;
+      const btn = document.getElementById('btnToggleEdit');
+      const editableElements = document.querySelectorAll(
+        '#userName, #userTitle, #userEmail, #userLocation, #userLinkedin, #userAbout, .edu-years, .edu-title, .edu-school, .lang-name, .faith-heading, .faith-text, .exp-years, .exp-title, .exp-company, .exp-desc, .skill-compact-name, .skill-compact-val, .proj-card-title, .proj-card-tag, .proj-card-desc, .proj-card-metric-badge, .bullet-list li, .stat-val, .stat-lbl, .domain-chip'
+      );
+
+      editableElements.forEach(el => {
+        el.setAttribute('contenteditable', isEditMode ? 'true' : 'false');
+      });
+
+      if (isEditMode) {
+        document.body.classList.add('editing-active');
+        btn.classList.add('active');
+        btn.innerHTML = '💾 Selesai Edit';
+      } else {
+        document.body.classList.remove('editing-active');
+        btn.classList.remove('active');
+        btn.innerHTML = '✏️ Edit Teks Langsung';
+        // Auto-save edited text to localStorage
+        saveCvState();
+      }
+    }
+
+    // Photo Upload Trigger
+    function triggerPhotoUpload() {
+      document.getElementById('photoUploader').click();
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const avatar = document.getElementById('avatarImage');
+          avatar.src = e.target.result;
+          try {
+            localStorage.setItem('customCvAvatar', e.target.result);
+          } catch(err) {
+            console.warn('Image storage in localStorage exceeded quota:', err);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Save state to localStorage
+    function saveCvState() {
+      const state = {
+        name: document.getElementById('userName').innerHTML,
+        title: document.getElementById('userTitle').innerText,
+        about: document.getElementById('userAbout').innerText,
+        email: document.getElementById('userEmail').innerText,
+        location: document.getElementById('userLocation').innerText,
+        linkedin: document.getElementById('userLinkedin').innerText,
+      };
+      localStorage.setItem('bramastyoCvState_v3', JSON.stringify(state));
+    }
+
+    // Restore state from localStorage if exists
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('bramastyoCvState_v3');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.name) document.getElementById('userName').innerHTML = data.name;
+          if (data.title) document.getElementById('userTitle').innerText = data.title;
+          if (data.about) document.getElementById('userAbout').innerText = data.about;
+          if (data.email) document.getElementById('userEmail').innerText = data.email;
+          if (data.location) document.getElementById('userLocation').innerText = data.location;
+          if (data.linkedin && document.getElementById('userLinkedin')) document.getElementById('userLinkedin').innerText = data.linkedin;
+        } catch(e) {
+          console.error(e);
+        }
+      }
+      const savedAvatar = localStorage.getItem('customCvAvatar');
+      if (savedAvatar) {
+        document.getElementById('avatarImage').src = savedAvatar;
+      }
+    });
+  </script>
+</body>
+</html>
