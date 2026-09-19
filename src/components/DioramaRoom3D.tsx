@@ -573,16 +573,8 @@ function buildRoom() {
 export default function DioramaRoom3D({ className = '' }: { className?: string }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Check mobile on mount
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-  }, []);
 
   useEffect(() => {
-    if (isMobile) return;
-
     const mount = mountRef.current;
     if (!mount) return;
 
@@ -659,14 +651,24 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
     screenLight.position.set(0, 2.4, -1.95);
     scene.add(screenLight);
 
-    // ── Smooth parallax following cursor ──
+    // ── Smooth parallax following cursor / touch ──
     let tx = 0, ty = 0, cx = 0, cy = 0;
     const onMove = (e: MouseEvent) => {
       const r = mount.getBoundingClientRect();
       tx = ((e.clientX - r.left) / r.width - 0.5) * 0.22;
       ty = ((e.clientY - r.top) / r.height - 0.5) * 0.1;
     };
-    if (!reduced) mount.addEventListener('mousemove', onMove);
+    const onTouch = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const t = e.touches[0];
+      const r = mount.getBoundingClientRect();
+      tx = ((t.clientX - r.left) / r.width - 0.5) * 0.32;
+      ty = ((t.clientY - r.top) / r.height - 0.5) * 0.15;
+    };
+    if (!reduced) {
+      mount.addEventListener('mousemove', onMove);
+      mount.addEventListener('touchmove', onTouch, { passive: true });
+    }
 
     // ── Pause render when offscreen (battery saver) ──
     let visible = true;
@@ -688,10 +690,11 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       code.update(dt, t);
       board.update(dt);
 
-      // Parallax lerp
+      // Parallax lerp with subtle ambient breathing orbit
+      const idleOrbit = Math.sin(t * 0.5) * 0.04;
       cx += (tx - cx) * 0.05;
       cy += (ty - cy) * 0.05;
-      room.rotation.y = cx;
+      room.rotation.y = cx + idleOrbit;
       camera.position.y = 8.7 + cy * 3.4;
       camera.lookAt(0, 2.1, 0);
 
@@ -731,6 +734,7 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       io.disconnect();
       ro.disconnect();
       mount.removeEventListener('mousemove', onMove);
+      mount.removeEventListener('touchmove', onTouch);
       code.tex.dispose();
       board.tex.dispose();
       scene.traverse((o) => {
@@ -742,52 +746,9 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
       renderer.dispose();
       if (renderer.domElement.parentNode) mount.removeChild(renderer.domElement);
     };
-  }, [isMobile]);
+  }, []);
 
-  // ── Mobile: static image fallback ──
-  if (isMobile) {
-    return (
-      <div className={`relative overflow-hidden rounded-xl bg-[#0B0C10] ${className}`}>
-        <img
-          src="/images/tech_workstation_3d.png"
-          alt="Diorama 3D ruang kerja: seorang engineer sedang menulis kode"
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-
-        {/* Depth vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C10]/60 via-transparent to-transparent pointer-events-none" />
-
-        {/* Top-right badge */}
-        <div className="absolute top-4 right-4 inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-[#0B0C10]/85 backdrop-blur-md px-3 py-1 text-xs shadow-lg pointer-events-none">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-gold-500" />
-          </span>
-          <span className="font-mono text-[11px] font-semibold text-gold-300">
-            3D WebGL // Interactive
-          </span>
-        </div>
-
-        {/* Bottom-left badge */}
-        <div className="absolute bottom-5 left-5 inline-flex items-center gap-2.5 rounded-xl border border-gold-500/40 bg-[#0B0C10]/95 backdrop-blur-md px-4 py-2.5 shadow-2xl pointer-events-none">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400">
-            <Award className="h-4 w-4 text-gold-400" />
-          </div>
-          <div>
-            <p className="font-sans text-sm font-extrabold text-white leading-none">
-              13+ Years
-            </p>
-            <p className="font-sans text-[0.6875rem] font-semibold text-gold-400 uppercase tracking-wider mt-0.5">
-              Production Experience
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Desktop: full 3D canvas ──
+  // ── 3D Canvas across all devices ──
   return (
     <div className={`relative ${className}`}>
       <div

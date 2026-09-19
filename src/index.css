@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --accent-cyan: #00D6FF;
+  --accent-cyan-bright: #96F0FF;
+}
+
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
@@ -325,8 +330,19 @@
     animation: hudSpinCounterClockwise 35s linear infinite;
   }
 
-  .animate-hud-glow {
-    animation: hudBreathingGlow 5s ease-in-out infinite;
+  @keyframes cyberPlexusBreath {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+      opacity: 0.88;
+    }
+    50% {
+      transform: translateY(-9px) scale(1.02);
+      opacity: 1;
+    }
+  }
+
+  .animate-plexus-float {
+    animation: cyberPlexusBreath 9s ease-in-out infinite;
   }
 }
 

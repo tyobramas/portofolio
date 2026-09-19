@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowRight, Download } from 'lucide-react';
 import { downloadCvPdf } from '../utils/generateCvPdf';
 
@@ -20,7 +20,7 @@ const NAV_ITEMS = [
 export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: TopBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const clickCountRef = React.useRef(0);
+  const clickCountRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {

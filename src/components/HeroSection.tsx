@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Globe, Download, ArrowRight } from 'lucide-react';
 import Reveal from './Reveal';
 import TechAvatarHud from './TechAvatarHud';
+import TechParallaxBackground from './TechParallaxBackground';
+import HeroConstellationCanvas from './HeroConstellationCanvas';
 import { downloadCvPdf } from '../utils/generateCvPdf';
 import type { SystemConfig } from '../types';
 
@@ -9,6 +12,26 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ config }: HeroSectionProps) {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const accentProgress = Math.min(1, Math.max(0, scrollY / 320));
+
   const handleScrollTo = (id: string) => {
     const el = document.querySelector(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -16,9 +39,11 @@ export default function HeroSection({ config }: HeroSectionProps) {
 
   return (
     <section id="home" className="relative pt-8 pb-12 lg:pt-12 lg:pb-16 overflow-hidden">
-      {/* Cinematic ambient background glow */}
-      <div className="absolute top-10 right-1/4 h-[500px] w-[500px] rounded-full bg-amber-500/10 blur-[130px] pointer-events-none" />
-      <div className="absolute top-1/3 -left-20 h-[400px] w-[400px] rounded-full bg-amber-600/5 blur-[120px] pointer-events-none" />
+      {/* Luxury Multi-Layer Depth Stack Parallax Background */}
+      <TechParallaxBackground />
+
+      {/* Real-time JavaScript Canvas 2D Constellation Depth Stack */}
+      <HeroConstellationCanvas />
 
       <div className="shell">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center">
@@ -37,6 +62,92 @@ export default function HeroSection({ config }: HeroSectionProps) {
               <h1 className="font-latin text-5xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-normal tracking-wide text-white leading-[1.25] drop-shadow-[0_4px_25px_rgba(229,169,60,0.35)]">
                 {config.ownerName || 'Bramastyo Kusumo'}
               </h1>
+            </Reveal>
+
+            {/* Foreground Architectural Tech Accent Bar (Menghilang Murni ke Kiri Saat Scroll) */}
+            <Reveal delay={90}>
+              <div
+                className="relative py-1 max-w-[360px] sm:max-w-[440px] select-none transition-transform duration-75 ease-out"
+                aria-hidden="true"
+                style={{
+                  transform: `translate3d(-${accentProgress * 70}px, 0, 0)`,
+                  opacity: Math.max(0, 1 - accentProgress * 1.35),
+                  willChange: 'transform, opacity',
+                }}
+              >
+                <svg
+                  viewBox="0 0 420 16"
+                  className="w-full h-4 overflow-visible"
+                  fill="none"
+                >
+                  <defs>
+                    <linearGradient id="nameLineGradient" x1="100%" y1="0%" x2="0%" y2="0%">
+                      <stop offset="0%" stopColor="#FFF2B8" stopOpacity="0.95" />
+                      <stop offset="35%" stopColor="#E5A93C" stopOpacity="0.85" />
+                      <stop offset="85%" stopColor="#C58A22" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#E5A93C" stopOpacity="0" />
+                    </linearGradient>
+
+                    <filter id="accentPipGlow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feGaussianBlur stdDeviation="2" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  {/* Left Anchor Terminal Circle: Fixed anchor on the left */}
+                  <g transform="translate(4, 8)" filter="url(#accentPipGlow)">
+                    <circle cx="0" cy="0" r="2.8" fill="#FFF2B8" />
+                    <circle cx="0" cy="0" r="5.5" fill="none" stroke="#E5A93C" strokeWidth="0.8" />
+                  </g>
+
+                  {/* The Conduit Line: Retracts from right into the left anchor (x=4) */}
+                  <g
+                    style={{
+                      transform: `scaleX(${Math.max(0, 1 - accentProgress * 1.15)})`,
+                      transformOrigin: '4px 8px',
+                      transition: 'transform 75ms ease-out',
+                    }}
+                  >
+                    <line
+                      x1="4"
+                      y1="8"
+                      x2="380"
+                      y2="8"
+                      stroke="url(#nameLineGradient)"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Micro Hash Ticks along the line that retract into the left */}
+                    {[60, 100, 140, 180, 240, 300].map((tx) => (
+                      <line
+                        key={tx}
+                        x1={tx}
+                        y1="4"
+                        x2={tx}
+                        y2="12"
+                        stroke="#F5C869"
+                        strokeWidth="1"
+                      />
+                    ))}
+                  </g>
+
+                  {/* Right Retracting Leader Diamond: Rides the right tip back into the left anchor */}
+                  {accentProgress < 0.85 && (
+                    <g
+                      transform={`translate(${Math.max(4, 4 + (380 - 4) * Math.max(0, 1 - accentProgress * 1.15))}, 8)`}
+                      filter="url(#accentPipGlow)"
+                      style={{ transition: 'transform 75ms ease-out' }}
+                    >
+                      <polygon points="0,-3.5 3.5,0 0,3.5 -3.5,0" fill="#FFF2B8" />
+                      <circle cx="0" cy="0" r="4.5" fill="#E5A93C" opacity="0.35" />
+                    </g>
+                  )}
+                </svg>
+              </div>
             </Reveal>
 
             <Reveal delay={120}>
