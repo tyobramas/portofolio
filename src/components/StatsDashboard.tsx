@@ -18,12 +18,14 @@ import {
   Terminal,
   Compass,
   Radar,
+  Download,
 } from 'lucide-react';
 import { 
   subscribeVisitorLogs, 
   fetchVisitorLogsOnce, 
   computeStatsSummary,
-  trackVisitor 
+  trackVisitor,
+  trackCvDownload 
 } from '../services/visitorTracker';
 import type { VisitorRecord } from '../types/stats';
 
@@ -36,9 +38,10 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
   const [logs, setLogs] = useState<VisitorRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
-  const [filterType, setFilterType] = useState<'all' | 'human' | 'vpn' | 'bot'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'human' | 'vpn' | 'bot' | 'cv_download'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [simulatingVisit, setSimulatingVisit] = useState(false);
+  const [simulatingCv, setSimulatingCv] = useState(false);
 
   // Firestore Realtime Subscription
   useEffect(() => {
@@ -81,6 +84,16 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
     }, 1200);
   };
 
+  // Simulate a test CV download for telemetry validation
+  const handleTestCvDownload = async () => {
+    setSimulatingCv(true);
+    await trackCvDownload();
+    setTimeout(async () => {
+      await handleManualRefresh();
+      setSimulatingCv(false);
+    }, 1200);
+  };
+
   // Aggregated calculations
   const summary = useMemo(() => computeStatsSummary(logs), [logs]);
 
@@ -91,6 +104,16 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
       if (filterType === 'human' && log.isBot) return false;
       if (filterType === 'bot' && !log.isBot) return false;
       if (filterType === 'vpn' && !(log.isVpn || log.isProxy || log.isTor)) return false;
+      if (
+        filterType === 'cv_download' &&
+        !(
+          log.action === 'cv_download' ||
+          log.path === '/download-cv' ||
+          (log.path && log.path.includes('bramastyo-kusumo-cv.pdf')) ||
+          Boolean(log.downloadedFile)
+        )
+      )
+        return false;
 
       // Search query
       if (searchQuery.trim()) {
@@ -102,7 +125,19 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
         const matchBot = (log.botName || '').toLowerCase().includes(q);
         const matchBrowser = (log.browser || '').toLowerCase().includes(q);
         const matchPath = (log.path || '').toLowerCase().includes(q);
-        return matchCountry || matchCity || matchIp || matchIsp || matchBot || matchBrowser || matchPath;
+        const matchAction = (log.action || '').toLowerCase().includes(q);
+        const matchFile = (log.downloadedFile || '').toLowerCase().includes(q);
+        return (
+          matchCountry ||
+          matchCity ||
+          matchIp ||
+          matchIsp ||
+          matchBot ||
+          matchBrowser ||
+          matchPath ||
+          matchAction ||
+          matchFile
+        );
       }
 
       return true;
@@ -167,6 +202,16 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
           {/* Action Buttons */}
           <div className="flex items-center gap-2">
             <button
+              onClick={handleTestCvDownload}
+              disabled={simulatingCv}
+              title="Simulasi 1 log unduhan CV untuk uji coba"
+              className="inline-flex items-center gap-1.5 text-xs text-gold-300 hover:text-white px-3 py-1.5 rounded-lg border border-gold-500/30 bg-gold-500/10 hover:bg-gold-500/20 transition-all disabled:opacity-50"
+            >
+              <Download className={`w-3.5 h-3.5 ${simulatingCv ? 'animate-bounce text-gold-300' : 'text-gold-400'}`} />
+              <span>{simulatingCv ? 'Mencatat...' : 'Tes Unduh CV'}</span>
+            </button>
+
+            <button
               onClick={handleTestVisit}
               disabled={simulatingVisit}
               title="Simulasi 1 log kunjungan baru untuk uji coba"
@@ -198,8 +243,8 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
 
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-8">
-        {/* Top KPI Cards (4 Cards) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Top KPI Cards (5 Cards including CV Downloads) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Card 1: Total Visitors */}
           <div className="p-5 rounded-2xl bg-gradient-to-b from-[#11141E] to-[#0D0F17] border border-[#202536] shadow-lg relative overflow-hidden group hover:border-[#2C334A] transition-all">
             <div className="flex items-center justify-between mb-3">
@@ -214,6 +259,24 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
             <p className="text-xs text-ink-400 mt-2 flex items-center gap-1.5">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold-400" />
               Tercatat di Firestore log
+            </p>
+          </div>
+
+          {/* Card 2: CV Downloads */}
+          <div className="p-5 rounded-2xl bg-gradient-to-b from-[#18140B] to-[#0D0F17] border border-gold-500/35 shadow-[0_10px_30px_rgba(217,140,20,0.12)] relative overflow-hidden group hover:border-gold-400 transition-all">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-gold-400 font-bold">Unduhan CV (PDF)</span>
+              <div className="w-9 h-9 rounded-xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-300 group-hover:scale-110 transition-transform">
+                <Download className="w-4 h-4 text-gold-400" />
+              </div>
+            </div>
+            <div className="text-3xl font-extrabold text-white tracking-tight flex items-baseline gap-2">
+              <span className="text-gold-300">{summary.cvDownloadCount.toLocaleString()}</span>
+              <span className="text-xs font-mono text-gold-400/80">unduhan</span>
+            </div>
+            <p className="text-xs text-ink-300 mt-2 flex items-center gap-1.5 truncate font-mono">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" />
+              bramastyo-kusumo-cv.pdf
             </p>
           </div>
 
@@ -446,6 +509,17 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
                 </button>
                 <button
                   type="button"
+                  onClick={() => setFilterType('cv_download')}
+                  className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
+                    filterType === 'cv_download'
+                      ? 'bg-gold-500 text-canvas font-bold shadow'
+                      : 'text-ink-400 hover:text-white'
+                  }`}
+                >
+                  Unduhan CV ({summary.cvDownloadCount})
+                </button>
+                <button
+                  type="button"
                   onClick={() => setFilterType('bot')}
                   className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
                     filterType === 'bot'
@@ -481,7 +555,7 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
                   <th className="py-3 px-4 font-semibold">Lokasi Geografis</th>
                   <th className="py-3 px-4 font-semibold">Klasifikasi Keamanan</th>
                   <th className="py-3 px-4 font-semibold">Perangkat / OS</th>
-                  <th className="py-3 px-4 font-semibold">Halaman</th>
+                  <th className="py-3 px-4 font-semibold">Halaman / Event</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#161925]">
@@ -545,6 +619,13 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
                         {/* Klasifikasi Keamanan & Deteksi */}
                         <td className="py-3.5 px-4 whitespace-nowrap">
                           <div className="flex flex-wrap items-center gap-1.5">
+                            {(log.action === 'cv_download' || log.path === '/download-cv' || log.downloadedFile) && (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-gold-500/20 text-gold-300 border border-gold-500/40">
+                                <Download className="w-3 h-3 text-gold-400" />
+                                Unduh CV
+                              </span>
+                            )}
+
                             {log.isBot ? (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">
                                 <Bot className="w-3 h-3" />
@@ -582,9 +663,20 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
                           </div>
                         </td>
 
-                        {/* Halaman */}
-                        <td className="py-3.5 px-4 font-mono text-[11px] text-gold-400/90">
-                          {log.path || '/'}
+                        {/* Halaman / Event */}
+                        <td className="py-3.5 px-4 font-mono text-[11px]">
+                          {log.action === 'cv_download' || log.downloadedFile ? (
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-gold-400 font-bold flex items-center gap-1">
+                                <Download className="w-3 h-3" /> Unduh CV
+                              </span>
+                              <span className="text-[10px] text-ink-400">
+                                {log.downloadedFile || 'bramastyo-kusumo-cv.pdf'}
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-gold-400/90">{log.path || '/'}</span>
+                          )}
                         </td>
                       </tr>
                     );

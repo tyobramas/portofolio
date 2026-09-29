@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapPin, Mail, Linkedin, Github, Download, ShieldCheck, Check, Copy } from 'lucide-react';
 import type { SystemConfig } from '../types';
+import { trackCvDownload } from '../services/visitorTracker';
 
 export default function ProfileAside({ config }: { config: SystemConfig }) {
   const [copied, setCopied] = useState(false);
@@ -123,8 +124,11 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
 
       {/* CV Download Button */}
       <a
-        href="/cv-bramastyo-kusumo.pdf"
-        download
+        href="/bramastyo-kusumo-cv.pdf"
+        download="bramastyo-kusumo-cv.pdf"
+        onClick={() => {
+          trackCvDownload();
+        }}
         className="no-print mt-5 inline-flex w-full items-center justify-center gap-2 rounded-[3px] bg-ink-950 px-4 py-2.5 text-meta font-semibold text-canvas shadow-card transition-all duration-200 ease-refined hover:bg-brass-700 hover:shadow-gold"
       >
         <Download size={14} strokeWidth={2} /> Unduh Curriculum Vitae (PDF)

@@ -35,6 +35,10 @@ export interface VisitorRecord {
   deviceType: 'mobile' | 'desktop' | 'tablet';
   screenResolution: string;
   language: string;
+
+  // Event Action
+  action?: 'visit' | 'cv_download' | string;
+  downloadedFile?: string;
 }
 
 export interface CountryStat {
@@ -51,6 +55,7 @@ export interface StatsSummary {
   botCount: number;
   vpnCount: number;
   datacenterCount: number;
+  cvDownloadCount: number;
   uniqueCountries: number;
   topCountries: CountryStat[];
   topPages: { path: string; count: number }[];

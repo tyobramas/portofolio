@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import { defaultProjects, defaultMilestones, defaultCertificates, defaultConfig } from '../data';
+import { trackCvDownload } from '../services/visitorTracker';
 
 export function generateCvPdf(): jsPDF {
   const doc = new jsPDF({
@@ -330,9 +331,17 @@ export function generateCvPdf(): jsPDF {
 
 export function downloadCvPdf(): void {
   try {
-    const doc = generateCvPdf();
-    doc.save('Bramastyo_Kusumo_CV.pdf');
+    const link = document.createElement('a');
+    link.href = '/bramastyo-kusumo-cv.pdf';
+    link.download = 'bramastyo-kusumo-cv.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Track download in analytics / stats
+    trackCvDownload();
   } catch (err) {
-    console.error('Failed to generate CV PDF:', err);
+    console.error('Failed to download CV PDF:', err);
+    window.open('/bramastyo-kusumo-cv.pdf', '_blank');
   }
 }

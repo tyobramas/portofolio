@@ -288,6 +288,66 @@ export async function trackVisitor(currentPath: string = window.location.pathnam
   }
 }
 
+// ─── CV Download Event Tracker ───────────────────────────────────────────────
+export async function trackCvDownload(): Promise<boolean> {
+  if (typeof window === 'undefined') return false;
+
+  try {
+    const ua = navigator.userAgent || '';
+    const botInfo = detectBotDetails(ua);
+    const clientEnv = parseClientEnvironment();
+    const geoData = await fetchGeoAndSecurityData();
+    const now = Date.now();
+
+    const record: VisitorRecord = {
+      ip: maskIp(geoData.ip),
+      fullIp: geoData.ip,
+      timestamp: now,
+      isoDate: new Date(now).toISOString(),
+      path: '/download-cv',
+      referrer: document.referrer || window.location.href || 'CV Download',
+      userAgent: ua,
+
+      country: geoData.country || 'Unknown',
+      countryCode: geoData.countryCode || 'UN',
+      city: geoData.city || 'Unknown',
+      region: geoData.region || '',
+      isp: geoData.isp || 'Unknown ISP',
+      asn: geoData.asn || '',
+
+      isVpn: geoData.isVpn ?? false,
+      isProxy: geoData.isProxy ?? false,
+      isTor: geoData.isTor ?? false,
+      isDatacenter: geoData.isDatacenter ?? false,
+      riskScore: geoData.riskScore ?? 0,
+
+      isBot: botInfo.isBot ?? false,
+      botName: botInfo.botName || '',
+      botType: botInfo.botType || 'other',
+      isWebdriver: botInfo.isWebdriver ?? false,
+
+      browser: clientEnv.browser || 'Other',
+      os: clientEnv.os || 'Unknown',
+      deviceType: clientEnv.deviceType || 'desktop',
+      screenResolution: clientEnv.screenResolution || 'Unknown',
+      language: clientEnv.language || 'en',
+
+      action: 'cv_download',
+      downloadedFile: 'bramastyo-kusumo-cv.pdf',
+    };
+
+    const sanitizedRecord = Object.fromEntries(
+      Object.entries(record).filter(([_, v]) => v !== undefined)
+    );
+
+    await addDoc(collection(db, 'visitor_logs'), sanitizedRecord);
+    return true;
+  } catch (err) {
+    console.warn('[VisitorTracker] Failed to record CV download:', err);
+    return false;
+  }
+}
+
 // ─── Query & Aggregation Service ─────────────────────────────────────────────
 export function subscribeVisitorLogs(
   onLogs: (logs: VisitorRecord[]) => void,
@@ -296,7 +356,7 @@ export function subscribeVisitorLogs(
   const q = query(
     collection(db, 'visitor_logs'),
     orderBy('timestamp', 'desc'),
-    limit(250)
+    limit(1000)
   );
 
   return onSnapshot(
@@ -323,7 +383,7 @@ export async function fetchVisitorLogsOnce(): Promise<VisitorRecord[]> {
     const q = query(
       collection(db, 'visitor_logs'),
       orderBy('timestamp', 'desc'),
-      limit(250)
+      limit(1000)
     );
     const snap = await getDocs(q);
     return snap.docs.map((doc) => ({
@@ -342,6 +402,7 @@ export function computeStatsSummary(logs: VisitorRecord[]): StatsSummary {
   let botCount = 0;
   let vpnCount = 0;
   let datacenterCount = 0;
+  let cvDownloadCount = 0;
 
   const countryMap = new Map<string, { country: string; countryCode: string; count: number }>();
   const pagesMap = new Map<string, number>();
@@ -350,6 +411,17 @@ export function computeStatsSummary(logs: VisitorRecord[]): StatsSummary {
   const deviceBreakdown = { desktop: 0, mobile: 0, tablet: 0 };
 
   for (const log of logs) {
+    const isCvDownload =
+      log.action === 'cv_download' ||
+      log.path === '/download-cv' ||
+      (log.path && log.path.includes('bramastyo-kusumo-cv.pdf')) ||
+      (log.path && log.path.includes('cv-bramastyo-kusumo.pdf')) ||
+      Boolean(log.downloadedFile);
+
+    if (isCvDownload) {
+      cvDownloadCount++;
+    }
+
     if (log.isBot) {
       botCount++;
       const bName = log.botName || 'Other Bot';
@@ -419,6 +491,7 @@ export function computeStatsSummary(logs: VisitorRecord[]): StatsSummary {
     botCount,
     vpnCount,
     datacenterCount,
+    cvDownloadCount,
     uniqueCountries: countryMap.size,
     topCountries,
     topPages,
