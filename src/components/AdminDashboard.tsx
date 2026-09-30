@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import {
   Shield, LogOut, LayoutDashboard, FolderOpen, Clock, Cpu,
-  Settings, Plus, Pencil, Trash2, RefreshCw, Save, X,
+  Settings, Plus, Pencil, Trash2, RefreshCw, Save, X, BookOpen,
+  Eye, EyeOff, Paperclip,
 } from 'lucide-react';
 import GoldButton from './GoldButton';
 import Modal from './Modal';
 import StatusBadge from './StatusBadge';
-import type { AdminStore, Project, Milestone, Skill, SystemConfig, ProjectStatus, ProjectCategory, SkillCategory, SkillLevel } from '../types';
+import type {
+  AdminStore, Project, Milestone, Skill, SystemConfig,
+  ProjectStatus, ProjectCategory, SkillCategory, SkillLevel,
+  Article, ArticleAttachment,
+} from '../types';
 
-type AdminTab = 'overview' | 'projects' | 'timeline' | 'skills' | 'config';
+type AdminTab = 'overview' | 'projects' | 'articles' | 'timeline' | 'skills' | 'config';
 
 interface AdminDashboardProps {
   store: AdminStore;
@@ -23,6 +28,9 @@ interface AdminDashboardProps {
   onAddSkill: (s: Skill) => void;
   onUpdateSkill: (id: string, patch: Partial<Skill>) => void;
   onDeleteSkill: (id: string) => void;
+  onAddArticle?: (a: Omit<Article, 'id'>) => void;
+  onUpdateArticle?: (id: string, patch: Partial<Article>) => void;
+  onDeleteArticle?: (id: string) => void;
   onReset: () => void;
 }
 import type { LucideIcon } from 'lucide-react';
@@ -30,6 +38,7 @@ import type { LucideIcon } from 'lucide-react';
 const TABS: { id: AdminTab; label: string; icon: LucideIcon }[] = [
   { id: 'overview',  label: 'Overview',  icon: LayoutDashboard },
   { id: 'projects',  label: 'Projects',  icon: FolderOpen },
+  { id: 'articles',  label: 'Articles',  icon: BookOpen },
   { id: 'timeline',  label: 'Timeline',  icon: Clock },
   { id: 'skills',    label: 'Skills',    icon: Cpu },
   { id: 'config',    label: 'Config',    icon: Settings },
@@ -456,12 +465,445 @@ const TimelineTab: React.FC<{
   );
 };
 
+// ─── Articles Tab ─────────────────────────────────────────────
+const ArticlesTab: React.FC<{
+  articles: Article[];
+  onAdd?: (a: Omit<Article, 'id'>) => void;
+  onUpdate?: (id: string, patch: Partial<Article>) => void;
+  onDelete?: (id: string) => void;
+}> = ({ articles = [], onAdd, onUpdate, onDelete }) => {
+  const [editTarget, setEditTarget] = useState<Article | null>(null);
+  const [showAdd, setShowAdd] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [editorTab, setEditorTab] = useState<'write' | 'preview'>('write');
+
+  const blankArticle = (): Article => ({
+    id: `art-${Date.now()}`,
+    title: '',
+    slug: '',
+    excerpt: '',
+    content: `## Ringkasan Eksekutif\n\nTulis pendahuluan atau latar belakang masalah di sini...\n\n### 1. Desain Arsitektur & Problem Solving\n\nJelaskan solusi arsitektur atau implementasi teknis:\n\n\`\`\`typescript\n// Contoh cuplikan kode implementasi\nexport function solveProblem() {\n  return 'High throughput & reliable';\n}\n\`\`\`\n\n### 2. Hasil & Pembelajaran\n\n- Poin hasil 1\n- Poin hasil 2\n`,
+    coverImage: '/cert/cert2.png',
+    category: 'System Architecture',
+    tags: ['Architecture', 'Backend'],
+    readTime: '5 min read',
+    readCount: 1,
+    published: true,
+    featured: false,
+    publishedAt: new Date().toISOString().split('T')[0],
+    attachments: [],
+  });
+
+  const [draft, setDraft] = useState<Article>(blankArticle());
+  const [newAttName, setNewAttName] = useState('');
+  const [newAttUrl, setNewAttUrl] = useState('');
+  const [newAttSize, setNewAttSize] = useState('1.5 MB');
+
+  const openAdd = () => {
+    setDraft(blankArticle());
+    setEditorTab('write');
+    setShowAdd(true);
+  };
+
+  const openEdit = (a: Article) => {
+    setDraft({ ...a, attachments: a.attachments || [] });
+    setEditorTab('write');
+    setEditTarget(a);
+  };
+
+  const closeModal = () => {
+    setShowAdd(false);
+    setEditTarget(null);
+  };
+
+  const handleTitleChange = (val: string) => {
+    const slug = val
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    setDraft(d => ({
+      ...d,
+      title: val,
+      slug: d.slug === '' || d.slug === d.title.toLowerCase().replace(/[\s_-]+/g, '-') ? slug : d.slug,
+    }));
+  };
+
+  const handleContentChange = (content: string) => {
+    const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
+    const estMinutes = Math.max(1, Math.ceil(wordCount / 180));
+    setDraft(d => ({
+      ...d,
+      content,
+      readTime: `${estMinutes} min read`,
+    }));
+  };
+
+  const addAttachment = () => {
+    if (!newAttName.trim()) return;
+    const newAtt: ArticleAttachment = {
+      id: `att-${Date.now()}`,
+      name: newAttName.trim(),
+      url: newAttUrl.trim() || '#',
+      size: newAttSize.trim() || '1.0 MB',
+      type: 'pdf',
+    };
+    setDraft(d => ({ ...d, attachments: [...(d.attachments || []), newAtt] }));
+    setNewAttName('');
+    setNewAttUrl('');
+  };
+
+  const removeAttachment = (attId: string) => {
+    setDraft(d => ({ ...d, attachments: (d.attachments || []).filter(a => a.id !== attId) }));
+  };
+
+  const handleSave = () => {
+    if (!draft.title.trim()) return;
+    if (editTarget) {
+      if (onUpdate) onUpdate(editTarget.id, draft);
+    } else {
+      if (onAdd) onAdd(draft);
+    }
+    closeModal();
+  };
+
+  const inputClass = 'w-full bg-graphite-800/50 border border-graphite-600/30 rounded-sm px-3 py-2 font-mono text-xs text-cream-200 focus:outline-none focus:border-gold-500/50 transition-colors';
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-mono text-xs text-graphite-400">
+            {articles.length} article{articles.length === 1 ? '' : 's'} managed
+          </p>
+        </div>
+        <GoldButton size="sm" icon={<Plus size={13} />} onClick={openAdd}>
+          New Article
+        </GoldButton>
+      </div>
+
+      {articles.length === 0 ? (
+        <div className="glass-panel pixel-border rounded-sm p-8 text-center text-graphite-400 font-mono text-xs">
+          Belum ada artikel. Klik "New Article" untuk menulis artikel pertama Anda.
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {articles.map(art => (
+            <div key={art.id} className="glass-panel pixel-border rounded-sm p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-start gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-sm bg-graphite-800/80 border border-gold-500/20 flex items-center justify-center shrink-0 overflow-hidden">
+                  {art.coverImage ? (
+                    <img src={art.coverImage} alt={art.title} className="w-full h-full object-cover" />
+                  ) : (
+                    <BookOpen size={16} className="text-gold-400" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-display text-sm font-semibold text-cream-100 truncate">{art.title}</p>
+                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono tracking-wider ${art.published ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'}`}>
+                      {art.published ? 'PUBLISHED' : 'DRAFT'}
+                    </span>
+                    {art.featured && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono tracking-wider bg-gold-500/15 text-gold-300 border border-gold-500/30">
+                        FEATURED
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 mt-1 font-mono text-[10px] text-graphite-400 flex-wrap">
+                    <span className="text-gold-400">{art.category}</span>
+                    <span>•</span>
+                    <span>{art.readTime}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1 text-cyan-300">
+                      <Eye size={10} /> {art.readCount || 0} reads
+                    </span>
+                    {art.attachments && art.attachments.length > 0 && (
+                      <>
+                        <span>•</span>
+                        <span className="flex items-center gap-1 text-gold-300/80">
+                          <Paperclip size={10} /> {art.attachments.length} attachment{art.attachments.length > 1 ? 's' : ''}
+                        </span>
+                      </>
+                    )}
+                    <span>•</span>
+                    <span>{art.publishedAt}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 self-end sm:self-center shrink-0">
+                <button
+                  type="button"
+                  onClick={() => onUpdate && onUpdate(art.id, { published: !art.published })}
+                  title={art.published ? 'Unpublish to Draft' : 'Publish Article'}
+                  className={`p-1.5 rounded-sm transition-colors text-xs font-mono flex items-center gap-1 border ${art.published ? 'border-graphite-600 text-graphite-300 hover:text-amber-400 hover:border-amber-500/40' : 'border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10'}`}
+                >
+                  {art.published ? <EyeOff size={13} /> : <Eye size={13} />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => openEdit(art)}
+                  aria-label={`Edit ${art.title}`}
+                  className="p-1.5 text-graphite-400 hover:text-gold-400 hover:bg-gold-500/10 rounded-sm transition-colors"
+                >
+                  <Pencil size={13} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDeleteId(art.id)}
+                  aria-label={`Delete ${art.title}`}
+                  className="p-1.5 text-graphite-400 hover:text-red-400 hover:bg-red-500/10 rounded-sm transition-colors"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Editor Modal */}
+      <Modal isOpen={showAdd || !!editTarget} onClose={closeModal} title={editTarget ? 'Edit Article' : 'Compose New Article'}>
+        <div className="space-y-3.5 max-h-[75vh] overflow-y-auto pr-1">
+          <div>
+            <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">TITLE</label>
+            <input
+              type="text"
+              placeholder="e.g. Arsitektur Multi-Agent System pada Production Backend"
+              value={draft.title}
+              onChange={e => handleTitleChange(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">SLUG (URL KEY)</label>
+              <input
+                type="text"
+                value={draft.slug}
+                onChange={e => setDraft(d => ({ ...d, slug: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">CATEGORY</label>
+              <select
+                value={draft.category}
+                onChange={e => setDraft(d => ({ ...d, category: e.target.value }))}
+                className={inputClass}
+              >
+                <option value="System Architecture">System Architecture</option>
+                <option value="AI & Automation">AI & Automation</option>
+                <option value="Mobile & Flutter">Mobile & Flutter</option>
+                <option value="Web & Backend">Web & Backend</option>
+                <option value="Engineering Culture">Engineering Culture</option>
+                <option value="DevOps & Cloud">DevOps & Cloud</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">EXCERPT / RINGKASAN</label>
+            <textarea
+              rows={2}
+              placeholder="1-2 kalimat ringkasan tentang isi artikel untuk preview kartu..."
+              value={draft.excerpt}
+              onChange={e => setDraft(d => ({ ...d, excerpt: e.target.value }))}
+              className={[inputClass, 'resize-none'].join(' ')}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="sm:col-span-2">
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">COVER IMAGE URL / PATH</label>
+              <input
+                type="text"
+                placeholder="/cert/cert2.png or https://..."
+                value={draft.coverImage || ''}
+                onChange={e => setDraft(d => ({ ...d, coverImage: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">READ TIME</label>
+              <input
+                type="text"
+                value={draft.readTime}
+                onChange={e => setDraft(d => ({ ...d, readTime: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">TAGS (comma-separated)</label>
+              <input
+                type="text"
+                placeholder="AI Agents, Python, FastAPI"
+                value={(draft.tags || []).join(', ')}
+                onChange={e => setDraft(d => ({ ...d, tags: e.target.value.split(',').map(s => s.trim()).filter(Boolean) }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">INITIAL / TELEMETRY READS</label>
+              <input
+                type="number"
+                value={draft.readCount || 0}
+                onChange={e => setDraft(d => ({ ...d, readCount: Number(e.target.value) || 0 }))}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          {/* Attachments Section */}
+          <div className="p-3 rounded-sm border border-graphite-700/50 bg-graphite-900/30 space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="font-mono text-[10px] text-gold-400 tracking-widest flex items-center gap-1.5">
+                <Paperclip size={11} /> ATTACHED DOCUMENTS / PDF ({(draft.attachments || []).length})
+              </label>
+            </div>
+            {(draft.attachments || []).map(att => (
+              <div key={att.id} className="flex items-center justify-between bg-graphite-800/40 p-2 rounded text-xs font-mono text-cream-200">
+                <span className="truncate">{att.name} ({att.size || 'PDF'})</span>
+                <button
+                  type="button"
+                  onClick={() => removeAttachment(att.id)}
+                  className="text-red-400 hover:text-red-300 ml-2"
+                >
+                  <Trash2 size={12} />
+                </button>
+              </div>
+            ))}
+            <div className="flex gap-2 items-center pt-1">
+              <input
+                type="text"
+                placeholder="Document Name (e.g. Blueprint.pdf)"
+                value={newAttName}
+                onChange={e => setNewAttName(e.target.value)}
+                className={[inputClass, 'flex-1'].join(' ')}
+              />
+              <input
+                type="text"
+                placeholder="URL / File Link"
+                value={newAttUrl}
+                onChange={e => setNewAttUrl(e.target.value)}
+                className={[inputClass, 'w-32'].join(' ')}
+              />
+              <input
+                type="text"
+                placeholder="Size (e.g. 2.4 MB)"
+                value={newAttSize}
+                onChange={e => setNewAttSize(e.target.value)}
+                className={[inputClass, 'w-24'].join(' ')}
+              />
+              <GoldButton size="sm" type="button" onClick={addAttachment}>Add</GoldButton>
+            </div>
+          </div>
+
+          {/* Markdown Content Editor & Live Preview */}
+          <div className="space-y-1.5 pt-1">
+            <div className="flex items-center justify-between border-b border-graphite-700 pb-1.5">
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('write')}
+                  className={`px-2.5 py-1 rounded text-xs font-mono ${editorTab === 'write' ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40' : 'text-graphite-400 hover:text-cream-200'}`}
+                >
+                  Write (Markdown)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('preview')}
+                  className={`px-2.5 py-1 rounded text-xs font-mono ${editorTab === 'preview' ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40' : 'text-graphite-400 hover:text-cream-200'}`}
+                >
+                  Live Preview
+                </button>
+              </div>
+              <span className="font-mono text-[10px] text-graphite-500">Supports Headings, Code Blocks, Quotes</span>
+            </div>
+
+            {editorTab === 'write' ? (
+              <textarea
+                rows={10}
+                value={draft.content}
+                onChange={e => handleContentChange(e.target.value)}
+                className={[inputClass, 'font-mono text-xs leading-relaxed resize-y'].join(' ')}
+                placeholder="Tulis artikel dengan format Markdown..."
+              />
+            ) : (
+              <div className="bg-[#0e1017] border border-graphite-700/50 rounded p-4 text-xs font-sans text-ink-200 leading-relaxed max-h-72 overflow-y-auto space-y-3">
+                <p className="font-mono text-[10px] text-gold-400 mb-2 uppercase tracking-widest">// PREVIEW MODE</p>
+                <div className="whitespace-pre-wrap">{draft.content}</div>
+              </div>
+            )}
+          </div>
+
+          {/* Switches */}
+          <div className="flex items-center justify-between pt-2 border-t border-graphite-800">
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 font-mono text-xs text-graphite-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={draft.published}
+                  onChange={e => setDraft(d => ({ ...d, published: e.target.checked }))}
+                  className="accent-gold-500"
+                />
+                Published to Website
+              </label>
+              <label className="flex items-center gap-2 font-mono text-xs text-graphite-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={draft.featured || false}
+                  onChange={e => setDraft(d => ({ ...d, featured: e.target.checked }))}
+                  className="accent-gold-500"
+                />
+                Featured
+              </label>
+            </div>
+            <div className="flex gap-2">
+              <GoldButton variant="outline" size="sm" onClick={closeModal}>Cancel</GoldButton>
+              <GoldButton size="sm" icon={<Save size={12} />} onClick={handleSave}>
+                {editTarget ? 'Update Article' : 'Publish Article'}
+              </GoldButton>
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal isOpen={!!deleteId} onClose={() => setDeleteId(null)} title="Delete Article">
+        <div className="space-y-4">
+          <p className="text-graphite-200 text-sm">Hapus artikel ini secara permanen?</p>
+          <div className="flex gap-3 justify-end">
+            <GoldButton variant="outline" size="sm" onClick={() => setDeleteId(null)}>Cancel</GoldButton>
+            <GoldButton
+              size="sm"
+              className="!bg-red-700 !border-red-600"
+              onClick={() => {
+                if (deleteId && onDelete) onDelete(deleteId);
+                setDeleteId(null);
+              }}
+            >
+              Delete Article
+            </GoldButton>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
 // ─── Main Admin Dashboard ─────────────────────────────────────
 const AdminDashboard: React.FC<AdminDashboardProps> = ({
   store, onLogout, onUpdateConfig,
   onAddProject, onUpdateProject, onDeleteProject,
   onAddMilestone, onUpdateMilestone, onDeleteMilestone,
-  onAddSkill, onUpdateSkill, onDeleteSkill, onReset,
+  onAddSkill, onUpdateSkill, onDeleteSkill,
+  onAddArticle, onUpdateArticle, onDeleteArticle, onReset,
 }) => {
   const [activeTab, setActiveTab] = useState<AdminTab>('overview');
   const [confirmReset, setConfirmReset] = useState(false);
@@ -519,24 +961,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
         {/* Tab Panels */}
         <div key={activeTab} className="flex-1">
           {activeTab === 'overview' && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
               {[
                 { label: 'Projects', value: store.projects.length, color: 'text-gold-400' },
                 { label: 'Live Projects', value: store.projects.filter(p => p.status === 'live').length, color: 'text-emerald-400' },
+                { label: 'Articles', value: (store.articles || []).length, color: 'text-amber-400' },
+                { label: 'Total Reads', value: (store.articles || []).reduce((acc, a) => acc + (a.readCount || 0), 0), color: 'text-cyan-400' },
                 { label: 'Milestones', value: store.milestones.length, color: 'text-blue-300' },
-                { label: 'Skills', value: store.skills.length, color: 'text-amber-300' },
+                { label: 'Skills', value: store.skills.length, color: 'text-purple-300' },
               ].map(stat => (
                 <div key={stat.label} className="glass-panel pixel-border rounded-sm p-4 text-center">
                   <p className={['font-mono text-2xl font-bold', stat.color].join(' ')}>{stat.value}</p>
                   <p className="font-mono text-[10px] text-graphite-400 mt-1 tracking-widest">{stat.label.toUpperCase()}</p>
                 </div>
               ))}
-              <div className="col-span-2 sm:col-span-4 glass-panel pixel-border rounded-sm p-4">
+              <div className="col-span-2 sm:col-span-3 lg:col-span-6 glass-panel pixel-border rounded-sm p-4">
                 <p className="font-mono text-[10px] text-graphite-400 tracking-widest mb-2">SYSTEM STATUS</p>
                 <div className="flex flex-wrap gap-4 text-xs font-mono">
                   <span className="text-graphite-300">Config updated: <span className="text-gold-400">{new Date(store.config.updatedAt).toLocaleDateString()}</span></span>
                   <span className="text-graphite-300">Available for work: <span className={store.config.availableForWork ? 'text-emerald-400' : 'text-red-400'}>{store.config.availableForWork ? 'YES' : 'NO'}</span></span>
-                  <span className="text-graphite-300">Storage: <span className="text-gold-400">localStorage</span></span>
+                  <span className="text-graphite-300">Articles CMS: <span className="text-emerald-400">ACTIVE</span></span>
+                  <span className="text-graphite-300">Storage: <span className="text-gold-400">localStorage + Sync</span></span>
                 </div>
               </div>
             </div>
@@ -548,6 +993,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({
               onAdd={onAddProject}
               onUpdate={onUpdateProject}
               onDelete={onDeleteProject}
+            />
+          )}
+
+          {activeTab === 'articles' && (
+            <ArticlesTab
+              articles={store.articles || []}
+              onAdd={onAddArticle}
+              onUpdate={onUpdateArticle}
+              onDelete={onDeleteArticle}
             />
           )}
 

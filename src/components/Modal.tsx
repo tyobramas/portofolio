@@ -5,14 +5,20 @@ import type { ModalProps } from '../types';
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (!isOpen) return;
     const prev = document.activeElement as HTMLElement | null;
-    closeRef.current?.focus();
+
+    // Only focus close button once when opening if focus is not already inside modal
+    if (!overlayRef.current?.contains(document.activeElement)) {
+      closeRef.current?.focus();
+    }
 
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onCloseRef.current();
       if (e.key === 'Tab') {
         const focusable = overlayRef.current?.querySelectorAll<HTMLElement>(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -42,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       document.body.style.overflow = '';
       prev?.focus();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 

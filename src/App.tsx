@@ -5,6 +5,7 @@ import StatsBar from './components/StatsBar';
 import AboutSection from './components/AboutSection';
 import ServicesSection from './components/ServicesSection';
 import ProjectsList from './components/ProjectsList';
+import ArticlesPage from './components/ArticlesPage';
 import SkillsCompact from './components/SkillsCompact';
 import ExperienceList from './components/ExperienceList';
 import CertificatesList from './components/CertificatesList';
@@ -68,6 +69,7 @@ const AdminLoginModal: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin }
           <input
             id="admin-password"
             type="password"
+            autoFocus
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -120,6 +122,10 @@ export default function App() {
     addSkill,
     updateSkill,
     deleteSkill,
+    addArticle,
+    updateArticle,
+    deleteArticle,
+    incrementArticleRead,
     resetStore,
   } = useAdminStore();
 
@@ -149,6 +155,11 @@ export default function App() {
     currentPath === '/tools/linkedin' ||
     currentPath === '/dashboard' ||
     currentPath === '/scraper';
+  const isArticlesRoute =
+    currentPath === '/articles' ||
+    currentPath === '/blogs' ||
+    currentPath.startsWith('/articles/') ||
+    currentPath.startsWith('/blogs/');
 
   const [statsUnlocked, setStatsUnlocked] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -256,12 +267,21 @@ export default function App() {
             />
           )}
         </Suspense>
+      ) : isArticlesRoute && session.authenticated ? (
+        <ArticlesPage
+          articles={store.articles || []}
+          onBackToPortfolio={() => navigateTo('/')}
+          onIncrementRead={incrementArticleRead}
+          currentPath={currentPath}
+          onNavigate={navigateTo}
+        />
       ) : (
         <>
           {/* Header TopBar */}
           <TopBar
             onAdminClick={handleAdminTrigger}
             onOpenScraper={() => navigateTo('/tools/linkedin')}
+            onNavigate={navigateTo}
           />
 
           {/* Unified Single-Page Flow Matching Reference Template */}
@@ -334,6 +354,9 @@ export default function App() {
             onAddSkill={addSkill}
             onUpdateSkill={updateSkill}
             onDeleteSkill={deleteSkill}
+            onAddArticle={addArticle}
+            onUpdateArticle={updateArticle}
+            onDeleteArticle={deleteArticle}
             onReset={resetStore}
           />
         )}

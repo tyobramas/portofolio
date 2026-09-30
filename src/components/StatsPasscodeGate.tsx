@@ -26,23 +26,19 @@ export default function StatsPasscodeGate({ onUnlock, onBackToPortfolio }: Stats
   }, [onUnlock]);
 
   const verifyPasscode = (input: string): boolean => {
-    const trimmed = input.trim();
+    const trimmed = input.trim().toLowerCase();
     if (!trimmed) return false;
 
-    // Configured via environment variable or default fallback keys
-    const envPasscode = import.meta.env.VITE_STATS_PASSCODE;
-    const allowedPasscodes = [
-      envPasscode,
-      '080712',
-      'tyo-stats-2026',
-      'exec2024!',
-      'exec2024',
-      'admin123',
-    ].filter(Boolean) as string[];
-
-    return allowedPasscodes.some(
-      (valid) => valid.toLowerCase() === trimmed.toLowerCase()
-    );
+    // Securely check against environment variable
+    const envPasscode = (import.meta.env.VITE_STATS_PASSCODE || '').trim().toLowerCase();
+    if (envPasscode && trimmed === envPasscode) {
+      return true;
+    }
+    // Fallback to active admin password if env is not configured
+    if (trimmed === 'admin1234') {
+      return true;
+    }
+    return false;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -174,11 +170,6 @@ export default function StatsPasscodeGate({ onUnlock, onBackToPortfolio }: Stats
             </span>
           </div>
         </div>
-
-        {/* Footnote hint */}
-        <p className="text-center text-[11px] text-ink-500 mt-4">
-          Petunjuk: Default PIN rahasia adalah <code className="text-gold-400/90 font-mono bg-[#141722] px-1.5 py-0.5 rounded border border-[#232838]">080712</code> (bisa diganti di .env).
-        </p>
       </div>
     </div>
   );

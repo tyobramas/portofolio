@@ -112,11 +112,40 @@ export interface Certificate {
   featured?: boolean;
 }
 
+// ─── Article / Blog ──────────────────────────────────────────────────────────
+
+export interface ArticleAttachment {
+  id: string;
+  name: string;
+  url: string;
+  size?: string;
+  type?: 'pdf' | 'doc' | 'archive' | 'link';
+}
+
+export interface Article {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string;
+  category: string;
+  tags: string[];
+  readTime: string;
+  readCount: number;
+  published: boolean;
+  featured?: boolean;
+  attachments?: ArticleAttachment[];
+  publishedAt: string;
+  updatedAt?: string;
+}
+
 export interface AdminStore {
   projects: Project[];
   milestones: Milestone[];
   skills: Skill[];
   certificates?: Certificate[];
+  articles?: Article[];
   config: SystemConfig;
   version?: number;
 }

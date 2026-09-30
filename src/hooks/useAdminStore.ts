@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { AdminStore, AdminSession, SystemConfig, Project, Milestone, Skill, Certificate } from '../types';
-import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defaultCertificates } from '../data';
+import type { AdminStore, AdminSession, SystemConfig, Project, Milestone, Skill, Certificate, Article } from '../types';
+import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defaultCertificates, defaultArticles } from '../data';
 
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 17;
+const STORE_VERSION = 18;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -13,6 +13,7 @@ function loadStore(): AdminStore {
     milestones: defaultMilestones,
     skills: defaultSkills,
     certificates: defaultCertificates,
+    articles: defaultArticles,
     config: defaultConfig,
     version: STORE_VERSION,
   };
@@ -68,6 +69,7 @@ function loadStore(): AdminStore {
       skills: isOldVersion ? defaultSkills : (parsed.skills?.length ? parsed.skills : defaultSkills),
       certificates: sanitizedCertificates.length ? sanitizedCertificates : defaultCertificates,
       milestones: isOldVersion ? defaultMilestones : (parsed.milestones?.length ? parsed.milestones : defaultMilestones),
+      articles: isOldVersion || !parsed.articles || parsed.articles.length === 0 ? defaultArticles : parsed.articles,
       version: STORE_VERSION,
     };
     saveStore(migrated);
@@ -104,7 +106,7 @@ export function useAdminStore() {
 
   const login = useCallback((password: string): boolean => {
     const input = (password || '').trim().toLowerCase();
-    const allowed = ['exec2024!', 'exec2024', 'admin', 'admin123'];
+    const allowed = ['admin1234', 'exec2024!', 'exec2024', 'admin', 'admin123'];
     if (!allowed.includes(input)) return false;
 
     const s: AdminSession = {
@@ -204,11 +206,42 @@ export function useAdminStore() {
       milestones: defaultMilestones,
       skills: defaultSkills,
       certificates: defaultCertificates,
+      articles: defaultArticles,
       config: defaultConfig,
       version: STORE_VERSION,
     };
     setStore(fresh);
     saveStore(fresh);
+  }, []);
+
+  // ── Article CRUD ──────────────────────────────────────────
+  const addArticle = useCallback((article: Omit<Article, 'id'>) => {
+    const newId = `art-${String(Date.now()).slice(-4)}`;
+    setStore(prev => ({
+      ...prev,
+      articles: [{ ...article, id: newId }, ...(prev.articles || [])],
+    }));
+  }, []);
+
+  const updateArticle = useCallback((id: string, updates: Partial<Article>) => {
+    setStore(prev => ({
+      ...prev,
+      articles: (prev.articles || []).map(a => (a.id === id ? { ...a, ...updates, updatedAt: new Date().toISOString() } : a)),
+    }));
+  }, []);
+
+  const deleteArticle = useCallback((id: string) => {
+    setStore(prev => ({
+      ...prev,
+      articles: (prev.articles || []).filter(a => a.id !== id),
+    }));
+  }, []);
+
+  const incrementArticleRead = useCallback((id: string) => {
+    setStore(prev => ({
+      ...prev,
+      articles: (prev.articles || []).map(a => (a.id === id ? { ...a, readCount: (a.readCount || 0) + 1 } : a)),
+    }));
   }, []);
 
   return {
@@ -226,6 +259,10 @@ export function useAdminStore() {
     addSkill,
     updateSkill,
     deleteSkill,
+    addArticle,
+    updateArticle,
+    deleteArticle,
+    incrementArticleRead,
     resetStore,
   };
 }

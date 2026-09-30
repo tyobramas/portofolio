@@ -5,9 +5,10 @@ import { downloadCvPdf } from '../utils/generateCvPdf';
 interface TopBarProps {
   onAdminClick?: () => void;
   onOpenScraper?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
-const NAV_ITEMS = [
+const NAV_ITEMS: { href: string; label: string; isRoute?: boolean }[] = [
   { href: '#home', label: 'HOME' },
   { href: '#about', label: 'ABOUT' },
   { href: '#services', label: 'SERVICES' },
@@ -17,7 +18,7 @@ const NAV_ITEMS = [
   { href: '#contact', label: 'CONTACT' },
 ];
 
-export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: TopBarProps) {
+export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper, onNavigate }: TopBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const clickCountRef = useRef(0);
@@ -47,8 +48,12 @@ export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: 
     }, 1000);
   };
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, isRoute?: boolean) => {
     setMobileMenuOpen(false);
+    if (isRoute && onNavigate) {
+      onNavigate(href);
+      return;
+    }
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
@@ -74,7 +79,7 @@ export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: 
           {NAV_ITEMS.map((item) => (
             <button
               key={item.href}
-              onClick={() => handleNavClick(item.href)}
+              onClick={() => handleNavClick(item.href, item.isRoute)}
               className="font-sans text-xs font-semibold tracking-wider text-ink-300 transition-colors duration-150 hover:text-gold-400 focus:outline-none cursor-pointer"
             >
               {item.label}
@@ -135,7 +140,7 @@ export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper }: 
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.href}
-                onClick={() => handleNavClick(item.href)}
+                onClick={() => handleNavClick(item.href, item.isRoute)}
                 className="text-left font-sans text-sm font-semibold tracking-wider text-ink-200 hover:text-gold-400 transition-colors"
               >
                 {item.label}

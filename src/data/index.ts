@@ -1,4 +1,4 @@
-import type { Project, Milestone, Skill, SystemConfig, Certificate } from '../types';
+import type { Project, Milestone, Skill, SystemConfig, Certificate, Article } from '../types';
 
 // ─── System Config ───────────────────────────────────────────────────────────
 
@@ -613,5 +613,123 @@ export const defaultCertificates: Certificate[] = [
     skills: ['AI API Integration', 'Hacktiv8', 'Google.org', 'Developer Productivity', 'Production AI'],
     category: 'ai',
     featured: true,
+  },
+];
+
+// ─── Default Articles / Blog Posts ──────────────────────────────────────────
+
+export const defaultArticles: Article[] = [
+  {
+    id: 'art-001',
+    slug: 'arsitektur-multi-agent-system-production',
+    title: 'Arsitektur Multi-Agent System & ReAct Pattern pada Production Backend',
+    excerpt: 'Membahas orkestrasi autonomous AI agent, contextual memory persistence, dan fault-tolerant tool calling untuk pemrosesan data skala perusahaan.',
+    category: 'AI & Automation',
+    tags: ['AI Agents', 'ReAct Pattern', 'Tool Calling', 'FastAPI', 'Production AI'],
+    coverImage: '/cert/cert2.png',
+    readTime: '6 min read',
+    readCount: 184,
+    published: true,
+    featured: true,
+    publishedAt: '2026-08-15',
+    attachments: [
+      {
+        id: 'att-001',
+        name: 'Enterprise-MultiAgent-Architecture-Blueprint.pdf',
+        url: '#',
+        size: '2.4 MB',
+        type: 'pdf',
+      },
+    ],
+    content: `## Pendahuluan
+
+Dalam implementasi Large Language Models (LLM) di tingkat enterprise, pendekatan single-prompt sering kali tidak memadai untuk menangani workflow bisnis yang multi-tahap, deterministik, dan membutuhkan verifikasi bertingkat.
+
+Artikel ini membedah arsitektur **Multi-Agent System** berbasis pola *Reasoning + Acting (ReAct)* yang dirancang untuk keandalan tinggi dan isolasi state.
+
+---
+
+### 1. Arsitektur Orquestrator & Specialized Agents
+
+Alih-alih membiarkan satu model memproses seluruh instruksi, sistem dibagi menjadi peran-peran modular:
+- **Supervisor / Orchestrator Agent:** Bertindak sebagai task planner, memecah instruksi kompleks menjadi sub-tasks terstruktur.
+- **Worker / Tool Agents:** Agen spesialis dengan domain terbatas (misal: SQL Query Runner, CRM Fetcher, Document Parser).
+- **Critic / Validator Agent:** Memverifikasi integritas output sebelum dikirimkan ke downstream service.
+
+\`\`\`python
+# Orchestration Routing Example
+async def route_task(state: AgentState) -> str:
+    plan = await orchestrator_llm.generate_plan(state.query)
+    if plan.requires_db_lookup:
+        return "sql_agent"
+    elif plan.requires_external_enrichment:
+        return "scraper_agent"
+    return "synthesizer"
+\`\`\`
+
+---
+
+### 2. Contextual Memory & Guardrails
+
+Tantangan utama sistem agentic adalah pencegahan *infinite reasoning loops* dan *hallucination*. Solusi yang diterapkan:
+1. **Bounded Step Execution:** Setiap eksekusi dibatasi maksimal 5 putaran iterasi ReAct.
+2. **Deterministic Fallback:** Jika agen gagal menyelesaikan tool calling setelah 2 kali retry, kendali dialihkan ke *human-in-the-loop* checkpoint.
+
+Dokumen blueprint arsitektur lengkap dapat diunduh pada lampiran di bawah ini.`,
+  },
+  {
+    id: 'art-002',
+    slug: 'optimalisasi-60fps-canvas-parallax-flutter-web',
+    title: 'Optimalisasi 60 FPS Canvas & Complex Parallax pada Web Graphics',
+    excerpt: 'Teknik optimasi rendering HTML5 Canvas 2D, sprite pre-rendering, dan zero-garbage-collection loop untuk visual interaktif super mulus.',
+    category: 'System Architecture',
+    tags: ['Graphics', 'Canvas 2D', 'Performance', 'Web Performance', 'Parallax'],
+    coverImage: '/images/hero-ambient.png',
+    readTime: '5 min read',
+    readCount: 128,
+    published: true,
+    featured: false,
+    publishedAt: '2026-07-28',
+    attachments: [
+      {
+        id: 'att-002',
+        name: 'Canvas-Pipeline-Benchmark-Report.pdf',
+        url: '#',
+        size: '1.8 MB',
+        type: 'pdf',
+      },
+    ],
+    content: `## Mengapa Frame Drops Terjadi di Web Graphics?
+
+Efek visual interaktif seperti particle mesh, constellation canvas, dan multi-layer depth parallax sering kali mengalami stutter jika tidak di-render dengan hati-hati. 
+
+Penyebab utamanya adalah:
+1. **Garbage Collection (GC) Thrashing:** Mengalokasikan objek baru di dalam fungsi \`requestAnimationFrame\` loop per frame.
+2. **Expensive Context Calls:** Penggunaan berulang \`ctx.shadowBlur\` dan gradien dinamis yang memaksa GPU melakukan rasterisasi berulang.
+
+---
+
+### Strategi Optimasi
+
+#### 1. Radial Sprite Pre-Caching
+Alih-alih menggambar gradien di setiap frame:
+
+\`\`\`typescript
+// Buat offscreen canvas sekali, lalu drawImage di main render loop
+function makeRadialSprite(inner: string, outer: string): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d')!;
+  const rad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  rad.addColorStop(0, inner);
+  rad.addColorStop(1, outer);
+  g.fillStyle = rad;
+  g.fillRect(0, 0, 64, 64);
+  return c;
+}
+\`\`\`
+
+#### 2. Throttled Scroll & Visibility Observer
+Canvas otomatis di-pause saat berada di luar viewport layar atau saat tab browser diminimalkan (\`document.hidden\`), menghemat daya baterai dan sumber daya CPU secara drastis.`,
   },
 ];
