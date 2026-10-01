@@ -4,7 +4,6 @@ import {
   MapPin,
   Copy,
   Check,
-  Download,
   Eye,
   ShieldCheck,
   FileText,
@@ -16,7 +15,6 @@ import {
 import Reveal from './Reveal';
 import SpotlightCard from './SpotlightCard';
 import CvModal from './CvModal';
-import { downloadCvPdf } from '../utils/generateCvPdf';
 import type { SystemConfig } from '../types';
 
 export default function ContactSection({ config }: { config: SystemConfig }) {
@@ -253,22 +251,12 @@ export default function ContactSection({ config }: { config: SystemConfig }) {
                 </div>
 
                 {/* CV Action Buttons */}
-                <div className="pt-5 mt-4 border-t border-[#202534] flex flex-wrap items-center gap-3">
-                  {/* Instant Download Button */}
-                  <button
-                    type="button"
-                    onClick={downloadCvPdf}
-                    className="btn-gold btn-gold-shimmer flex-1 min-w-[200px] inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer transition-all hover:scale-[1.02]"
-                  >
-                    <Download size={16} />
-                    <span>DOWNLOAD OFFICIAL CV (PDF)</span>
-                  </button>
-
+                <div className="pt-5 mt-4 border-t border-[#202534] flex items-center">
                   {/* Interactive Preview Modal Button */}
                   <button
                     type="button"
                     onClick={() => setCvModalOpen(true)}
-                    className="btn-dark-outline inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-ink-100 cursor-pointer hover:border-gold-400 hover:text-white transition-colors"
+                    className="btn-dark-outline w-full inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-ink-100 cursor-pointer hover:border-gold-400 hover:text-white transition-colors"
                   >
                     <Eye size={15} className="text-gold-accent" />
                     <span>PREVIEW CV</span>

@@ -6,13 +6,11 @@ import {
   X,
   Layers,
   Sparkles,
-  Download,
   Filter,
 } from 'lucide-react';
 import ArticleCard3D from './ArticleCard3D';
 import ArticleReaderModal from './ArticleReaderModal';
 import Reveal from './Reveal';
-import { downloadCvPdf } from '../utils/generateCvPdf';
 import type { Article } from '../types';
 
 interface ArticlesPageProps {
@@ -120,15 +118,6 @@ export default function ArticlesPage({
 
           {/* Right Header Actions */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => downloadCvPdf()}
-              className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold text-gold-300 hover:text-white border border-gold-500/30 hover:border-gold-400 rounded-lg bg-[#141722] transition-colors cursor-pointer"
-              title="Download Official Curriculum Vitae (PDF)"
-            >
-              <Download size={13} className="text-gold-accent" />
-              <span>CV</span>
-            </button>
-
             <button
               onClick={onBackToPortfolio}
               className="btn-gold ml-1 inline-flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer"

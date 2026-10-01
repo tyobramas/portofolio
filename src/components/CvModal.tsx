@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { X, Download, Printer, FileText, CheckCircle2, ArrowUpRight, Award, Briefcase, GraduationCap, Code } from 'lucide-react';
-import { downloadCvPdf } from '../utils/generateCvPdf';
+import { X, Printer, FileText, CheckCircle2, ArrowUpRight, Award, Briefcase, GraduationCap, Code } from 'lucide-react';
 import { defaultCertificates, defaultMilestones, defaultProjects, defaultConfig } from '../data';
 
 interface CvModalProps {
@@ -70,14 +69,6 @@ export default function CvModal({ isOpen, onClose }: CvModalProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={downloadCvPdf}
-              className="btn-gold inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-sm cursor-pointer"
-              title="Download PDF directly"
-            >
-              <Download size={13} />
-              <span className="hidden sm:inline">Download PDF</span>
-            </button>
 
             <button
               onClick={handlePrint}
@@ -255,13 +246,13 @@ export default function CvModal({ isOpen, onClose }: CvModalProps) {
             {/* Bottom Modal CTA */}
             <div className="pt-4 border-t border-[#232736] flex flex-wrap items-center justify-between gap-3">
               <span className="text-xs font-mono text-ink-400">
-                Ready to review offline?
+                End of Document Preview
               </span>
               <button
-                onClick={downloadCvPdf}
-                className="btn-gold inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-canvas shadow-gold-glow cursor-pointer"
+                onClick={onClose}
+                className="btn-dark-outline inline-flex items-center gap-2 rounded-lg px-5 py-2 text-xs font-bold uppercase tracking-wider text-ink-200 hover:text-white cursor-pointer"
               >
-                <Download size={14} /> Download Official CV (PDF)
+                Close Preview
               </button>
             </div>
           </div>

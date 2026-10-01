@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowRight, Download } from 'lucide-react';
-import { downloadCvPdf } from '../utils/generateCvPdf';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface TopBarProps {
   onAdminClick?: () => void;
@@ -87,16 +86,6 @@ export default function TopBar({ onAdminClick, onOpenScraper: _onOpenScraper, on
           ))}
 
           {/* SCRAPER link hidden from public nav — access via /tools/linkedin directly */}
-
-          {/* Quick CV Download Button */}
-          <button
-            onClick={() => downloadCvPdf()}
-            className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold text-gold-300 hover:text-white border border-gold-500/30 hover:border-gold-400 rounded-lg bg-[#141722] transition-colors cursor-pointer"
-            title="Download Official Curriculum Vitae (PDF)"
-          >
-            <Download size={13} className="text-gold-accent" />
-            <span>CV</span>
-          </button>
 
           {/* LET'S TALK button with liquid gold shimmer */}
           <button
