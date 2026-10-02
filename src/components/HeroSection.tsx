@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Globe, Download, ArrowRight } from 'lucide-react';
+import { Linkedin, Mail, Download, ArrowRight } from 'lucide-react';
 import Reveal from './Reveal';
 import TechAvatarHud from './TechAvatarHud';
 import TechParallaxBackground from './TechParallaxBackground';
@@ -217,17 +217,6 @@ export default function HeroSection({ config }: HeroSectionProps) {
             {/* Social Icons */}
             <Reveal delay={300}>
               <div className="flex items-center gap-3 pt-4">
-                {config.ownerGithub && (
-                  <a
-                    href={config.ownerGithub}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="GitHub Profile"
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-[#262A38] bg-[#12141C] text-ink-300 hover:border-gold-500 hover:text-gold-accent hover:scale-110 transition-all shadow-sm"
-                  >
-                    <Github size={18} />
-                  </a>
-                )}
                 {config.ownerLinkedIn && (
                   <a
                     href={config.ownerLinkedIn}
@@ -248,15 +237,6 @@ export default function HeroSection({ config }: HeroSectionProps) {
                     <Mail size={18} />
                   </a>
                 )}
-                <a
-                  href="https://github.com/bramastyokusumo"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Website"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#262A38] bg-[#12141C] text-ink-300 hover:border-gold-500 hover:text-gold-accent hover:scale-110 transition-all shadow-sm"
-                >
-                  <Globe size={18} />
-                </a>
               </div>
             </Reveal>
           </div>

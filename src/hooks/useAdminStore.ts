@@ -5,7 +5,7 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 18;
+const STORE_VERSION = 19;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -29,6 +29,8 @@ function loadStore(): AdminStore {
         return {
           ...def,
           ...p,
+          link: undefined,
+          links: def.links || {},
           image: p.image || def.image,
           metrics: p.metrics && p.metrics.length > 0 ? p.metrics : def.metrics,
           impact: p.impact || def.impact,
@@ -62,9 +64,9 @@ function loadStore(): AdminStore {
             ownerBio: defaultConfig.ownerBio,
             heroTagline: defaultConfig.heroTagline,
             ownerAvatar: '/images/profile-hud.png',
-            ownerGithub: 'https://github.com/bramastyokusumo',
+            ownerGithub: '',
           }
-        : { ...defaultConfig, ...parsed.config },
+        : { ...defaultConfig, ...parsed.config, ownerGithub: '' },
       projects: mergedProjects.length ? mergedProjects : defaultProjects,
       skills: isOldVersion ? defaultSkills : (parsed.skills?.length ? parsed.skills : defaultSkills),
       certificates: sanitizedCertificates.length ? sanitizedCertificates : defaultCertificates,

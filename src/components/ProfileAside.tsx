@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MapPin, Mail, Linkedin, Github, Download, ShieldCheck, Check, Copy } from 'lucide-react';
+import { MapPin, Mail, Linkedin, Download, ShieldCheck, Check, Copy } from 'lucide-react';
 import type { SystemConfig } from '../types';
 import { trackCvDownload } from '../services/visitorTracker';
 
@@ -102,21 +102,6 @@ export default function ProfileAside({ config }: { config: SystemConfig }) {
               className="link-underline text-meta"
             >
               linkedin.com/in/bramastyokusumo
-            </a>
-          </div>
-        )}
-
-        {/* GitHub */}
-        {config.ownerGithub && (
-          <div className="flex items-center gap-2.5 text-ink-600">
-            <Github size={14} className="shrink-0 text-brass-600" strokeWidth={1.75} />
-            <a
-              href={config.ownerGithub}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline text-meta"
-            >
-              github.com/bramastyokusumo
             </a>
           </div>
         )}

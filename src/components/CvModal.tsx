@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { X, Printer, FileText, CheckCircle2, ArrowUpRight, Award, Briefcase, GraduationCap, Code } from 'lucide-react';
+import { X, Printer, FileText, CheckCircle2, Award, Briefcase, GraduationCap, Code } from 'lucide-react';
 import { defaultCertificates, defaultMilestones, defaultProjects, defaultConfig } from '../data';
 
 interface CvModalProps {
@@ -112,15 +112,6 @@ export default function CvModal({ isOpen, onClose }: CvModalProps) {
                 <span>{defaultConfig.ownerEmail || 'bramastyodevops@gmail.com'}</span>
                 <span>•</span>
                 <span>{defaultConfig.ownerLocation || 'Jakarta, Indonesia'} (UTC+7)</span>
-                <span>•</span>
-                <a
-                  href="https://github.com/bramastyokusumo"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-gold-400/90 hover:underline inline-flex items-center gap-0.5"
-                >
-                  github.com/bramastyokusumo <ArrowUpRight size={11} />
-                </a>
                 <span>•</span>
                 <span className="text-ink-300">We Build Solutions</span>
               </div>

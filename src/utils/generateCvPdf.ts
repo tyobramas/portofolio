@@ -75,9 +75,8 @@ export function generateCvPdf(): jsPDF {
   doc.setTextColor(...textMuted);
   const email = defaultConfig.ownerEmail || 'bramastyodevops@gmail.com';
   const location = `${defaultConfig.ownerLocation || 'Jakarta, Indonesia'} (UTC+7)`;
-  const github = 'github.com/bramastyokusumo';
   const moto = 'Motto: We Build Solutions';
-  doc.text(`${email}   •   ${location}   •   ${github}   •   ${moto}`, margin, curY);
+  doc.text(`${email}   •   ${location}   •   ${moto}`, margin, curY);
 
   curY += 3.5;
   doc.setDrawColor(...lineLight);
