@@ -152,9 +152,11 @@ function createSculptedKeycapGeometry(
   const v = new THREE.Vector3();
   const halfH = height / 2;
 
-  const taper = 0.22;
-  const dishDepth = 0.075;
-  const filletRadius = 0.12;
+  // Gentle taper (0.09) keeps top face broad, flat, and spacious
+  const taper = 0.09;
+  // Subtle dish depth (0.015) prevents decal from ever being submerged under the rim
+  const dishDepth = 0.015;
+  const filletRadius = 0.08;
 
   for (let i = 0; i < pos.count; i++) {
     v.fromBufferAttribute(pos, i);
@@ -175,20 +177,20 @@ function createSculptedKeycapGeometry(
     const cornerDist = Math.hypot(normX, normZ);
     if (cornerDist > 1.0) {
       const factor = 1.0 / cornerDist;
-      v.x = v.x * (0.84 + 0.16 * factor);
-      v.z = v.z * (0.84 + 0.16 * factor);
+      v.x = v.x * (0.86 + 0.14 * factor);
+      v.z = v.z * (0.86 + 0.14 * factor);
     }
 
     // 3. Bevel rounding on the top perimeter rim (smooth fillet into top face)
-    if (t > 0.82) {
-      const rimT = (t - 0.82) / 0.18;
+    if (t > 0.88) {
+      const rimT = (t - 0.88) / 0.12;
       const rimPull = Math.sin(rimT * Math.PI * 0.5) * filletRadius;
-      v.x *= 1.0 - rimPull * 0.35;
-      v.z *= 1.0 - rimPull * 0.35;
+      v.x *= 1.0 - rimPull * 0.25;
+      v.z *= 1.0 - rimPull * 0.25;
     }
 
-    // 4. Concave spherical dish on top surface where fingers rest
-    if (v.y >= halfH - 0.03) {
+    // 4. Subtle ergonomic dish on top surface where fingers rest
+    if (v.y >= halfH - 0.02) {
       const dishX = normX;
       const dishZ = isTall ? normZ * 0.42 : normZ;
       const dishFactor = Math.max(0, 1.0 - (dishX * dishX + dishZ * dishZ * 0.85));
@@ -238,46 +240,47 @@ function createLegendTexture(
   ctx.shadowOffsetY = 1;
 
   if (isTall) {
-    // Tall Enter Key: Thick Bold Return Arrow identical to Debbie's Enter key
+    // Tall Enter Key: Thick Bold Return Arrow
     ctx.lineWidth = 44;
     ctx.strokeStyle = inkColor;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 
     ctx.beginPath();
-    ctx.moveTo(680, 360);
-    ctx.lineTo(680, 520);
-    ctx.lineTo(360, 520);
+    ctx.moveTo(660, 360);
+    ctx.lineTo(660, 500);
+    ctx.lineTo(360, 500);
     ctx.stroke();
 
     // Bold Arrowhead pointing left
     ctx.beginPath();
-    ctx.moveTo(470, 420);
-    ctx.lineTo(340, 520);
-    ctx.lineTo(470, 620);
+    ctx.moveTo(460, 410);
+    ctx.lineTo(340, 500);
+    ctx.lineTo(460, 590);
     ctx.stroke();
 
-    // Vertical text: LET'S TALK (Significantly larger, ultra-bold)
+    // Vertical text: LET'S TALK (Centered safely within top dish)
     ctx.save();
-    ctx.translate(512, 1340);
+    ctx.translate(512, 1260);
     ctx.rotate(Math.PI / 2);
-    ctx.font = '900 135px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '900 112px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = inkColor;
-    ctx.letterSpacing = '0.16em';
+    ctx.letterSpacing = '0.14em';
     ctx.fillText("LET'S TALK", 0, 0);
     ctx.restore();
   } else {
-    // Standard Alpha Key: Ultra-bold, crisp primary letter
-    ctx.font = '900 370px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    // Standard Alpha Key: Ultra-bold, crisp primary letter (centered upper region)
+    ctx.font = '900 320px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = inkColor;
-    ctx.fillText(char, 512, 395);
+    ctx.fillText(char, 512, 355);
 
-    // High-Legibility Micro Caption: Substantially larger, ultra-bold 900 weight
-    const subFontSize = sublabel.length > 10 ? 106 : sublabel.length > 7 ? 122 : 136;
+    // High-Legibility Micro Caption: Large, heavy font weight 900
+    // Centered at y=620 with massive safety margins on all 4 borders so NO text is ever clipped
+    const subFontSize = sublabel.length > 10 ? 80 : sublabel.length > 7 ? 92 : 106;
     ctx.font = `900 ${subFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.letterSpacing = sublabel.length > 10 ? '0.04em' : '0.08em';
+    ctx.letterSpacing = sublabel.length > 10 ? '0.02em' : '0.05em';
     ctx.fillStyle = sublabelColor;
-    ctx.fillText(sublabel, 512, 735);
+    ctx.fillText(sublabel, 512, 620);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -333,10 +336,10 @@ export default function VibeCoderKeyboard() {
     const scene = new THREE.Scene();
 
     const aspect = width / height;
-    const targetCenterX = 0.72;
-    const mobileScale = Math.max(1.0, 3.2 / Math.max(aspect, 0.75));
+    const targetCenterX = 0.84;
+    const mobileScale = Math.max(1.0, 3.4 / Math.max(aspect, 0.75));
     const camera = new THREE.PerspectiveCamera(34, aspect, 0.1, 100);
-    camera.position.set(targetCenterX, 3.9 * mobileScale, 5.0 * mobileScale);
+    camera.position.set(targetCenterX, 4.3 * mobileScale, 5.6 * mobileScale);
     camera.lookAt(targetCenterX, 0.05, 0);
 
     // 2. High-Performance WebGL Renderer with Transparent Canvas & Saturated True-Color Space
@@ -387,18 +390,19 @@ export default function VibeCoderKeyboard() {
     const keyboardGroup = new THREE.Group();
     scene.add(keyboardGroup);
 
-    // Mathematical Pitch & Sizing
-    const keyW = 1.36;
-    const keyD = 1.36;
-    const gap = 0.22;
-    const pitch = keyW + gap; // 1.58
-    const tallDepth = 2 * pitch - gap; // 2.94
+    // Mathematical Pitch & Sizing (Enlarged keycap boxes)
+    const keyW = 1.48;
+    const keyD = 1.48;
+    const gap = 0.20;
+    const pitch = keyW + gap; // 1.68
+    const tallDepth = 2 * pitch - gap; // 3.16
+    const keyH = 0.74;
 
-    const stdGeo = createSculptedKeycapGeometry(keyW, keyD, 0.76, false);
-    const tallGeo = createSculptedKeycapGeometry(keyW, tallDepth, 0.76, true);
+    const stdGeo = createSculptedKeycapGeometry(keyW, keyD, keyH, false);
+    const tallGeo = createSculptedKeycapGeometry(keyW, tallDepth, keyH, true);
 
     // Soft Contact Shadow Plane underneath the entire keyboard
-    const shadowPlaneGeo = new THREE.PlaneGeometry(16, 10);
+    const shadowPlaneGeo = new THREE.PlaneGeometry(18, 12);
     const shadowPlaneMat = new THREE.ShadowMaterial({ opacity: 0.18 });
     const shadowPlane = new THREE.Mesh(shadowPlaneGeo, shadowPlaneMat);
     shadowPlane.rotation.x = -Math.PI / 2;
@@ -415,17 +419,15 @@ export default function VibeCoderKeyboard() {
       let posZ = 0;
 
       if (def.isTallEnter) {
-        // Tall Enter Key on the right: sits safely to the right of O (at 3.16) without overlapping!
-        posX = 4.74;
+        // Tall Enter Key on the right: sits safely to the right of O without overlapping
+        posX = 3.0 * pitch;
         posZ = 0.0;
       } else if (def.row === 1) {
         // Row 1 (B, R, A, M): Staggered naturally by half pitch relative to Row 2
-        // colIndex 0, 1, 2, 3 -> x: -2.37, -0.79, +0.79, +2.37
         posX = (def.colIndex - 1.5) * pitch;
         posZ = -pitch * 0.52;
       } else {
         // Row 2 (A, S, T, Y, O): 5 keys spanning from left to right
-        // colIndex 0, 1, 2, 3, 4 -> x: -3.16, -1.58, 0.00, +1.58, +3.16
         posX = (def.colIndex - 2.0) * pitch;
         posZ = pitch * 0.52;
       }
@@ -451,7 +453,7 @@ export default function VibeCoderKeyboard() {
         roughness: 0.25,
         metalness: 0.02,
         emissive: new THREE.Color(def.color),
-        emissiveIntensity: 0.16, // Balanced soft emissive pop without washing out contrast
+        emissiveIntensity: 0.16,
       });
 
       const capMesh = new THREE.Mesh(capGeo, capMat);
@@ -461,8 +463,8 @@ export default function VibeCoderKeyboard() {
 
       // ── High-Resolution Canvas Decal Texture for Inset Typography ──
       const decalTex = createLegendTexture(def.char, def.sublabel, def.isTallEnter, def.color);
-      const decalW = keyW * 0.88;
-      const decalD = def.isTallEnter ? tallDepth * 0.88 : keyD * 0.88;
+      const decalW = keyW * 0.82;
+      const decalD = def.isTallEnter ? tallDepth * 0.84 : keyD * 0.82;
       const decalGeo = new THREE.PlaneGeometry(decalW, decalD);
       const decalMat = new THREE.MeshBasicMaterial({
         map: decalTex,
@@ -472,10 +474,10 @@ export default function VibeCoderKeyboard() {
       });
       const decalMesh = new THREE.Mesh(decalGeo, decalMat);
       decalMesh.rotateX(-Math.PI / 2);
-      decalMesh.position.y = 0.360; // Sits right on the concave dish surface
+      decalMesh.position.y = 0.375; // Sits safely above the top surface (never submerged)
       keyGroup.add(decalMesh);
 
-      const restingY = 0.36;
+      const restingY = 0.37;
       keyGroup.position.set(posX, restingY, posZ);
       keyboardGroup.add(keyGroup);
 
@@ -614,12 +616,12 @@ export default function VibeCoderKeyboard() {
     const handleResize = () => {
       if (!container) return;
       const newW = container.clientWidth;
-      const newH = container.clientHeight || 280;
+      const newH = container.clientHeight || 300;
       const newAspect = newW / newH;
       camera.aspect = newAspect;
-      const targetCenterX = 0.72;
-      const newScale = Math.max(1.0, 3.2 / Math.max(newAspect, 0.75));
-      camera.position.set(targetCenterX, 3.9 * newScale, 5.0 * newScale);
+      const targetCenterX = 0.84;
+      const newScale = Math.max(1.0, 3.4 / Math.max(newAspect, 0.75));
+      camera.position.set(targetCenterX, 4.3 * newScale, 5.6 * newScale);
       camera.lookAt(targetCenterX, 0.05, 0);
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
@@ -716,7 +718,7 @@ export default function VibeCoderKeyboard() {
       <div className="relative w-full flex justify-center items-center overflow-visible">
         <div
           ref={mountRef}
-          className="w-full h-[210px] sm:h-[260px] md:h-[285px] cursor-grab active:cursor-grabbing touch-manipulation"
+          className="w-full h-[230px] sm:h-[285px] md:h-[320px] cursor-grab active:cursor-grabbing touch-manipulation"
           title="Interactive 3D Mechanical Keyboard: Click or tap any key"
         />
       </div>
