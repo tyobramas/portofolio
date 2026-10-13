@@ -27,6 +27,7 @@ import VibeCoderTopBar from './VibeCoderTopBar';
 import VibeCoderHero from './VibeCoderHero';
 import VibeCoderExpertise from './VibeCoderExpertise';
 import ProjectModal from '../ProjectModal';
+import ScrollToTopFloating from '../ScrollToTopFloating';
 import { useCountUp } from '../../hooks/useCountUp';
 import type { AdminStore, Project } from '../../types';
 
@@ -147,7 +148,7 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
                 </div>
 
                 <h2 className="font-sans text-3xl sm:text-5xl font-black text-zinc-950 tracking-tight leading-tight">
-                  Full-Stack Web (<span className="underline decoration-pink-500 decoration-wavy decoration-2">Frontend & Backend</span>), Mobile & AI.
+                  Full-Stack Web (Frontend & Backend), Mobile & AI.
                 </h2>
 
                 <p className="text-base text-zinc-700 leading-relaxed font-normal">
@@ -176,23 +177,51 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
                 </div>
               </div>
 
-              {/* Workstation / Profile visual */}
+              {/* Executive Profile Card (Clean, Transparent, No Excess Whitespace) */}
               <div className="lg:col-span-5">
-                <div className="relative rounded-3xl border-3 border-zinc-900 bg-[#FFF7ED] p-6 shadow-[0_10px_0_0_#18181B]">
-                  <div className="aspect-square rounded-2xl border-2 border-zinc-900 bg-white overflow-hidden relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center p-6 text-center">
+                <div className="relative rounded-3xl border-3 border-zinc-900 bg-white/70 backdrop-blur-md p-6 sm:p-7 shadow-[0_8px_0_0_#18181B] flex flex-col items-center text-center">
+                  {/* Avatar with Live Indicator */}
+                  <div className="relative mb-3.5">
                     <img
                       src={config.ownerAvatar || '/images/profile-hud.png'}
                       alt={config.ownerName}
-                      className="w-36 h-36 rounded-full border-3 border-zinc-900 object-cover shadow-[0_6px_0_0_#18181B] mb-4"
+                      className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl border-3 border-zinc-900 object-cover shadow-[0_4px_0_0_#18181B] bg-[#FFF7ED]"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
                       }}
                     />
-                    <h3 className="font-sans text-xl font-black text-zinc-950">{config.ownerName}</h3>
-                    <p className="text-xs font-bold text-pink-600 mt-1">{config.ownerSubtitle || 'Senior Software Engineer'}</p>
-                    <div className="mt-3 flex items-center gap-1.5 text-xs text-zinc-600 font-semibold">
-                      <MapPin size={13} className="text-zinc-500" />
-                      <span>{config.ownerLocation || 'Jakarta, Indonesia'}</span>
+                    <span className="absolute -bottom-2 -right-2 flex items-center gap-1.5 rounded-full border-2 border-zinc-900 bg-emerald-400 px-2.5 py-0.5 text-[10px] font-black uppercase text-zinc-950 shadow-[0_2px_0_0_#18181B]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-950 animate-ping" />
+                      Active
+                    </span>
+                  </div>
+
+                  <h3 className="font-sans text-xl sm:text-2xl font-black text-zinc-950 tracking-tight">
+                    {config.ownerName}
+                  </h3>
+
+                  <p className="text-xs sm:text-[13px] font-bold text-pink-600 mt-1">
+                    {config.ownerSubtitle || 'Senior Full-Stack · Mobile · AI Systems Engineer'}
+                  </p>
+
+                  <div className="mt-2.5 flex items-center justify-center gap-1.5 text-xs text-zinc-600 font-semibold">
+                    <MapPin size={13} className="text-zinc-500 shrink-0" />
+                    <span>{config.ownerLocation || 'Jakarta, Indonesia'} · Worldwide Remote</span>
+                  </div>
+
+                  {/* Executive Credential Metrics */}
+                  <div className="mt-5 pt-4 border-t-2 border-zinc-900/10 grid grid-cols-3 gap-2 w-full text-center">
+                    <div className="rounded-xl border-2 border-zinc-900 bg-[#FEF3C7] py-2 px-1 shadow-[0_2px_0_0_#18181B]">
+                      <div className="text-base font-black text-zinc-950">13+</div>
+                      <div className="text-[10px] font-bold text-zinc-600 uppercase">Years Exp</div>
+                    </div>
+                    <div className="rounded-xl border-2 border-zinc-900 bg-[#E0F2FE] py-2 px-1 shadow-[0_2px_0_0_#18181B]">
+                      <div className="text-base font-black text-zinc-950">50+</div>
+                      <div className="text-[10px] font-bold text-zinc-600 uppercase">Shipped</div>
+                    </div>
+                    <div className="rounded-xl border-2 border-zinc-900 bg-[#DCFCE7] py-2 px-1 shadow-[0_2px_0_0_#18181B]">
+                      <div className="text-base font-black text-zinc-950">100%</div>
+                      <div className="text-[10px] font-bold text-zinc-600 uppercase">Integrity</div>
                     </div>
                   </div>
                 </div>
@@ -756,6 +785,9 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
       {selectedProject && (
         <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       )}
+
+      {/* Floating Scroll to Top Keycap Button */}
+      <ScrollToTopFloating />
     </div>
   );
 }

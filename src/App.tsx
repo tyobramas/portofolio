@@ -19,6 +19,7 @@ import { useAdminStore } from './hooks/useAdminStore';
 import { trackVisitor } from './services/visitorTracker';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import VibeCoderThemeView from './components/vibecoder/VibeCoderThemeView';
+import ScrollToTopFloating from './components/ScrollToTopFloating';
 
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const LinkedInScraperDashboard = lazy(() => import('./components/LinkedInScraperDashboard'));
@@ -376,6 +377,9 @@ function PortfolioApp() {
             ownerName={store.config.ownerName}
             onOpenStats={() => navigateTo('/stats')}
           />
+
+          {/* Floating Scroll to Top Button */}
+          <ScrollToTopFloating />
         </>
       )}
 
