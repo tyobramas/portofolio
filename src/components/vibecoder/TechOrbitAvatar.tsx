@@ -204,12 +204,6 @@ export default function TechOrbitAvatar({
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-
-          {/* Active Live Pulse Badge */}
-          <span className="absolute -bottom-2 -right-2 flex items-center gap-1.5 rounded-full border-2 border-zinc-900 bg-emerald-400 px-2.5 py-0.5 text-[10px] font-black uppercase text-zinc-950 shadow-[0_2px_0_0_#18181B]">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-950 animate-ping" />
-            Active
-          </span>
         </div>
 
         {/* ── Interactive Floating Tooltip Pill (Shows on Hover) ── */}
