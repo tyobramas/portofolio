@@ -1,4 +1,5 @@
 import Reveal from './Reveal';
+import { getYearsOfExperienceString } from '../utils/experience';
 
 interface MetricItem {
   value: string;
@@ -8,7 +9,7 @@ interface MetricItem {
 
 const METRICS: MetricItem[] = [
   {
-    value: '13+',
+    value: getYearsOfExperienceString(),
     label: 'Tahun Pengalaman',
     detail: 'Rekayasa sistem produksi sejak 2013',
   },

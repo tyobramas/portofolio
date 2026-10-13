@@ -3,6 +3,7 @@ import { Briefcase, Users, Award, Smile } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './SpotlightCard';
 import { useCountUp } from '../hooks/useCountUp';
+import { getYearsOfExperienceString } from '../utils/experience';
 
 interface StatConfig {
   icon: React.ReactNode;
@@ -26,7 +27,7 @@ const STATS: StatConfig[] = [
   },
   {
     icon: <Award className="h-6 w-6 text-gold-400" />,
-    value: '13+',
+    value: getYearsOfExperienceString(),
     label: 'YEARS OF EXPERIENCE',
     sublabel: 'Full Lifecycle Engineering',
   },

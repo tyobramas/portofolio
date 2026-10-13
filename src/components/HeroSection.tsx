@@ -5,6 +5,7 @@ import TechAvatarHud from './TechAvatarHud';
 import TechParallaxBackground from './TechParallaxBackground';
 import HeroConstellationCanvas from './HeroConstellationCanvas';
 import { downloadCvPdf } from '../utils/generateCvPdf';
+import { getYearsOfExperienceString } from '../utils/experience';
 import type { SystemConfig } from '../types';
 
 interface HeroSectionProps {
@@ -153,7 +154,7 @@ export default function HeroSection({ config }: HeroSectionProps) {
             <Reveal delay={120}>
               <h2 className="font-sans text-lg sm:text-xl font-semibold text-gold-light/80 tracking-normal">
                 {config.ownerSubtitle ||
-                  'Senior Full-Stack Engineer · Mobile · AI · 13+ Years in Production'}
+                  `Senior Full-Stack Engineer · Mobile · AI · ${getYearsOfExperienceString()} Years in Production`}
               </h2>
             </Reveal>
 

@@ -1,11 +1,14 @@
 import type { Project, Milestone, Skill, SystemConfig, Certificate, Article } from '../types';
+import { getYearsOfExperienceString } from '../utils/experience';
 
 // ─── System Config ───────────────────────────────────────────────────────────
+
+const expYears = getYearsOfExperienceString();
 
 export const defaultConfig: SystemConfig = {
   ownerName: 'Bramastyo Kusumo',
   ownerTitle: 'We Build Solutions',
-  ownerSubtitle: 'Senior Software Engineer · Web (Frontend & Backend) · Mobile · AI · 13+ Years in Production',
+  ownerSubtitle: `Senior Software Engineer · Web (Frontend & Backend) · Mobile · AI · ${expYears} Years in Production`,
 
   ownerEmail: 'bramastyodevops@gmail.com',
   ownerGithub: '',
@@ -15,7 +18,7 @@ export const defaultConfig: SystemConfig = {
   ownerBio:
     "Since 2013, I've been dedicated to engineering software that solves real business problems — building scalable web applications across modern Frontend & robust Backend architectures, crafting high-performance mobile apps for distributed remote teams, and deploying enterprise AI systems across 50+ successful production projects.",
   heroTagline:
-    '13+ years building web applications (Frontend & Backend), cross-platform mobile apps & AI systems for remote teams and high-impact projects.',
+    `${expYears} years building web applications (Frontend & Backend), cross-platform mobile apps & AI systems for remote teams and high-impact projects.`,
   availableForWork: true,
   updatedAt: new Date().toISOString(),
 };

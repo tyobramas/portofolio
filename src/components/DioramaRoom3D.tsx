@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Award, Compass } from 'lucide-react';
+import { getYearsOfExperienceString } from '../utils/experience';
 
 // ── Brand-aligned color palette ────────────────────────────
 const C = {
@@ -790,7 +791,7 @@ export default function DioramaRoom3D({ className = '' }: { className?: string }
         </div>
         <div>
           <p className="font-sans text-sm font-extrabold text-white leading-none">
-            13+ Years
+            {getYearsOfExperienceString()} Years
           </p>
           <p className="font-sans text-[0.6875rem] font-semibold text-gold-400 uppercase tracking-wider mt-0.5">
             Production Experience

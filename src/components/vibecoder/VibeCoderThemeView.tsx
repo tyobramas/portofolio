@@ -30,6 +30,7 @@ import ProjectModal from '../ProjectModal';
 import ScrollToTopFloating from '../ScrollToTopFloating';
 import TechOrbitAvatar from './TechOrbitAvatar';
 import { useCountUp } from '../../hooks/useCountUp';
+import { getYearsOfExperienceString } from '../../utils/experience';
 import type { AdminStore, Project } from '../../types';
 
 interface VibeCoderThemeViewProps {
@@ -122,7 +123,7 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
               />
               <PlayfulStatCard
                 icon={<Award className="h-6 w-6 text-amber-600" />}
-                value="13+"
+                value={getYearsOfExperienceString()}
                 label="YEARS CRAFTSMANSHIP"
                 sublabel="Deep Architectural Mastery"
                 bgColor="bg-[#FEF3C7]"
