@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap');
+
+@font-face {
+  font-family: 'Zentronix';
+  src: url('/fonts/zentronix.woff2') format('woff2'),
+       url('/fonts/zentronix.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -397,3 +408,19 @@
     border-bottom: 1.5pt solid #000;
   }
 }
+
+/* ─── Terminal Blinking Cursor (Sharp Typewriter Style) ───────────────────────── */
+@keyframes terminalCursorBlink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  animation: terminalCursorBlink 0.9s step-start infinite;
+}
+

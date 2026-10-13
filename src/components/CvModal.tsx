@@ -123,7 +123,7 @@ export default function CvModal({ isOpen, onClose }: CvModalProps) {
                 <span className="h-1.5 w-1.5 rounded-full bg-gold-400" /> Executive Summary
               </h2>
               <p className="text-xs sm:text-sm text-ink-200 leading-relaxed">
-                Senior Systems Engineer & AI Architect with 10+ years of full-lifecycle engineering excellence. Full-stack web developer since 2013, early Flutter pioneer, and seasoned remote architect for PT Passion Abadi, PT 3D, and PT Rekayasa Digital. Specialized in Autonomous AI Agent workflows, LLM orchestration (ReAct / tool calling), multi-agent swarms, cross-platform mobile architectures, and resilient enterprise backends.
+                Senior Systems Engineer & AI Architect with 13+ years of full-lifecycle engineering excellence. Full-stack web developer since 2013, early Flutter pioneer, and seasoned engineer for distributed remote teams and global client projects. Specialized in Autonomous AI Agent workflows, LLM orchestration (ReAct / tool calling), multi-agent systems, cross-platform mobile architectures, and resilient enterprise backends.
               </p>
             </div>
 

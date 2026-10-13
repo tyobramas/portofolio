@@ -40,7 +40,7 @@ export default function AboutSection({ config }: AboutSectionProps) {
 
             <Reveal delay={120}>
               <p className="max-w-prose text-[15px] leading-7 text-ink-300">
-                I began software engineering in 2013 crafting robust web architectures. When Flutter made its initial public debut, I immediately stepped forward as an early adopter — delivering high-performance cross-platform mobile solutions for remote tech firms including PT Passion Abadi, PT 3D, and PT Rekayasa Digital. Today, I architect full-stack platforms and enterprise AI systems with 50+ production deployments, transforming complex business requirements into high-impact digital solutions.
+                Since 2013, I've been dedicated to engineering software that solves real business problems — delivering scalable full-stack web platforms, crafting high-performance Flutter mobile apps for distributed remote teams, and architecting enterprise AI systems across 50+ successful production projects.
               </p>
             </Reveal>
 

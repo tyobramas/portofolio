@@ -25,7 +25,8 @@ import {
   fetchVisitorLogsOnce, 
   computeStatsSummary,
   trackVisitor,
-  trackCvDownload 
+  trackCvDownload,
+  isLocalEnvironment,
 } from '../services/visitorTracker';
 import type { VisitorRecord } from '../types/stats';
 
@@ -77,7 +78,7 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
     setSimulatingVisit(true);
     // temporarily clear session storage to force recording
     sessionStorage.removeItem('portfolio_tracked_visit_timestamp');
-    await trackVisitor('/demo-test');
+    await trackVisitor('/demo-test', true);
     setTimeout(async () => {
       await handleManualRefresh();
       setSimulatingVisit(false);
@@ -87,7 +88,7 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
   // Simulate a test CV download for telemetry validation
   const handleTestCvDownload = async () => {
     setSimulatingCv(true);
-    await trackCvDownload();
+    await trackCvDownload(true);
     setTimeout(async () => {
       await handleManualRefresh();
       setSimulatingCv(false);
@@ -192,6 +193,14 @@ export default function StatsDashboard({ onBackToPortfolio, onLock }: StatsDashb
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   REALTIME FIRESTORE
                 </span>
+                {isLocalEnvironment() && (
+                  <span
+                    className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                    title="Tracking otomatis dinonaktifkan di localhost agar statistik kunjungan asli tidak tercemar."
+                  >
+                    ⚡ DEV LOCAL (AUTO-TRACK OFF)
+                  </span>
+                )}
               </div>
               <p className="text-[11px] text-ink-400 font-mono">
                 Sinkronisasi: {lastRefreshed.toLocaleTimeString('id-ID')} · Database: <span className="text-gold-400/90">portfolio-stats-223c9</span>

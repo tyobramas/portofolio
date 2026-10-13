@@ -213,14 +213,39 @@ async function fetchGeoAndSecurityData() {
   };
 }
 
+// ─── Environment Detection ───────────────────────────────────────────────────
+export function isLocalEnvironment(): boolean {
+  if (typeof window === 'undefined') return true;
+  const host = window.location.hostname;
+  return (
+    Boolean(import.meta.env?.DEV) ||
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '0.0.0.0' ||
+    host.endsWith('.local') ||
+    host.startsWith('192.168.') ||
+    host.startsWith('10.') ||
+    host.startsWith('172.16.')
+  );
+}
+
 // ─── Deduplication & Tracking Engine ─────────────────────────────────────────
 const SESSION_STORAGE_KEY = 'portfolio_tracked_visit_timestamp';
 const SESSION_EXPIRY_MS = 20 * 60 * 1000; // 20 minutes session deduplication
 
-export async function trackVisitor(currentPath: string = window.location.pathname): Promise<boolean> {
+export async function trackVisitor(
+  currentPath: string = window.location.pathname,
+  allowLocal = false
+): Promise<boolean> {
   if (typeof window === 'undefined') return false;
 
-  // Don't track visits inside /stats or /admin to avoid polluting public traffic metrics
+  // 1. Skip tracking if running on localhost / dev environment to avoid fake stats
+  if (!allowLocal && isLocalEnvironment()) {
+    console.info('[VisitorTracker] Local environment detected (localhost). Visitor tracking skipped to prevent fake statistics.');
+    return false;
+  }
+
+  // 2. Don't track visits inside /stats or /admin to avoid polluting public traffic metrics
   const cleanPath = currentPath.replace(/\/+$/, '') || '/';
   if (cleanPath === '/stats' || cleanPath === '/admin') {
     return false;
@@ -289,8 +314,14 @@ export async function trackVisitor(currentPath: string = window.location.pathnam
 }
 
 // ─── CV Download Event Tracker ───────────────────────────────────────────────
-export async function trackCvDownload(): Promise<boolean> {
+export async function trackCvDownload(allowLocal = false): Promise<boolean> {
   if (typeof window === 'undefined') return false;
+
+  // Skip tracking if running on localhost / dev environment to avoid fake stats
+  if (!allowLocal && isLocalEnvironment()) {
+    console.info('[VisitorTracker] Local environment detected (localhost). CV download tracking skipped to prevent fake statistics.');
+    return false;
+  }
 
   try {
     const ua = navigator.userAgent || '';

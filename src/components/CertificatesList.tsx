@@ -57,7 +57,7 @@ export default function CertificatesList({ items = defaultCertificates }: { item
             <Reveal>
               <div className="inline-flex items-center gap-1.5 rounded-full border border-gold-500/30 bg-gold-500/10 px-2.5 py-0.5 text-[0.6875rem] font-bold uppercase tracking-widest text-gold-400">
                 <Award size={12} className="text-gold-accent" />
-                <span>ACCREDITED CREDENTIALS</span>
+                <span>ACCREDITED CERTIFICATES</span>
               </div>
             </Reveal>
             <Reveal delay={40}>
@@ -75,13 +75,13 @@ export default function CertificatesList({ items = defaultCertificates }: { item
           <Reveal delay={90}>
             <div className="inline-flex items-center gap-1.5 text-xs font-mono text-ink-400 border border-[#232736] bg-[#0E1017] px-3 py-1 rounded-lg shrink-0 self-start sm:self-auto">
               <Sparkles size={12} className="text-gold-accent" />
-              <span className="text-white font-semibold">{validItems.length}</span> Credentials
+              <span className="text-white font-semibold">{validItems.length}</span> Certificates
             </div>
           </Reveal>
         </div>
 
-        {/* 4-Column Balanced & High-Density Card Grid: Zero Dead Space */}
-        <div className="grid gap-3 sm:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Responsive Balanced & High-Density Card Grid: Zero Dead Space */}
+        <div className="grid gap-3 sm:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {validItems.map((cert, i) => {
             const isCopied = copiedId === cert.id;
 

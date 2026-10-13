@@ -5,7 +5,7 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 19;
+const STORE_VERSION = 25;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -47,9 +47,13 @@ function loadStore(): AdminStore {
     const missingDefaults = defaultProjects.filter((p) => !existingIds.has(p.id));
     const mergedProjects = isOldVersion ? defaultProjects : [...updatedProjects, ...missingDefaults];
 
-    const rawCerts = isOldVersion ? defaultCertificates : (parsed.certificates?.length ? parsed.certificates : defaultCertificates);
+    // Merge any new default certificates
+    const existingCertIds = new Set((parsed.certificates || []).map((c: Certificate) => c.id));
+    const missingDefaultCerts = defaultCertificates.filter((c) => !existingCertIds.has(c.id));
+    const baseCerts = parsed.certificates?.length ? parsed.certificates : defaultCertificates;
+    const rawCerts = isOldVersion ? defaultCertificates : [...baseCerts, ...missingDefaultCerts];
     const sanitizedCertificates = rawCerts.filter(
-      (c: Certificate) => c.id !== 'cert-005' && !c.issuer.includes('Bina Sarana Informatika') && !c.title.includes('Informatics Engineering')
+      (c: Certificate) => !c.issuer.includes('Bina Sarana Informatika') && !c.title.includes('Informatics Engineering')
     );
 
     const migrated: AdminStore = {
@@ -60,13 +64,15 @@ function loadStore(): AdminStore {
             ...defaultConfig,
             ...parsed.config,
             ownerName: 'Bramastyo Kusumo',
+            ownerLocation: 'Jakarta, Indonesia',
+            ownerEmail: 'bramastyodevops@gmail.com',
             ownerTitle: defaultConfig.ownerTitle,
             ownerBio: defaultConfig.ownerBio,
             heroTagline: defaultConfig.heroTagline,
             ownerAvatar: '/images/profile-hud.png',
             ownerGithub: '',
           }
-        : { ...defaultConfig, ...parsed.config, ownerGithub: '' },
+        : { ...defaultConfig, ...parsed.config, ownerBio: defaultConfig.ownerBio, ownerLocation: 'Jakarta, Indonesia', ownerEmail: 'bramastyodevops@gmail.com', ownerGithub: '' },
       projects: mergedProjects.length ? mergedProjects : defaultProjects,
       skills: isOldVersion ? defaultSkills : (parsed.skills?.length ? parsed.skills : defaultSkills),
       certificates: sanitizedCertificates.length ? sanitizedCertificates : defaultCertificates,

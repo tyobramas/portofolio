@@ -17,6 +17,8 @@ import GoldButton from './components/GoldButton';
 import ParallaxTechBackground from './components/ParallaxTechBackground';
 import { useAdminStore } from './hooks/useAdminStore';
 import { trackVisitor } from './services/visitorTracker';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import VibeCoderThemeView from './components/vibecoder/VibeCoderThemeView';
 
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const LinkedInScraperDashboard = lazy(() => import('./components/LinkedInScraperDashboard'));
@@ -106,7 +108,8 @@ const AdminLoginModal: React.FC<AdminLoginProps> = ({ isOpen, onClose, onLogin }
 };
 
 // ─── Main Application ──────────────────────────────────────────
-export default function App() {
+function PortfolioApp() {
+  const { theme } = useTheme();
   const {
     store,
     session,
@@ -218,6 +221,54 @@ export default function App() {
     }
   };
 
+  // If Vibe Coder theme is active and not on a special tool route, render Vibe Coder experience
+  if (theme === 'vibecoder' && !isScraperRoute && !isStatsRoute && !isArticlesRoute) {
+    return (
+      <div className="min-h-screen bg-[#FBF9F5] text-zinc-900 relative">
+        <VibeCoderThemeView
+          store={store}
+          onAdminClick={handleAdminTrigger}
+          onNavigate={navigateTo}
+        />
+
+
+        {/* Admin Login Modal */}
+        <AdminLoginModal
+          isOpen={showLoginModal}
+          onClose={() => {
+            setShowLoginModal(false);
+            if (isAdminRoute) navigateTo('/');
+          }}
+          onLogin={handleLogin}
+        />
+
+        {/* Admin Dashboard */}
+        <Suspense fallback={null}>
+          {showAdmin && session.authenticated && (
+            <AdminDashboard
+              store={store}
+              onLogout={handleLogout}
+              onUpdateConfig={updateConfig}
+              onAddProject={addProject}
+              onUpdateProject={updateProject}
+              onDeleteProject={deleteProject}
+              onAddMilestone={addMilestone}
+              onUpdateMilestone={updateMilestone}
+              onDeleteMilestone={deleteMilestone}
+              onAddSkill={addSkill}
+              onUpdateSkill={updateSkill}
+              onDeleteSkill={deleteSkill}
+              onAddArticle={addArticle}
+              onUpdateArticle={updateArticle}
+              onDeleteArticle={deleteArticle}
+              onReset={resetStore}
+            />
+          )}
+        </Suspense>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#0B0C10] text-[#E1E4EA] selection:bg-gold-500/30 selection:text-gold-200 relative">
       {/* Matte Titanium Micro-Grain Overlay */}
@@ -328,6 +379,8 @@ export default function App() {
         </>
       )}
 
+
+
       {/* Admin Login Modal */}
       <AdminLoginModal
         isOpen={showLoginModal}
@@ -362,5 +415,13 @@ export default function App() {
         )}
       </Suspense>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <PortfolioApp />
+    </ThemeProvider>
   );
 }

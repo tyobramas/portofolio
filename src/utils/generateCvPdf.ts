@@ -92,7 +92,7 @@ export function generateCvPdf(): jsPDF {
   doc.setTextColor(...textDark);
 
   const summaryText =
-    'Senior Systems Engineer & AI Architect with 10+ years of full-lifecycle engineering excellence. Full-stack web developer since 2013, early Flutter pioneer, and seasoned remote architect for PT Passion Abadi, PT 3D, and PT Rekayasa Digital. Specialized in Autonomous AI Agent workflows, LLM orchestration (ReAct / tool calling), multi-agent systems, cross-platform mobile architectures, and resilient enterprise backends. Dedicated to building high-impact, mission-critical solutions.';
+    "Senior Systems Engineer & AI Architect with 13+ years of full-lifecycle engineering excellence. Full-stack web developer since 2013, early Flutter pioneer, and seasoned engineer for distributed remote teams and global client projects. Specialized in Autonomous AI Agent workflows, LLM orchestration (ReAct / tool calling), multi-agent systems, cross-platform mobile architectures, and resilient enterprise backends. Dedicated to building high-impact, mission-critical solutions.";
   const summaryLines = doc.splitTextToSize(summaryText, contentWidth);
   doc.text(summaryLines, margin, curY);
   curY += summaryLines.length * 4.2 + 4;
