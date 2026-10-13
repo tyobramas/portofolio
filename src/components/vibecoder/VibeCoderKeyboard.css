@@ -182,15 +182,15 @@
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
 }
 
-/* Navigation Sublabel */
+/* Navigation Sublabel (Enlarged, Ultra-Bold for High Legibility) */
 .vibe-sublabel {
   position: relative;
   z-index: 1;
-  max-width: 92%;
-  font-size: clamp(6.5px, 1.15vw, 10.5px);
-  font-weight: 800;
+  max-width: 95%;
+  font-size: clamp(8.5px, 1.45vw, 13.5px);
+  font-weight: 900;
   line-height: 1.1;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   text-align: center;
   color: #18181B;
 }
@@ -211,7 +211,7 @@
   writing-mode: vertical-rl;
   letter-spacing: 0.16em;
   font-weight: 900;
-  font-size: clamp(8px, 1.25vw, 12px);
+  font-size: clamp(10.5px, 1.65vw, 15.5px);
 }
 
 /* Homing bump notches on index fingers (A1, T) */

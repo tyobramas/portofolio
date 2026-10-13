@@ -257,27 +257,27 @@ function createLegendTexture(
     ctx.lineTo(470, 620);
     ctx.stroke();
 
-    // Vertical text: LET'S TALK
+    // Vertical text: LET'S TALK (Significantly larger, ultra-bold)
     ctx.save();
     ctx.translate(512, 1340);
     ctx.rotate(Math.PI / 2);
-    ctx.font = '900 96px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '900 135px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = inkColor;
-    ctx.letterSpacing = '0.22em';
+    ctx.letterSpacing = '0.16em';
     ctx.fillText("LET'S TALK", 0, 0);
     ctx.restore();
   } else {
     // Standard Alpha Key: Ultra-bold, crisp primary letter
-    ctx.font = '900 380px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '900 370px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
     ctx.fillStyle = inkColor;
-    ctx.fillText(char, 512, 405);
+    ctx.fillText(char, 512, 395);
 
-    // High-Legibility Micro Caption: Large, heavy font weight 900, spacious tracking
-    const subFontSize = sublabel.length > 10 ? 82 : 96;
+    // High-Legibility Micro Caption: Substantially larger, ultra-bold 900 weight
+    const subFontSize = sublabel.length > 10 ? 106 : sublabel.length > 7 ? 122 : 136;
     ctx.font = `900 ${subFontSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-    ctx.letterSpacing = sublabel.length > 10 ? '0.07em' : '0.12em';
+    ctx.letterSpacing = sublabel.length > 10 ? '0.04em' : '0.08em';
     ctx.fillStyle = sublabelColor;
-    ctx.fillText(sublabel, 512, 715);
+    ctx.fillText(sublabel, 512, 735);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
