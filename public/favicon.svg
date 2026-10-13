@@ -1,5 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="4" fill="#100c08"/>
-  <rect x="1" y="1" width="30" height="30" rx="3" stroke="#c4a350" stroke-width="1" stroke-opacity="0.5"/>
-  <text x="5" y="22" font-family="monospace" font-size="16" font-weight="700" fill="#c4a350">BK</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <defs>
+    <!-- Authentic Debbie Pastel Gradient: Mint Emerald (#86EFAC) -> Sky Azure (#67E8F9) -> Candy Lavender (#C4B5FD) -->
+    <linearGradient id="debbieBlend" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#86EFAC"/>
+      <stop offset="50%" stop-color="#67E8F9"/>
+      <stop offset="100%" stop-color="#C4B5FD"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 3D Tactile Keycap Shadow (Neo-brutalist mechanical key depth) -->
+  <rect x="2" y="4" width="28" height="26" rx="6" fill="#18181B"/>
+
+  <!-- Keycap Top Face in Bright Pastel -->
+  <rect x="2" y="2" width="28" height="25" rx="6" fill="url(#debbieBlend)" stroke="#18181B" stroke-width="2"/>
+
+  <!-- Keycap Dish Highlight / Subtle Bevel Reflection -->
+  <path d="M 5 4.5 C 5 3.8 6 3.5 8 3.5 L 24 3.5 C 26 3.5 27 3.8 27 4.5 C 27 7.5 25.5 10.5 23.5 11 L 8.5 11 C 6.5 10.5 5 7.5 5 4.5 Z" fill="#FFFFFF" fill-opacity="0.5"/>
+
+  <!-- High-Contrast Ultra-Bold Monogram 'BK' -->
+  <text x="16" y="16" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="900" fill="#09090B" text-anchor="middle" dominant-baseline="central" letter-spacing="-0.5">BK</text>
 </svg>
