@@ -278,3 +278,76 @@
   outline-offset: 4px;
   border-radius: var(--radius);
 }
+
+/* ==========================================================================
+   3D Layer (Three.js) + Aksesibilitas
+   ========================================================================== */
+
+a.vibe-btn {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vibe-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vibe-sound-toggle[aria-pressed="false"] {
+  background: #F4F4F5;
+  color: #52525B;
+}
+
+.vibe-control-bar {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Panggung: CSS keyboard & canvas ditumpuk di area yang sama → 0 layout shift */
+.vibe-kb-stage {
+  position: relative;
+  padding: 8px 10px 16px;
+}
+
+.vibe-kb-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  touch-action: pan-y; /* tetap bisa scroll di HP */
+  transition: opacity 280ms ease;
+}
+
+.vibe-kb-stage.is-3d .vibe-kb-canvas {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Saat 3D aktif: link HTML tetap ada (SEO, screen reader, Tab), hanya tak terlihat */
+.vibe-kb-stage.is-3d .vibe-keyboard-layout {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+/* Fokus ditampilkan oleh scene 3D (cincin ungu) */
+.vibe-kb-stage.is-3d .vibe-btn:focus-visible {
+  outline: none;
+}
+
+/* Section tujuan menerima fokus programatik tanpa garis aneh */
+section[tabindex="-1"]:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vibe-cap,
+  .vibe-kb-canvas,
+  .vibe-kb-stage.is-3d .vibe-keyboard-layout {
+    transition: none;
+  }
+}

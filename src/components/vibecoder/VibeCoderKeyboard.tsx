@@ -1,363 +1,323 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Volume2, VolumeX, Keyboard } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Volume2, VolumeX, Keyboard, Pause, Play } from 'lucide-react';
 import { playKeyThock } from '../../utils/keyboardAudio';
+import {
+  ROW_1_KEYS, ROW_2_KEYS, ENTER_KEY, KEY_BY_ID, SEQUENCE_IDS, LETTER_TO_ID,
+  type KeyItem,
+} from './keyboard/keyData';
+import type { KeyboardSceneHandle } from './keyboard/createKeyboardScene';
 import './VibeCoderKeyboard.css';
 
-interface KeyItem {
-  id: string;
-  char: string;
-  sublabel: string;
-  targetId: string;
-  topColor: string;
-  frontColor: string;
-  pitch: number;
-  hasBump?: boolean;
-}
-
-// ── Authentic Debbie Pastel-Pop Candy Keycap Palette ──
-const ROW_1_KEYS: KeyItem[] = [
-  {
-    id: 'B',
-    char: 'B',
-    sublabel: 'PROJECTS',
-    targetId: '#projects',
-    topColor: '#FF85C0',   // Candy Pink (Debbie P)
-    frontColor: '#E11D48', // Deep Rose Front
-    pitch: 0.95,
-  },
-  {
-    id: 'R',
-    char: 'R',
-    sublabel: 'ABOUT ME',
-    targetId: '#about',
-    topColor: '#C4B5FD',   // Soft Lavender (Debbie O)
-    frontColor: '#7C3AED', // Deep Violet Front
-    pitch: 1.0,
-  },
-  {
-    id: 'A1',
-    char: 'A',
-    sublabel: 'SKILLS',
-    targetId: '#expertise',
-    topColor: '#6EE7B7',   // Fresh Mint Green (Debbie R)
-    frontColor: '#059669', // Deep Emerald Front
-    pitch: 1.05,
-    hasBump: true,
-  },
-  {
-    id: 'M',
-    char: 'M',
-    sublabel: 'SERVICES',
-    targetId: '#services',
-    topColor: '#FDBA74',   // Sunny Apricot Peach (Debbie T)
-    frontColor: '#EA580C', // Rich Terracotta Front
-    pitch: 1.1,
-  },
-];
-
-const ROW_2_KEYS: KeyItem[] = [
-  {
-    id: 'A2',
-    char: 'A',
-    sublabel: 'EXPLORE',
-    targetId: '#projects',
-    topColor: '#67E8F9',   // Electric Sky Cyan (Debbie F)
-    frontColor: '#0284C7', // Rich Azure Front
-    pitch: 1.02,
-  },
-  {
-    id: 'S',
-    char: 'S',
-    sublabel: 'FOCUS',
-    targetId: '#about',
-    topColor: '#F472B6',   // Orchid Blossom Pink (Debbie O)
-    frontColor: '#C026D3', // Rich Magenta Front
-    pitch: 1.08,
-  },
-  {
-    id: 'T',
-    char: 'T',
-    sublabel: 'EXPERTISE',
-    targetId: '#expertise',
-    topColor: '#FB7185',   // Coral Candy Red (Debbie L)
-    frontColor: '#DC2626', // Deep Crimson Front
-    pitch: 1.12,
-    hasBump: true,
-  },
-  {
-    id: 'Y',
-    char: 'Y',
-    sublabel: 'CERTIFICATES',
-    targetId: '#certificates',
-    topColor: '#93C5FD',   // Cornflower Pastel Blue (Debbie I)
-    frontColor: '#2563EB', // Royal Blue Front
-    pitch: 1.15,
-  },
-  {
-    id: 'O',
-    char: 'O',
-    sublabel: 'SAY HELLO',
-    targetId: '#contact',
-    topColor: '#BEF264',   // Radiant Lime Green (Debbie O)
-    frontColor: '#65A30D', // Olive Lime Front
-    pitch: 1.2,
-  },
-];
-
-const ENTER_KEY: KeyItem = {
-  id: 'ENTER',
-  char: '↵',
-  sublabel: "LET'S TALK",
-  targetId: '#contact',
-  topColor: '#FDE047',   // Sunflower Canary Yellow (Debbie Enter)
-  frontColor: '#CA8A04', // Rich Golden Amber Front
-  pitch: 0.85,
+const STORAGE = {
+  sound: 'vibe-kb-sound',
+  motion: 'vibe-kb-motion',
+  shortcuts: 'vibe-kb-shortcuts',
 };
 
-const ALL_KEYS = [...ROW_1_KEYS, ...ROW_2_KEYS, ENTER_KEY];
-const SEQUENCE_IDS = ['B', 'R', 'A1', 'M', 'A2', 'S', 'T', 'Y', 'O', 'ENTER'];
+function usePersistentToggle(key: string, initial: boolean) {
+  const [value, setValue] = useState<boolean>(() => {
+    try {
+      const v = window.localStorage.getItem(key);
+      return v === null ? initial : v === '1';
+    } catch {
+      return initial;
+    }
+  });
+  useEffect(() => {
+    try { window.localStorage.setItem(key, value ? '1' : '0'); } catch { /* abaikan */ }
+  }, [key, value]);
+  return [value, setValue] as const;
+}
+
+function usePrefersReducedMotion() {
+  const query = '(prefers-reduced-motion: reduce)';
+  const [reduced, setReduced] = useState<boolean>(() => !!window.matchMedia?.(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  return reduced;
+}
+
+function canUse3D() {
+  try {
+    if (new URLSearchParams(window.location.search).get('kb') === 'css') return false;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (conn?.saveData) return false;
+    const c = document.createElement('canvas');
+    return !!c.getContext('webgl2'); // three r163+ wajib WebGL2
+  } catch {
+    return false;
+  }
+}
+
+interface ToggleChipProps {
+  pressed: boolean;
+  onToggle: () => void;
+  label: string;
+  icon: React.ReactNode;
+}
+
+function ToggleChip({ pressed, onToggle, label, icon }: ToggleChipProps) {
+  return (
+    <button type="button" className="vibe-sound-toggle" aria-pressed={pressed} onClick={onToggle}>
+      {icon}
+      <span>{label}</span>
+      <span aria-hidden="true">: {pressed ? 'ON' : 'OFF'}</span>
+    </button>
+  );
+}
 
 export default function VibeCoderKeyboard() {
+  const reducedMotion = usePrefersReducedMotion();
+  const [soundOn, setSoundOn] = usePersistentToggle(STORAGE.sound, true);
+  const [motionOn, setMotionOn] = usePersistentToggle(STORAGE.motion, true);
+  const [shortcutsOn, setShortcutsOn] = usePersistentToggle(STORAGE.shortcuts, true);
+  const [is3D, setIs3D] = useState(false);
   const [pressedKeyId, setPressedKeyId] = useState<string | null>(null);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const userPausedRef = useRef(false);
-  const pauseTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const loopStepRef = useRef(0);
-  const lastAWasFirst = useRef(false);
 
-  const pauseLoopTemporarily = useCallback(() => {
-    userPausedRef.current = true;
-    if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
-    pauseTimerRef.current = setTimeout(() => {
-      userPausedRef.current = false;
-    }, 6000);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sceneRef = useRef<KeyboardSceneHandle | null>(null);
+  const inViewRef = useRef(true);
+  const pausedUntilRef = useRef(0);
+  const nextARef = useRef<'A1' | 'A2'>('A1');
+  const pressTimerRef = useRef<number>();
+  const soundRef = useRef(soundOn);
+  const reducedRef = useRef(reducedMotion);
+
+  useEffect(() => { soundRef.current = soundOn; }, [soundOn]);
+  useEffect(() => {
+    reducedRef.current = reducedMotion;
+    sceneRef.current?.setReducedMotion(reducedMotion);
+  }, [reducedMotion]);
+
+  const flash = useCallback((id: string) => {
+    sceneRef.current?.press(id);
+    setPressedKeyId(id);
+    window.clearTimeout(pressTimerRef.current);
+    pressTimerRef.current = window.setTimeout(() => setPressedKeyId(null), 160);
   }, []);
 
-  const triggerKeyAction = useCallback((key: KeyItem, isManual = false) => {
-    setPressedKeyId(key.id);
-    setTimeout(() => {
-      setPressedKeyId((curr) => (curr === key.id ? null : curr));
-    }, 160);
+  const playSound = useCallback((id: string) => {
+    pausedUntilRef.current = performance.now() + 6000;
+    if (soundRef.current) playKeyThock(KEY_BY_ID[id]?.pitch ?? 1);
+  }, []);
 
-    if (soundEnabled) {
-      playKeyThock(key.pitch);
-    }
-
-    if (isManual) {
-      pauseLoopTemporarily();
-      const target = document.querySelector(key.targetId);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [soundEnabled, pauseLoopTemporarily]);
-
-  // ── Auto-Typing Animation Sequence ──
-  useEffect(() => {
-    let mounted = true;
-    let timerId: NodeJS.Timeout | null = null;
-
-    const tick = () => {
-      if (!mounted) return;
-
-      if (userPausedRef.current || document.hidden) {
-        timerId = setTimeout(tick, 300);
-        return;
-      }
-
-      const idx = loopStepRef.current;
-      if (idx < SEQUENCE_IDS.length) {
-        const keyId = SEQUENCE_IDS[idx];
-        const keyDef = ALL_KEYS.find((k) => k.id === keyId);
-        if (keyDef) {
-          triggerKeyAction(keyDef, false);
-        }
-        loopStepRef.current = idx + 1;
-        timerId = setTimeout(tick, 360);
-      } else {
-        loopStepRef.current = 0;
-        timerId = setTimeout(tick, 2200);
-      }
+  const navigate = useCallback((id: string) => {
+    const key = KEY_BY_ID[id];
+    if (!key) return;
+    pausedUntilRef.current = performance.now() + 6000;
+    const go = () => {
+      const target = document.querySelector<HTMLElement>(key.targetId);
+      if (!target) return;
+      target.scrollIntoView({ behavior: reducedRef.current ? 'auto' : 'smooth', block: 'start' });
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
     };
+    // beri waktu animasi tekan terlihat
+    if (reducedRef.current) go();
+    else window.setTimeout(go, 120);
+  }, []);
 
-    timerId = setTimeout(tick, 800);
+  const trigger = useCallback((id: string) => {
+    flash(id);
+    playSound(id);
+    navigate(id);
+  }, [flash, playSound, navigate]);
+
+  /* ── Muat scene 3D (lazy) ── */
+  useEffect(() => {
+    if (!canUse3D()) return;
+    let cancelled = false;
+    let handle: KeyboardSceneHandle | null = null;
+
+    (async () => {
+      try {
+        const { createKeyboardScene } = await import('./keyboard/createKeyboardScene');
+        if (cancelled || !canvasRef.current || !stageRef.current) return;
+        handle = await createKeyboardScene({
+          canvas: canvasRef.current,
+          container: stageRef.current,
+          rows: [ROW_1_KEYS, ROW_2_KEYS],
+          enterKey: ENTER_KEY,
+          reducedMotion: reducedRef.current,
+          onPressStart: playSound,
+          onActivate: navigate,
+          onContextLost: () => {
+            sceneRef.current?.dispose();
+            sceneRef.current = null;
+            setIs3D(false);
+          },
+        });
+        if (cancelled) { handle.dispose(); return; }
+        sceneRef.current = handle;
+        setIs3D(true);
+      } catch (err) {
+        console.warn('[VibeCoderKeyboard] 3D tidak tersedia, memakai versi CSS.', err);
+      }
+    })();
 
     return () => {
-      mounted = false;
-      if (timerId) clearTimeout(timerId);
+      cancelled = true;
+      handle?.dispose();
+      sceneRef.current = null;
+      setIs3D(false);
     };
-  }, [triggerKeyAction]);
+  }, [playSound, navigate]);
 
-  // ── Physical Keyboard Typing Listener ──
+  /* ── Lacak apakah keyboard terlihat ── */
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
-        return;
-      }
+    const el = stageRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => { inViewRef.current = !!entry?.isIntersecting; });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* ── Auto-typing (bisa dihentikan, tanpa suara) ── */
+  useEffect(() => {
+    if (!motionOn || reducedMotion) return;
+    let stepIdx = 0;
+    let timer = 0;
+    const tick = () => {
+      const canRun = performance.now() > pausedUntilRef.current && !document.hidden && inViewRef.current;
+      if (!canRun) { timer = window.setTimeout(tick, 500); return; }
+      flash(SEQUENCE_IDS[stepIdx]);
+      stepIdx = (stepIdx + 1) % SEQUENCE_IDS.length;
+      timer = window.setTimeout(tick, stepIdx === 0 ? 2600 : 230);
+    };
+    timer = window.setTimeout(tick, 1200);
+    return () => window.clearTimeout(timer);
+  }, [motionOn, reducedMotion, flash]);
+
+  /* ── Shortcut keyboard fisik (bisa dimatikan) ── */
+  useEffect(() => {
+    if (!shortcutsOn) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+      const el = e.target as HTMLElement | null;
+      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
+      if (!inViewRef.current) return;
 
       const k = e.key.toLowerCase();
-      let matched: KeyItem | undefined;
-
-      if (k === 'b') matched = ALL_KEYS.find((x) => x.id === 'B');
-      else if (k === 'r') matched = ALL_KEYS.find((x) => x.id === 'R');
-      else if (k === 'a') {
-        matched = lastAWasFirst.current
-          ? ALL_KEYS.find((x) => x.id === 'A2')
-          : ALL_KEYS.find((x) => x.id === 'A1');
-        lastAWasFirst.current = !lastAWasFirst.current;
-      } else if (k === 'm') matched = ALL_KEYS.find((x) => x.id === 'M');
-      else if (k === 's') matched = ALL_KEYS.find((x) => x.id === 'S');
-      else if (k === 't') matched = ALL_KEYS.find((x) => x.id === 'T');
-      else if (k === 'y') matched = ALL_KEYS.find((x) => x.id === 'Y');
-      else if (k === 'o') matched = ALL_KEYS.find((x) => x.id === 'O');
-      else if (k === 'enter' || k === ' ') matched = ENTER_KEY;
-
-      if (matched) {
-        triggerKeyAction(matched, true);
+      let id: string | null = null;
+      if (k === 'enter') {
+        if (document.activeElement && document.activeElement !== document.body) return;
+        id = 'ENTER';
+      } else if (k === 'a') {
+        id = nextARef.current;
+        nextARef.current = id === 'A1' ? 'A2' : 'A1';
+      } else {
+        id = LETTER_TO_ID[k] ?? null;
       }
+      if (!id) return;
+      e.preventDefault();
+      trigger(id);
     };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [shortcutsOn, trigger]);
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [triggerKeyAction]);
+  const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    // biarkan ctrl/cmd/middle-click berperilaku normal
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    trigger(id);
+  };
+
+  const linkProps = (key: KeyItem) => ({
+    href: key.targetId,
+    className: `vibe-btn ${key.isEnter ? 'vibe-btn--enter' : ''} ${pressedKeyId === key.id ? 'is-pressed' : ''}`,
+    style: { '--key-top': key.topColor, '--key-front': key.frontColor } as React.CSSProperties,
+    'aria-keyshortcuts': shortcutsOn ? (key.isEnter ? 'Enter' : key.char) : undefined,
+    onClick: (e: React.MouseEvent<HTMLAnchorElement>) => onLinkClick(e, key.id),
+    onFocus: () => sceneRef.current?.setFocused(key.id),
+    onBlur: () => sceneRef.current?.setFocused(null),
+  });
+
+  const renderKey = (key: KeyItem) => (
+    <div className="vibe-key-unit" key={key.id}>
+      <a {...linkProps(key)}>
+        <span className="vibe-cap">
+          <span className="vibe-face">
+            <span className="vibe-glare" aria-hidden="true" />
+            <span className="vibe-letter" aria-hidden="true">{key.char}</span>
+            <span className="vibe-sublabel">{key.label}</span>
+            {key.hasBump && <span className="vibe-bump" aria-hidden="true" />}
+          </span>
+        </span>
+      </a>
+    </div>
+  );
 
   return (
     <div className="vibe-stage-wrapper">
-      {/* Top Interactive Controls & Keyboard Hint */}
       <div className="vibe-control-bar">
-        <span className="vibe-hint-pill">
-          <Keyboard size={13} className="text-zinc-600" />
-          <span className="hidden sm:inline">Interactive Keys: Click or type on your keyboard</span>
-          <span className="sm:hidden">Tap any key to navigate</span>
-        </span>
-
-        <button
-          type="button"
-          onClick={() => setSoundEnabled((prev) => !prev)}
-          className="vibe-sound-toggle"
-          title={soundEnabled ? 'Mute Keyboard Audio' : 'Enable Keyboard Audio'}
-        >
-          {soundEnabled ? (
-            <>
-              <Volume2 size={13} className="text-emerald-700" />
-              <span>Sound: ON</span>
-            </>
-          ) : (
-            <>
-              <VolumeX size={13} className="text-zinc-500" />
-              <span>Sound: OFF</span>
-            </>
-          )}
-        </button>
+        <p className="vibe-hint-pill" id="vibe-kb-hint">
+          <Keyboard size={14} aria-hidden="true" />
+          <span>Interactive keys: click, tap, or type a letter</span>
+        </p>
+        <div className="vibe-toggle-group" role="group" aria-label="Keyboard settings">
+          <ToggleChip
+            pressed={soundOn}
+            onToggle={() => setSoundOn((v) => !v)}
+            label="Sound"
+            icon={soundOn ? <Volume2 size={13} aria-hidden="true" /> : <VolumeX size={13} aria-hidden="true" />}
+          />
+          <ToggleChip
+            pressed={motionOn && !reducedMotion}
+            onToggle={() => setMotionOn((v) => !v)}
+            label="Motion"
+            icon={motionOn && !reducedMotion ? <Pause size={13} aria-hidden="true" /> : <Play size={13} aria-hidden="true" />}
+          />
+          <ToggleChip
+            pressed={shortcutsOn}
+            onToggle={() => setShortcutsOn((v) => !v)}
+            label="Shortcuts"
+            icon={<Keyboard size={13} aria-hidden="true" />}
+          />
+        </div>
       </div>
 
-      {/* ── Debbie-Style Real Mechanical Keyboard Layout ── */}
-      <div
-        className="vibe-keyboard-layout"
-        onMouseEnter={pauseLoopTemporarily}
-        onTouchStart={pauseLoopTemporarily}
-      >
-        {/* Keys Main Block (Row 1 & Row 2) */}
-        <div className="vibe-keys-area">
-          {/* Row 1: B - R - A - M */}
-          <div className="vibe-row vibe-row-1">
-            {ROW_1_KEYS.map((key) => {
-              const isPressed = pressedKeyId === key.id;
-              return (
-                <div key={key.id} className="vibe-key-unit">
-                  <button
-                    type="button"
-                    onClick={() => triggerKeyAction(key, true)}
-                    className={`vibe-btn ${isPressed ? 'is-pressed' : ''}`}
-                    style={
-                      {
-                        '--key-top': key.topColor,
-                        '--key-front': key.frontColor,
-                      } as React.CSSProperties
-                    }
-                    title={`${key.char} — ${key.sublabel} (Click to scroll)`}
-                  >
-                    <div className="vibe-cap">
-                      <div className="vibe-face">
-                        <span className="vibe-glare" />
-                        <span className="vibe-letter">{key.char}</span>
-                        <span className="vibe-sublabel">{key.sublabel}</span>
-                        {key.hasBump && <span className="vibe-bump" />}
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Row 2: A - S - T - Y - O */}
-          <div className="vibe-row vibe-row-2">
-            {ROW_2_KEYS.map((key) => {
-              const isPressed = pressedKeyId === key.id;
-              return (
-                <div key={key.id} className="vibe-key-unit">
-                  <button
-                    type="button"
-                    onClick={() => triggerKeyAction(key, true)}
-                    className={`vibe-btn ${isPressed ? 'is-pressed' : ''}`}
-                    style={
-                      {
-                        '--key-top': key.topColor,
-                        '--key-front': key.frontColor,
-                      } as React.CSSProperties
-                    }
-                    title={`${key.char} — ${key.sublabel} (Click to scroll)`}
-                  >
-                    <div className="vibe-cap">
-                      <div className="vibe-face">
-                        <span className="vibe-glare" />
-                        <span className="vibe-letter">{key.char}</span>
-                        <span className="vibe-sublabel">{key.sublabel}</span>
-                        {key.hasBump && <span className="vibe-bump" />}
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ── Tall Enter Key on the Right ── */}
-        <div className="vibe-enter-unit">
-          <button
-            type="button"
-            onClick={() => triggerKeyAction(ENTER_KEY, true)}
-            className={`vibe-btn vibe-btn--enter ${pressedKeyId === ENTER_KEY.id ? 'is-pressed' : ''}`}
-            style={
-              {
-                '--key-top': ENTER_KEY.topColor,
-                '--key-front': ENTER_KEY.frontColor,
-              } as React.CSSProperties
-            }
-            title="↵ LET'S TALK (Click to navigate to contact)"
-          >
-            <div className="vibe-cap">
-              <div className="vibe-face">
-                <span className="vibe-glare" />
-                <svg
-                  viewBox="0 0 24 24"
-                  className="vibe-enter-arrow"
-                  fill="none"
-                  stroke="#18181B"
-                  strokeWidth="3.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 7v5a3 3 0 0 1-3 3H5" />
-                  <path d="M9 11l-4 4 4 4" />
-                </svg>
-                <span className="vibe-enter-sublabel">LET'S TALK</span>
-              </div>
+      <div ref={stageRef} className={`vibe-kb-stage ${is3D ? 'is-3d' : ''}`}>
+        <nav aria-label="Portfolio sections" aria-describedby="vibe-kb-hint">
+          <div className="vibe-keyboard-layout">
+            <div className="vibe-keys-area">
+              <div className="vibe-row vibe-row-1">{ROW_1_KEYS.map(renderKey)}</div>
+              <div className="vibe-row vibe-row-2">{ROW_2_KEYS.map(renderKey)}</div>
             </div>
-          </button>
-        </div>
+
+            <div className="vibe-enter-unit">
+              <a {...linkProps(ENTER_KEY)}>
+                <span className="vibe-cap">
+                  <span className="vibe-face">
+                    <span className="vibe-glare" aria-hidden="true" />
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="vibe-enter-arrow"
+                      fill="none"
+                      stroke="#18181B"
+                      strokeWidth="3.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M20 7v5a3 3 0 0 1-3 3H5" />
+                      <path d="M9 11l-4 4 4 4" />
+                    </svg>
+                    <span className="vibe-enter-sublabel">{ENTER_KEY.label}</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <canvas ref={canvasRef} className="vibe-kb-canvas" aria-hidden="true" />
       </div>
     </div>
   );

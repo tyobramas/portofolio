@@ -143,23 +143,18 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
         <section id="about" className="py-14 sm:py-16">
           <div className="shell">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-7 space-y-5">
+              <div className="lg:col-span-7 space-y-4">
                 <div className="inline-flex items-center gap-1.5 rounded-full border-2 border-zinc-900 bg-[#E879F9]/20 px-3 py-0.5 text-xs font-black uppercase tracking-wider text-purple-900 shadow-[0_2px_0_0_#18181B]">
                   <Sparkles size={13} />
                   <span>Engineering Focus</span>
                 </div>
 
-                <h2 className="font-sans text-3xl sm:text-5xl font-black text-zinc-950 tracking-tight leading-tight">
-                  Full-Stack Web (Frontend & Backend), Mobile & AI.
+                <h2 className="font-sans text-3xl sm:text-4xl font-black text-zinc-950 tracking-tight leading-tight">
+                  Core Technical Competencies
                 </h2>
 
-                <p className="text-base text-zinc-700 leading-relaxed font-normal">
-                  {config.ownerBio ||
-                    'Senior Software Engineer and Systems Architect focused on delivering resilient, high-concurrency solutions. With deep specialization across scalable Frontend interfaces, robust Backend API architectures, production-grade mobile ecosystems, and autonomous enterprise AI systems.'}
-                </p>
-
                 {/* Core Competency Badges */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                   {[
                     'Frontend Web (React, Next.js, TypeScript)',
                     'Backend Architecture (Laravel, Node.js, APIs)',
