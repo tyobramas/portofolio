@@ -21,13 +21,7 @@
 
 /* ── Sound Toggle & Hint Bar ── */
 .vibe-control-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 680px;
-  margin-bottom: 12px;
-  padding: 0 8px;
+  display: none !important;
 }
 
 .vibe-sound-toggle {

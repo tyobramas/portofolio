@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX, Keyboard, Pause, Play } from 'lucide-react';
 import { playKeyThock } from '../../utils/keyboardAudio';
 import {
   ROW_1_KEYS, ROW_2_KEYS, ENTER_KEY, KEY_BY_ID, SEQUENCE_IDS, LETTER_TO_ID,
@@ -7,27 +6,6 @@ import {
 } from './keyboard/keyData';
 import type { KeyboardSceneHandle } from './keyboard/createKeyboardScene';
 import './VibeCoderKeyboard.css';
-
-const STORAGE = {
-  sound: 'vibe-kb-sound',
-  motion: 'vibe-kb-motion',
-  shortcuts: 'vibe-kb-shortcuts',
-};
-
-function usePersistentToggle(key: string, initial: boolean) {
-  const [value, setValue] = useState<boolean>(() => {
-    try {
-      const v = window.localStorage.getItem(key);
-      return v === null ? initial : v === '1';
-    } catch {
-      return initial;
-    }
-  });
-  useEffect(() => {
-    try { window.localStorage.setItem(key, value ? '1' : '0'); } catch { /* abaikan */ }
-  }, [key, value]);
-  return [value, setValue] as const;
-}
 
 function usePrefersReducedMotion() {
   const query = '(prefers-reduced-motion: reduce)';
@@ -53,28 +31,11 @@ function canUse3D() {
   }
 }
 
-interface ToggleChipProps {
-  pressed: boolean;
-  onToggle: () => void;
-  label: string;
-  icon: React.ReactNode;
-}
-
-function ToggleChip({ pressed, onToggle, label, icon }: ToggleChipProps) {
-  return (
-    <button type="button" className="vibe-sound-toggle" aria-pressed={pressed} onClick={onToggle}>
-      {icon}
-      <span>{label}</span>
-      <span aria-hidden="true">: {pressed ? 'ON' : 'OFF'}</span>
-    </button>
-  );
-}
-
 export default function VibeCoderKeyboard() {
   const reducedMotion = usePrefersReducedMotion();
-  const [soundOn, setSoundOn] = usePersistentToggle(STORAGE.sound, true);
-  const [motionOn, setMotionOn] = usePersistentToggle(STORAGE.motion, true);
-  const [shortcutsOn, setShortcutsOn] = usePersistentToggle(STORAGE.shortcuts, true);
+  const soundOn = true;
+  const motionOn = true;
+  const shortcutsOn = true;
   const [is3D, setIs3D] = useState(false);
   const [pressedKeyId, setPressedKeyId] = useState<string | null>(null);
 
@@ -255,35 +216,8 @@ export default function VibeCoderKeyboard() {
 
   return (
     <div className="vibe-stage-wrapper">
-      <div className="vibe-control-bar">
-        <p className="vibe-hint-pill" id="vibe-kb-hint">
-          <Keyboard size={14} aria-hidden="true" />
-          <span>Interactive keys: click, tap, or type a letter</span>
-        </p>
-        <div className="vibe-toggle-group" role="group" aria-label="Keyboard settings">
-          <ToggleChip
-            pressed={soundOn}
-            onToggle={() => setSoundOn((v) => !v)}
-            label="Sound"
-            icon={soundOn ? <Volume2 size={13} aria-hidden="true" /> : <VolumeX size={13} aria-hidden="true" />}
-          />
-          <ToggleChip
-            pressed={motionOn && !reducedMotion}
-            onToggle={() => setMotionOn((v) => !v)}
-            label="Motion"
-            icon={motionOn && !reducedMotion ? <Pause size={13} aria-hidden="true" /> : <Play size={13} aria-hidden="true" />}
-          />
-          <ToggleChip
-            pressed={shortcutsOn}
-            onToggle={() => setShortcutsOn((v) => !v)}
-            label="Shortcuts"
-            icon={<Keyboard size={13} aria-hidden="true" />}
-          />
-        </div>
-      </div>
-
       <div ref={stageRef} className={`vibe-kb-stage ${is3D ? 'is-3d' : ''}`}>
-        <nav aria-label="Portfolio sections" aria-describedby="vibe-kb-hint">
+        <nav aria-label="Portfolio sections">
           <div className="vibe-keyboard-layout">
             <div className="vibe-keys-area">
               <div className="vibe-row vibe-row-1">{ROW_1_KEYS.map(renderKey)}</div>
