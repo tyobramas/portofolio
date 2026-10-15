@@ -71,6 +71,29 @@ export const defaultProjects: Project[] = [
     color: '#9C7B45',
   },
   {
+    id: 'proj-016',
+    title: 'CoreERP — Modular Enterprise Resource Planning Suite',
+    description:
+      'Enterprise modular ERP unifying multi-entity finance & accounting, double-entry general ledger, multi-warehouse inventory, procurement approval workflows, and integrated HR & payroll.',
+    longDescription:
+      'Comprehensive modular Enterprise Resource Planning (ERP) platform architected for mid-to-large business operations. Unifies five core operational pillars into a single synchronized data environment: (1) Finance & Accounting — double-entry bookkeeping, automated general ledger, AR/AP tracking, bank reconciliation, tax calculations (PPN/PPh), and real-time P&L / balance sheet generation; (2) Warehouse & Inventory — multi-location stock tracking, FIFO / weighted moving average valuation, bin location mapping, automated reorder triggers, and physical stock opname reconciliation; (3) Purchasing & Procurement — purchase requisition (PR) to purchase order (PO) lifecycles, vendor evaluations, and automated 3-way matching (PO, Goods Receipt / Surat Jalan, and Vendor Invoice); (4) HR & Payroll — centralized employee master records, attendance & biometric sync, automated salary calculation with statutory tax deductions (PPh 21 & BPJS), and encrypted payslips; and (5) Sales & Distribution — sales orders, quotations, customer receivables, and automated delivery note issuance. Built with granular Role-Based Access Control (RBAC), multi-tier approval matrix, and immutable audit logging for regulatory compliance.',
+    category: 'saas',
+    status: 'live',
+    techStack: ['Laravel 11', 'PHP 8.3', 'PostgreSQL', 'React', 'TypeScript', 'Tailwind CSS', 'Redis', 'Docker'],
+    tech: ['Laravel 11', 'PHP 8.3', 'PostgreSQL', 'React', 'TypeScript', 'Tailwind CSS', 'Redis', 'Docker'],
+    year: 2024,
+    image: '/images/core_erp.jpg',
+    impact: 'Unified multi-department operations, accelerated monthly financial closing by 65%, and achieved 99.6% inventory ledger accuracy.',
+    metrics: [
+      { label: 'Core Modules', value: 'Finance · Gudang · HR · Purchasing' },
+      { label: 'Closing Cycle', value: '65% Faster Month-End' },
+      { label: 'Ledger Accuracy', value: '99.6% Reconciliation' },
+    ],
+    links: {},
+    featured: true,
+    color: '#E5A93C',
+  },
+  {
     id: 'proj-003',
     title: 'HRMS + Face Recognition Attendance',
     description: 'Enterprise HR management system with biometric face recognition attendance, instant payroll calculation, and shift scheduling.',
@@ -370,8 +393,9 @@ export const defaultMilestones: Milestone[] = [
     organisation: 'Prakarsa AI',
     period: '2024 — Present',
     description:
-      'Principal engineer architecting AI-integrated enterprise SaaS solutions: autonomous LinkedIn intelligence agents (Lunad), multi-agent HRMS screening engines, real-time biometric Face Recognition with 3D anti-spoofing, and high-throughput automation pipelines.',
+      'Principal engineer architecting modular enterprise SaaS & ERP solutions: full-suite business ERP (Finance, Accounting, Warehouse, HR, Purchasing), autonomous LinkedIn intelligence agents (Lunad), multi-agent HRMS screening engines, real-time biometric Face Recognition with 3D anti-spoofing, and high-throughput automation pipelines.',
     highlights: [
+      'Architected modular enterprise ERP suite (CoreERP) spanning Finance, Accounting, Warehouse, HR, and Purchasing modules with multi-tier RBAC approval matrices',
       'Architected enterprise LLM & autonomous agent pipelines (Hermes / LangGraph) for multi-agent workflows',
       'Built Lunad — LinkedIn AI agent & intelligence platform with automated B2B outreach pipeline',
       'Engineered HRMS with biometric Face Recognition & anti-spoofing live camera validation with Flutter',
@@ -379,7 +403,7 @@ export const defaultMilestones: Milestone[] = [
     location: 'Jakarta, Indonesia (Remote)',
     current: true,
     badge: 'Enterprise AI & SaaS',
-    tags: ['Enterprise LLM', 'Prompt Engineering', 'Biometrics & Anti-Spoofing', 'Flutter', 'FastAPI'],
+    tags: ['Modular ERP', 'Enterprise LLM', 'Finance & Accounting', 'Biometrics & Anti-Spoofing', 'Flutter', 'FastAPI'],
   },
   {
     id: 'ms-002',
@@ -528,6 +552,7 @@ export const defaultSkills: Skill[] = [
   { id: 'sk-006', name: 'Laravel', category: 'backend', level: 'expert', proficiency: 96, years: 6, icon: 'https://cdn.simpleicons.org/laravel' },
   { id: 'sk-008', name: 'PHP', category: 'backend', level: 'expert', proficiency: 94, years: 6, icon: 'https://cdn.simpleicons.org/php' },
   { id: 'sk-009', name: 'REST API Design', category: 'backend', level: 'expert', proficiency: 92, years: 5, icon: 'https://cdn.simpleicons.org/postman' },
+  { id: 'sk-041', name: 'ERP Systems Architecture', category: 'backend', level: 'expert', proficiency: 94, years: 5, icon: 'https://cdn.simpleicons.org/laravel' },
 
   // Database
   { id: 'sk-011', name: 'MySQL', category: 'database', level: 'expert', proficiency: 90, years: 6, icon: 'https://cdn.simpleicons.org/mysql' },

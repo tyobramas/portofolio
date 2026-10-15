@@ -5,7 +5,7 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 25;
+const STORE_VERSION = 26;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {

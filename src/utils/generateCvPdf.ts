@@ -116,7 +116,7 @@ export function generateCvPdf(): jsPDF {
     },
     {
       category: 'Backend & Cloud DevOps',
-      items: 'Node.js, Python (FastAPI/Flask), Laravel/PHP, PostgreSQL, MySQL, Redis, Docker Containerization, RESTful & GraphQL APIs, CI/CD Pipelines',
+      items: 'Node.js, Python (FastAPI/Flask), Laravel/PHP, Enterprise ERP Architectures, PostgreSQL, MySQL, Redis, Docker Containerization, RESTful & GraphQL APIs, CI/CD Pipelines',
     },
   ];
 
