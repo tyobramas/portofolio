@@ -55,7 +55,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Next.js + Prisma SaaS platform powering AI Agents for sales and recruitment workflows. Manages prospect pipelines end-to-end from initial contact to conversion.',
     category: 'api',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Next.js', 'TypeScript', 'Prisma', 'MySQL', 'LangChain', 'LinkedIn API'],
     tech: ['Next.js', 'TypeScript', 'Prisma', 'MySQL', 'LangChain', 'LinkedIn API'],
     year: 2024,
@@ -78,7 +78,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Comprehensive modular Enterprise Resource Planning (ERP) platform architected for mid-to-large business operations. Unifies five core operational pillars into a single synchronized data environment: (1) Finance & Accounting — double-entry bookkeeping, automated general ledger, AR/AP tracking, bank reconciliation, tax calculations (PPN/PPh), and real-time P&L / balance sheet generation; (2) Warehouse & Inventory — multi-location stock tracking, FIFO / weighted moving average valuation, bin location mapping, automated reorder triggers, and physical stock opname reconciliation; (3) Purchasing & Procurement — purchase requisition (PR) to purchase order (PO) lifecycles, vendor evaluations, and automated 3-way matching (PO, Goods Receipt / Surat Jalan, and Vendor Invoice); (4) HR & Payroll — centralized employee master records, attendance & biometric sync, automated salary calculation with statutory tax deductions (PPh 21 & BPJS), and encrypted payslips; and (5) Sales & Distribution — sales orders, quotations, customer receivables, and automated delivery note issuance. Built with granular Role-Based Access Control (RBAC), multi-tier approval matrix, and immutable audit logging for regulatory compliance.',
     category: 'saas',
-    status: 'live',
+    status: 'private',
     techStack: ['Laravel 11', 'PHP 8.3', 'PostgreSQL', 'React', 'TypeScript', 'Tailwind CSS', 'Redis', 'Docker'],
     tech: ['Laravel 11', 'PHP 8.3', 'PostgreSQL', 'React', 'TypeScript', 'Tailwind CSS', 'Redis', 'Docker'],
     year: 2024,
@@ -100,7 +100,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Integrated Laravel and Flutter solution with on-device face recognition for field employee attendance, automated payslip generation, and work compliance reporting.',
     category: 'saas',
-    status: 'live',
+    status: 'private',
     techStack: ['Flutter', 'Dart', 'Laravel', 'PHP', 'TensorFlow Lite', 'MySQL'],
     tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'TensorFlow Lite', 'MySQL'],
     year: 2024,
@@ -122,7 +122,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Warehouse and inventory system (prime_stock) handling multi-location stock tracking, automated ordering workflows, and fast-response analytics dashboard.',
     category: 'saas',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Laravel', 'React', 'MySQL', 'Redis', 'Docker'],
     tech: ['Laravel', 'React', 'MySQL', 'Redis', 'Docker'],
     year: 2024,
@@ -145,7 +145,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Centralized mosque management platform built with Laravel and Flutter Display Board for broadcasting prayer schedules, study agendas, and financial transparency reports.',
     category: 'saas',
-    status: 'live',
+    status: 'completed',
     techStack: ['Laravel', 'Flutter', 'Dart', 'MySQL', 'Livewire'],
     tech: ['Laravel', 'Flutter', 'Dart', 'MySQL', 'Livewire'],
     year: 2024,
@@ -167,7 +167,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Official MBtech mobile app for exploring synthetic leather product variants, locating authorized stores and workshops via maps, and a separate merchant portal.',
     category: 'mobile',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Flutter', 'Dart', 'Laravel API', 'GetX', 'Google Maps'],
     tech: ['Flutter', 'Dart', 'Laravel API', 'GetX', 'Google Maps'],
     year: 2023,
@@ -189,7 +189,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Integrated workforce operations portal for Kerja Nasional, featuring sales leaderboards, commission claim approval system, and internal service ticket module.',
     category: 'saas',
-    status: 'live',
+    status: 'private',
     techStack: ['Laravel', 'Flutter', 'React', 'TypeScript', 'MySQL'],
     tech: ['Laravel', 'Flutter', 'React', 'TypeScript', 'MySQL'],
     year: 2023,
@@ -212,7 +212,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Integrated clinic POS platform built with Laravel for therapy room allocation, therapist scheduling, and patient medical record screening before treatment.',
     category: 'saas',
-    status: 'live',
+    status: 'completed',
     techStack: ['Laravel', 'Filament', 'PHP', 'WhatsApp API', 'MySQL', 'LangChain'],
     tech: ['Laravel', 'Filament', 'PHP', 'WhatsApp API', 'MySQL', 'LangChain'],
     year: 2024,
@@ -234,7 +234,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'A constraint satisfaction algorithm exploration in Flutter mobile game format. Features visualization of non-attacking queens placement on dynamic boards.',
     category: 'mobile',
-    status: 'live',
+    status: 'completed',
     techStack: ['Flutter', 'Dart', 'Backtracking Algorithm', 'GetX'],
     tech: ['Flutter', 'Dart', 'Backtracking Algorithm', 'GetX'],
     year: 2023,
@@ -256,7 +256,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Multi-threaded data extraction pipeline with proxy rotation, headless browser clusters, and structured data queue management for processing millions of records monthly.',
     category: 'api',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Python', 'Puppeteer', 'Scrapy', 'Redis', 'ClickHouse', 'Docker'],
     tech: ['Python', 'Puppeteer', 'Scrapy', 'Redis', 'ClickHouse', 'Docker'],
     year: 2024,
@@ -278,7 +278,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Next-generation AI-powered recruitment platform PortalRekrut that automates the entire hiring pipeline: (1) AI Resume Screening with semantic match scoring, (2) Adaptive AI Psychometric Testing with real-time Big Five & DISC profiling, and (3) Interactive AI Autonomous Interviewer powered by WebRTC and LLM speech-to-text that asks contextual questions, evaluates response fit, and generates instant candidate reports.',
     category: 'saas',
-    status: 'live',
+    status: 'wip',
     techStack: ['Next.js 14', 'TypeScript', 'FastAPI', 'OpenAI LLM', 'LangChain', 'WebRTC', 'PostgreSQL', 'Tailwind CSS'],
     tech: ['Next.js 14', 'TypeScript', 'FastAPI', 'OpenAI LLM', 'LangChain', 'WebRTC', 'PostgreSQL', 'Tailwind CSS'],
     year: 2024,
@@ -300,7 +300,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'High-performance Three.js and WebGL 3D space exploration platform featuring: (1) 3D Solar System with astronomically accurate orbital paths, (2) Live Satellite Tracker with real-time TLE data (ISS, Hubble, Starlink) and SGP4 orbit propagation, (3) Time-Travel SkyMap enabling star constellation navigation across years, and (4) Asteroid Radar integrated with NASA CNEOS API for real-time Near-Earth Object monitoring.',
     category: 'web',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Three.js', 'WebGL 3D', 'React 18', 'TypeScript', 'NASA API', 'Celestrak TLE', 'Canvas API', 'Tailwind CSS'],
     tech: ['Three.js', 'WebGL 3D', 'React 18', 'TypeScript', 'NASA API', 'Celestrak TLE', 'Canvas API', 'Tailwind CSS'],
     year: 2024,
@@ -322,7 +322,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Comprehensive Warehouse Management System (WMS) for retail distribution and multi-location supply chains. Features: (1) Digital Bin & Rack Location Mapping for picking route optimization, (2) Barcode & RFID scanner integration with sub-second response, (3) Automated Inbound/Outbound Dispatch with multi-level PO/DO validation, and (4) Real-Time Inventory Health Dashboard with predictive reorder points and continuous stock audit.',
     category: 'saas',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Laravel 11', 'Node.js', 'React', 'TypeScript', 'PostgreSQL', 'Redis Queue', 'Barcode/RFID', 'Docker'],
     tech: ['Laravel 11', 'Node.js', 'React', 'TypeScript', 'PostgreSQL', 'Redis Queue', 'Barcode/RFID', 'Docker'],
     year: 2024,
@@ -344,7 +344,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Enterprise mobile biometric presence solution built with Flutter and TensorFlow Lite / MediaPipe. Features: (1) Live Camera Face Recognition with <250ms facial landmark extraction, (2) Face Anti-Spoofing Liveness Detection (3D depth, micro-movements, and blink verification) to prevent photo and screen video spoofing, (3) GPS Geolocation Radius Geofencing that locks attendance within legitimate office perimeters (e.g., 25-50m radius), and (4) Offline-First AES-256 encrypted SQLite for automatic sync upon reconnection.',
     category: 'mobile',
-    status: 'live',
+    status: 'wip',
     techStack: ['Flutter', 'Dart', 'TensorFlow Lite', 'CameraX', 'MediaPipe', 'GPS Geofencing', 'SQLite AES-256', 'Laravel API'],
     tech: ['Flutter', 'Dart', 'TensorFlow Lite', 'CameraX', 'MediaPipe', 'GPS Geofencing', 'SQLite AES-256', 'Laravel API'],
     year: 2024,
@@ -366,7 +366,7 @@ export const defaultProjects: Project[] = [
     longDescription:
       'Integrated Field Force Management & Sales Performance solution built with cross-platform Flutter: (1) Live Field Sales Tracking — real-time GPS route tracking, client visit schedule planning (itinerary), check-in/check-out logs, and nearby prospect mapping via Mapbox / Google Maps SDK, (2) Sales Target & KPI Performance Dashboard — monthly/quarterly target achievement monitoring (revenue vs quota), conversion funnel analysis (prospect, negotiation, closed-won), and live team incentive commission leaderboard, and (3) Field Sales Attendance & Geotagged Visit Verification — presence verification at client locations with precise GPS radius, live camera selfie (anti-mock GPS / anti-fake location), instant meeting notes, and offline-first SQLite sync for limited connectivity.',
     category: 'mobile',
-    status: 'live',
+    status: 'case-study',
     techStack: ['Flutter', 'Dart', 'BLoC / Riverpod', 'Mapbox / Google Maps SDK', 'Geolocator GPS', 'SQLite Offline-First', 'Camera API', 'Laravel REST API'],
     tech: ['Flutter', 'Dart', 'BLoC / Riverpod', 'Mapbox / Google Maps SDK', 'Geolocator GPS', 'SQLite Offline-First', 'Camera API', 'Laravel REST API'],
     year: 2024,

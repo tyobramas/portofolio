@@ -157,7 +157,7 @@ const ProjectsTab: React.FC<{
         <div>
           <label className="block font-mono text-[10px] text-graphite-400 tracking-widest mb-1">STATUS</label>
           <select value={draft.status} onChange={e => setDraft(d => ({ ...d, status: e.target.value as ProjectStatus }))} className={inputClass}>
-            {(['live','wip','archived','private'] as ProjectStatus[]).map(s => <option key={s} value={s}>{s}</option>)}
+            {(['live','case-study','completed','private','wip','archived'] as ProjectStatus[]).map(s => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
       </div>

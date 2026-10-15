@@ -114,11 +114,33 @@ export default function ProjectsList({ projects }: { projects: Project[] }) {
                         </span>
                       </div>
 
-                      {/* Category Badge overlay */}
-                      <div className="absolute top-3 left-3">
+                      {/* Category & Status Badge overlay */}
+                      <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
                         <span className="px-2.5 py-1 rounded-md bg-[#0B0C10]/85 backdrop-blur-md border border-[#262A38] text-[0.6875rem] font-bold text-gold-400 uppercase tracking-wider shadow-sm">
                           {p.category}
                         </span>
+                        {p.status === 'live' ? (
+                          <span className="px-2 py-0.5 rounded-md bg-emerald-950/85 backdrop-blur-md border border-emerald-500/50 text-[0.625rem] font-bold text-emerald-400 tracking-wider flex items-center gap-1 shadow-sm">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                            IN PRODUCTION
+                          </span>
+                        ) : p.status === 'private' ? (
+                          <span className="px-2 py-0.5 rounded-md bg-purple-950/75 backdrop-blur-md border border-purple-500/40 text-[0.625rem] font-bold text-purple-300 tracking-wider shadow-sm">
+                            PRIVATE
+                          </span>
+                        ) : p.status === 'wip' ? (
+                          <span className="px-2 py-0.5 rounded-md bg-amber-950/75 backdrop-blur-md border border-amber-500/40 text-[0.625rem] font-bold text-amber-300 tracking-wider shadow-sm">
+                            IN PROGRESS
+                          </span>
+                        ) : p.status === 'completed' ? (
+                          <span className="px-2 py-0.5 rounded-md bg-blue-950/75 backdrop-blur-md border border-blue-500/40 text-[0.625rem] font-bold text-blue-300 tracking-wider shadow-sm">
+                            COMPLETED
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-md bg-[#0B0C10]/85 backdrop-blur-md border border-[#262A38] text-[0.625rem] font-bold text-ink-300 tracking-wider shadow-sm">
+                            CASE STUDY
+                          </span>
+                        )}
                       </div>
 
                       {/* Year badge */}

@@ -51,8 +51,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {project.category}
             </span>
             <span className="text-xs font-medium text-ink-400">
-              {project.year ? `Year ${project.year}` : 'Production Grade'}
+              {project.status === 'live'
+                ? '● In Production'
+                : project.status === 'private'
+                ? 'Private Enterprise'
+                : project.status === 'wip'
+                ? 'In Development'
+                : project.status === 'completed'
+                ? 'Completed Project'
+                : 'Case Study'}
             </span>
+            {project.year && (
+              <span className="text-xs font-mono text-ink-500 border-l border-[#262A38] pl-2.5">
+                {project.year}
+              </span>
+            )}
           </div>
 
           <button
@@ -117,7 +130,9 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             <div className="flex items-start gap-3.5 rounded-xl border border-[#2A2F40] bg-[#121520] p-4 text-sm text-ink-200">
               <CheckCircle2 className="h-5 w-5 text-gold-accent shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-white">Production Result: </span>
+                <span className="font-bold text-white">
+                  {project.status === 'live' ? 'Production Result: ' : 'Project Impact: '}
+                </span>
                 <span>{project.impact}</span>
               </div>
             </div>
@@ -173,7 +188,17 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#232736]">
             <div className="flex items-center gap-2 text-xs text-ink-400">
               <ShieldCheck size={14} className="text-gold-400" />
-              <span>Enterprise Production Case Study</span>
+              <span>
+                {project.status === 'live'
+                  ? 'Active Production Deployment'
+                  : project.status === 'private'
+                  ? 'Private Enterprise Case Study'
+                  : project.status === 'wip'
+                  ? 'Active Development Initiative'
+                  : project.status === 'completed'
+                  ? 'Completed Project Record'
+                  : 'Architecture & Case Study Dossier'}
+              </span>
             </div>
 
             <button

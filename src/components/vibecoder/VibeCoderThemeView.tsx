@@ -241,7 +241,7 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
                     <p className="text-xs font-medium text-zinc-700 leading-relaxed">{svc.desc}</p>
                   </div>
                   <div className="mt-5 pt-3 border-t border-zinc-900/15 flex items-center text-xs font-black text-zinc-900">
-                    <span>In Production</span>
+                    <span>Enterprise Ready</span>
                     <Sparkles size={12} className="ml-1 text-zinc-800" />
                   </div>
                 </div>
@@ -330,7 +330,32 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
 
                   {/* Card Footer */}
                   <div className="pt-3 border-t-2 border-zinc-100 flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-emerald-700">● In Production</span>
+                    {project.status === 'live' ? (
+                      <span className="text-[11px] font-bold text-emerald-700 flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        In Production
+                      </span>
+                    ) : project.status === 'private' ? (
+                      <span className="text-[11px] font-bold text-purple-700 flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-purple-500" />
+                        Private Enterprise
+                      </span>
+                    ) : project.status === 'wip' ? (
+                      <span className="text-[11px] font-bold text-amber-700 flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-amber-500" />
+                        In Development
+                      </span>
+                    ) : project.status === 'completed' ? (
+                      <span className="text-[11px] font-bold text-blue-700 flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-blue-500" />
+                        Completed
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-bold text-zinc-600 flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full bg-zinc-400" />
+                        Case Study
+                      </span>
+                    )}
                     <button className="flex items-center gap-1 text-xs font-black text-zinc-900 group-hover:text-pink-600 group-hover:translate-x-1 transition-all">
                       Case Study <ArrowRight size={13} />
                     </button>

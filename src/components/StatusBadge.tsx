@@ -7,14 +7,16 @@ interface StatusBadgeProps {
 }
 
 const STATUS_CONFIG: Record<ProjectStatus, { label: string; dot: string; text: string; bg: string; border: string }> = {
-  live:     { label: 'LIVE',     dot: 'bg-emerald-400', text: 'text-emerald-300', bg: 'bg-emerald-900/20', border: 'border-emerald-700/40' },
-  wip:      { label: 'WIP',      dot: 'bg-amber-400',   text: 'text-amber-300',   bg: 'bg-amber-900/20',   border: 'border-amber-700/40'   },
-  archived: { label: 'ARCHIVED', dot: 'bg-graphite-400', text: 'text-graphite-300', bg: 'bg-graphite-800/30', border: 'border-graphite-600/30' },
-  private:  { label: 'PRIVATE',  dot: 'bg-red-500',     text: 'text-red-400',     bg: 'bg-red-900/20',     border: 'border-red-700/40'     },
+  live:         { label: 'IN PRODUCTION', dot: 'bg-emerald-400', text: 'text-emerald-300', bg: 'bg-emerald-900/20', border: 'border-emerald-700/40' },
+  'case-study': { label: 'CASE STUDY',    dot: 'bg-sky-400',     text: 'text-sky-300',     bg: 'bg-sky-900/20',     border: 'border-sky-700/40'     },
+  completed:    { label: 'COMPLETED',     dot: 'bg-blue-400',    text: 'text-blue-300',    bg: 'bg-blue-900/20',    border: 'border-blue-700/40'    },
+  private:      { label: 'PRIVATE',       dot: 'bg-purple-400',  text: 'text-purple-300',  bg: 'bg-purple-900/20',  border: 'border-purple-700/40'  },
+  wip:          { label: 'IN PROGRESS',   dot: 'bg-amber-400',   text: 'text-amber-300',   bg: 'bg-amber-900/20',   border: 'border-amber-700/40'   },
+  archived:     { label: 'ARCHIVED',      dot: 'bg-zinc-400',    text: 'text-zinc-300',    bg: 'bg-zinc-800/30',    border: 'border-zinc-600/30'    },
 };
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status, className = '' }) => {
-  const cfg = STATUS_CONFIG[status];
+  const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.live;
   return (
     <span
       role="status"

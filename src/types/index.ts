@@ -1,6 +1,6 @@
 // ─── Core Domain Types ──────────────────────────────────────────────────────
 
-export type ProjectStatus = 'live' | 'archived' | 'wip' | 'private';
+export type ProjectStatus = 'live' | 'archived' | 'wip' | 'private' | 'case-study' | 'completed';
 export type ProjectCategory = 'web' | 'mobile' | 'api' | 'saas' | 'oss';
 export type SkillLevel = 'expert' | 'proficient' | 'familiar';
 export type SkillCategory = 'frontend' | 'backend' | 'devops' | 'database' | 'tools' | 'mobile' | 'ai';
