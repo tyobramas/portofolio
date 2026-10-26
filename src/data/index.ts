@@ -27,6 +27,58 @@ export const defaultConfig: SystemConfig = {
 
 export const defaultProjects: Project[] = [
   {
+    id: 'proj-dbram',
+    title: 'DBram — AI-Integrated Database Studio & Secure MCP Hub',
+    description:
+      'Next-generation database management studio equipped with Model Context Protocol (MCP) server & client integration, visual topology graph, and a 5-layer zero-trust security shield.',
+    longDescription:
+      'High-performance database studio engineered to seamlessly bridge multi-engine database environments with autonomous AI coding assistants. Built on a native Rust high-throughput data engine and a modern React/TypeScript interface, DBram operates as both a standalone database client and a secure Model Context Protocol (MCP) hub. Features a real-time Visual Topology Graph illustrating active connections and tool pipelines, visual schema inspection, and a strict 5-layer defense-in-depth shield: AST SQL parser preventing destructive queries, dynamic PII/credential masking, query execution watchdog with auto-row limits, audit trail logging, and remote production database locks.',
+    category: 'saas',
+    status: 'live',
+    techStack: [
+      'Rust',
+      'TypeScript',
+      'React',
+      'Node.js',
+      'Model Context Protocol (MCP)',
+      'Tailwind CSS',
+      'SQL AST Parser',
+      'Multi-Engine DB',
+    ],
+    tech: [
+      'Rust',
+      'TypeScript',
+      'React',
+      'Node.js',
+      'Model Context Protocol (MCP)',
+      'Tailwind CSS',
+      'SQL AST Parser',
+      'Multi-Engine DB',
+    ],
+    year: 2025,
+    image: '/images/dbram_studio.png',
+    images: [
+      '/images/dbram_studio.png',
+      '/images/dbram_home.png',
+      '/images/dbram_security.png',
+    ],
+    imageCaptions: [
+      'Model Context Protocol (MCP) Hub — Visual Live Topology Graph & AI Integrations',
+      'DBram Database Studio — Query Editor & AI Assistant (SQL Optimization, Schema & Explain)',
+      '5-Layer Security Shield — Remote DB Protection, PII Masking & AST Guard',
+    ],
+    impact:
+      'Empowers AI coding agents to autonomously inspect real database schemas and validate data structures with zero credential leakage and zero destructive query risk.',
+    metrics: [
+      { label: 'Architecture', value: 'Rust Engine + MCP Hub' },
+      { label: 'Security Shield', value: '5-Layer Zero-Trust' },
+      { label: 'Compatibility', value: 'Multi-Engine SQL & NoSQL' },
+    ],
+    links: {},
+    featured: true,
+    color: '#00F0FF',
+  },
+  {
     id: 'proj-001',
     title: 'Noor Smart Islamic Apps',
     description: 'Comprehensive Flutter mobile app: Al-Quran audio, AR Qibla compass, Zakat & Inheritance calculator, and interactive AI assistant.',

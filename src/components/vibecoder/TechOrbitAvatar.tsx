@@ -96,15 +96,15 @@ export default function TechOrbitAvatar({
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const updateOrbit = () => {
-      // Responsive orbit radii:
-      // Mobile (< 640px): rx = 105px, ry = 48px
-      // Desktop (>= 640px): rx = 135px, ry = 62px
+      // Responsive orbit radii (perfectly tuned so all 6 satellites stay visible & clear the avatar):
+      // Mobile (< 640px): rx = 110px, ry = 68px
+      // Desktop (>= 640px): rx = 140px, ry = 78px
       const isMobile = window.innerWidth < 640;
-      const rx = isMobile ? 105 : 135;
-      const ry = isMobile ? 48 : 62;
+      const rx = isMobile ? 110 : 140;
+      const ry = isMobile ? 68 : 78;
 
       if (!isHoveredRef.current && !prefersReducedMotion) {
-        // Slow meditative rotation (~24 seconds per full 360° turn)
+        // Smooth meditative planetary rotation (~24s per full 360° turn)
         angle = (angle + 0.25) % 360;
       }
 
@@ -123,16 +123,17 @@ export default function TechOrbitAvatar({
         // sin(itemAngle) ranges from -1 (farthest behind) to +1 (closest in front)
         const depth = Math.sin(itemAngle);
 
-        // Scale: 0.86 at back, 1.12 at front
-        const scale = 0.86 + (depth + 1) * 0.13;
+        // Scale: 0.88 at back, 1.12 at front
+        const scale = 0.88 + (depth + 1) * 0.12;
 
-        // Opacity: 0.70 at back, 1.0 at front
-        const opacity = 0.7 + (depth + 1) * 0.15;
+        // Opacity: 0.80 at back, 1.0 at front
+        const opacity = 0.8 + (depth + 1) * 0.1;
 
         // Depth sorting: Behind avatar when depth < 0, in front when depth >= 0
-        const zIndex = depth > 0 ? 30 : 5;
+        const zIndex = depth > 0 ? 30 : 10;
 
-        el.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+        // Mathematical centering: translate(-50%, -50%) guarantees exact center alignment
+        el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) scale(${scale})`;
         el.style.zIndex = String(zIndex);
         el.style.opacity = String(opacity);
       });
@@ -150,11 +151,11 @@ export default function TechOrbitAvatar({
   return (
     <div
       ref={containerRef}
-      className="relative rounded-3xl border-3 border-zinc-900 bg-white/70 backdrop-blur-md p-6 sm:p-7 shadow-[0_8px_0_0_#18181B] flex flex-col items-center text-center overflow-visible select-none"
+      className="relative w-full max-w-[340px] sm:max-w-[370px] rounded-3xl border-3 border-zinc-900 bg-white/80 backdrop-blur-md p-5 sm:p-7 shadow-[0_8px_0_0_#18181B] flex flex-col items-center text-center overflow-visible select-none mx-auto"
     >
       {/* ── 3D Tech Orbit Arena (Aang God Mode / Planetary Tech Halo) ── */}
       <div
-        className="relative w-64 h-52 sm:w-72 sm:h-56 flex items-center justify-center my-1"
+        className="relative w-full max-w-[280px] sm:max-w-[320px] h-[216px] sm:h-[244px] flex items-center justify-center mx-auto"
         onMouseEnter={() => {
           isHoveredRef.current = true;
         }}
@@ -178,7 +179,7 @@ export default function TechOrbitAvatar({
             }}
             onMouseEnter={() => setActiveTooltip(tech)}
             onMouseLeave={() => setActiveTooltip(null)}
-            className="absolute left-1/2 top-1/2 -ml-5.5 -mt-5.5 sm:-ml-6 sm:-mt-6 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-zinc-900 bg-white flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_3px_0_0_#18181B] hover:shadow-[0_5px_0_0_#18181B] will-change-transform"
+            className="absolute left-1/2 top-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-zinc-900 bg-white flex items-center justify-center cursor-pointer transition-shadow duration-200 shadow-[0_3px_0_0_#18181B] hover:shadow-[0_5px_0_0_#18181B] will-change-transform"
             style={{
               boxShadow: `0 3px 0 0 #18181B, 0 0 14px ${tech.glowColor}`,
             }}
@@ -187,7 +188,7 @@ export default function TechOrbitAvatar({
             <img
               src={tech.iconUrl}
               alt={tech.name}
-              className="w-6.5 h-6.5 sm:w-7 sm:h-7 object-contain pointer-events-none select-none drop-shadow-sm"
+              className="w-6 h-6 sm:w-6.5 sm:h-6.5 object-contain pointer-events-none select-none drop-shadow-sm"
               loading="eager"
               draggable={false}
             />
@@ -195,20 +196,22 @@ export default function TechOrbitAvatar({
         ))}
 
         {/* ── Central Hero Portrait ── */}
-        <div className="relative z-15">
-          <img
-            src={avatarUrl}
-            alt={ownerName}
-            className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl border-3 border-zinc-900 object-cover shadow-[0_6px_0_0_#18181B] bg-[#FFF7ED]"
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
+        <div className="relative z-20">
+          <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-[#FFF7ED] overflow-hidden flex items-end justify-center">
+            <img
+              src={avatarUrl}
+              alt={ownerName}
+              className="w-full h-full object-cover object-center scale-105 origin-bottom select-none pointer-events-none"
+              onError={(e) => {
+                (e.target as HTMLElement).style.display = 'none';
+              }}
+            />
+          </div>
         </div>
 
         {/* ── Interactive Floating Tooltip Pill (Shows on Hover) ── */}
         <div
-          className={`pointer-events-none absolute -bottom-3 z-40 px-3.5 py-1 rounded-full border-2 border-zinc-900 bg-zinc-950 text-white text-[11px] font-mono font-bold shadow-[0_3px_0_0_#18181B] transition-all duration-200 ${
+          className={`pointer-events-none absolute -bottom-3 left-1/2 -translate-x-1/2 z-40 px-3.5 py-1 rounded-full border-2 border-zinc-900 bg-zinc-950 text-white text-[11px] font-mono font-bold shadow-[0_3px_0_0_#18181B] whitespace-nowrap transition-all duration-200 ${
             activeTooltip
               ? 'opacity-100 scale-100 translate-y-0'
               : 'opacity-0 scale-95 translate-y-2'

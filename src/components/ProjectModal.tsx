@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { X, CheckCircle2, Cpu, TrendingUp, Layers, ShieldCheck } from 'lucide-react';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { X, CheckCircle2, Cpu, TrendingUp, Layers, ShieldCheck, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
 import type { Project } from '../types';
 
 interface ProjectModalProps {
@@ -8,9 +8,33 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  // Collect all valid images: prefer project.images, fallback to project.image
+  const images = (project?.images && project.images.length > 0)
+    ? project.images
+    : (project?.image ? [project.image] : []);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [project?.id]);
+
+  const goToPrev = useCallback(() => {
+    if (images.length <= 1) return;
+    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+  }, [images.length]);
+
+  const goToNext = useCallback(() => {
+    if (images.length <= 1) return;
+    setCurrentSlide((prev) => (prev + 1) % images.length);
+  }, [images.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') goToPrev();
+      if (e.key === 'ArrowRight') goToNext();
     };
 
     if (project) {
@@ -22,7 +46,21 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [project, onClose]);
+  }, [project, onClose, goToPrev, goToNext]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diffX = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diffX) > 40) {
+      if (diffX > 0) goToNext();
+      else goToPrev();
+    }
+    touchStartX.current = null;
+  };
 
   if (!project) return null;
 
@@ -89,15 +127,112 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             </p>
           </div>
 
-          {/* Project Preview Image */}
-          {project.image && (
-            <div className="relative overflow-hidden rounded-xl border border-[#232736] bg-[#08090D] group">
-              <img
-                src={project.image}
-                alt={project.title}
-                className="w-full max-h-[360px] object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0E1017] via-transparent to-transparent opacity-40 pointer-events-none" />
+          {/* Project Preview Image / Interactive Carousel */}
+          {images.length > 0 && (
+            <div className="space-y-3">
+              <div
+                className="relative overflow-hidden rounded-xl border border-[#232736] bg-[#08090D] group select-none aspect-video max-h-[380px] flex items-center justify-center"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
+                <img
+                  key={currentSlide}
+                  src={images[currentSlide]}
+                  alt={`${project.title} screenshot ${currentSlide + 1}`}
+                  className="w-full h-full object-contain sm:object-cover object-top transition-opacity duration-300 animate-fadeIn"
+                  loading="eager"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E1017]/80 via-transparent to-transparent pointer-events-none" />
+
+                {/* Left Navigation Arrow */}
+                {images.length > 1 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToPrev();
+                    }}
+                    aria-label="Previous slide"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md shadow-lg transition-all hover:border-gold-400 hover:bg-black/90 hover:scale-110 active:scale-95 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                )}
+
+                {/* Right Navigation Arrow */}
+                {images.length > 1 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      goToNext();
+                    }}
+                    aria-label="Next slide"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white backdrop-blur-md shadow-lg transition-all hover:border-gold-400 hover:bg-black/90 hover:scale-110 active:scale-95 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                )}
+
+                {/* Slide Counter Badge */}
+                {images.length > 1 && (
+                  <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/75 px-2.5 py-1 text-[11px] font-mono font-semibold text-white backdrop-blur-md shadow-md">
+                    <ImageIcon size={12} className="text-gold-accent" />
+                    <span>
+                      {currentSlide + 1} / {images.length}
+                    </span>
+                  </div>
+                )}
+
+                {/* Slide Caption Banner */}
+                {project.imageCaptions && project.imageCaptions[currentSlide] && (
+                  <div className="absolute bottom-3 left-3 right-3 z-10 rounded-lg border border-white/10 bg-black/80 px-3.5 py-2 text-xs font-medium text-ink-200 backdrop-blur-md shadow-md line-clamp-1">
+                    <span className="text-gold-accent font-semibold mr-1.5">Slide {currentSlide + 1}:</span>
+                    {project.imageCaptions[currentSlide]}
+                  </div>
+                )}
+              </div>
+
+              {/* Indicator Dots & Thumbnails for Multi-Image Projects */}
+              {images.length > 1 && (
+                <div className="space-y-2">
+                  {/* Thumbnails Row */}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-0.5 custom-scrollbar">
+                    {images.map((imgUrl, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlide(idx)}
+                        className={`relative h-14 sm:h-16 aspect-video shrink-0 overflow-hidden rounded-lg border-2 transition-all cursor-pointer ${
+                          idx === currentSlide
+                            ? 'border-gold-accent ring-2 ring-gold-500/30 scale-[1.02] shadow-[0_0_12px_rgba(229,169,60,0.35)]'
+                            : 'border-[#262A38] opacity-50 hover:opacity-100 hover:border-gold-500/50'
+                        }`}
+                      >
+                        <img
+                          src={imgUrl}
+                          alt={`Thumbnail ${idx + 1}`}
+                          className="h-full w-full object-cover object-top"
+                        />
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Indicator Dots */}
+                  <div className="flex items-center justify-center gap-1.5 pt-1">
+                    {images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentSlide(idx)}
+                        aria-label={`Slide ${idx + 1}`}
+                        className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                          idx === currentSlide
+                            ? 'w-6 bg-gold-accent shadow-[0_0_8px_rgba(229,169,60,0.6)]'
+                            : 'w-2 bg-white/20 hover:bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

@@ -5,7 +5,7 @@ import { defaultConfig, defaultProjects, defaultMilestones, defaultSkills, defau
 const STORE_KEY = 'portfolio_admin_store';
 const SESSION_KEY = 'portfolio_admin_session';
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000; // 4 hours
-const STORE_VERSION = 27;
+const STORE_VERSION = 28;
 
 function loadStore(): AdminStore {
   const fresh: AdminStore = {
@@ -32,6 +32,8 @@ function loadStore(): AdminStore {
           link: undefined,
           links: def.links || {},
           image: p.image || def.image,
+          images: p.images || def.images,
+          imageCaptions: p.imageCaptions || def.imageCaptions,
           metrics: p.metrics && p.metrics.length > 0 ? p.metrics : def.metrics,
           impact: p.impact || def.impact,
           longDescription: p.longDescription || def.longDescription,

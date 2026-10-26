@@ -85,6 +85,9 @@ export default {
         'card-gradient': 'linear-gradient(180deg, #151824 0%, #10121A 100%)',
         'hero-glow':     'radial-gradient(circle at 75% 35%, rgba(229, 169, 60, 0.15) 0%, transparent 60%)',
       },
+      borderWidth: {
+        3: '3px',
+      },
     },
   },
   plugins: [],

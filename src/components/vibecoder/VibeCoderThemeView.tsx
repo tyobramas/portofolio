@@ -175,7 +175,7 @@ export default function VibeCoderThemeView({ store, onAdminClick, onNavigate }: 
               </div>
 
               {/* Executive Profile Card with 3D Tech Orbit Satellites */}
-              <div className="lg:col-span-5 flex justify-center">
+              <div className="lg:col-span-5 flex justify-center items-center w-full">
                 <TechOrbitAvatar
                   avatarUrl={config.ownerAvatar || '/images/profile-hud.png'}
                   ownerName={config.ownerName}

@@ -22,6 +22,8 @@ export interface Project {
   links: ProjectLinks;
   link?: string;
   image?: string;
+  images?: string[];
+  imageCaptions?: string[];
   impact?: string;
   featured: boolean;
   color: string;

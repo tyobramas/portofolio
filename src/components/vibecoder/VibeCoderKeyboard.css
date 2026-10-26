@@ -64,12 +64,12 @@
 
 /* ── Main Mechanical Keyboard Layout (Tightly Packed, Micro-Gap) ── */
 .vibe-keyboard-layout {
-  --gap: clamp(3px, 0.5vw, 5px); /* Real mechanical switch micro-gap */
-  --depth: clamp(9px, 1.5vw, 14px); /* 3D front skirt height */
+  --gap: clamp(2px, 0.5vw, 5px); /* Real mechanical switch micro-gap */
+  --depth: clamp(8px, 1.4vw, 14px); /* 3D front skirt height */
   --stroke: clamp(2px, 0.3vw, 2.6px); /* Clean black neobrutalist outline */
-  --radius: clamp(13px, 2vw, 19px); /* Real squircle keycap profile */
-  --key-w: clamp(48px, 8.4vw, 84px);
-  --key-h: clamp(50px, 8.7vw, 86px);
+  --radius: clamp(11px, 2vw, 19px); /* Real squircle keycap profile */
+  --key-w: clamp(40px, 8.2vw, 84px);
+  --key-h: clamp(44px, 8.5vw, 86px);
 
   display: flex;
   align-items: stretch;
